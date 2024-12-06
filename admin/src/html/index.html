@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ИдёмВКино</title>
+  <link rel="stylesheet" href="/admin/src/css/normalize.css">
+  <link rel="stylesheet" href="/admin/src/css/styles.css">
+  <link rel="stylesheet" href="/admin/src/css/modal.css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&amp;subset=cyrillic,cyrillic-ext,latin-ext"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <header class="page-header">
+    <h1 class="page-header__title">Идём<span>в</span>кино</h1>
+    <span class="page-header__subtitle">Администраторррская</span>
+  </header>
+
+  <main class="conf-steps main">
+    <section class="conf-step hall-management">
+      <header class="conf-step__header conf-step__header_opened">
+        <h2 class="conf-step__title">Управление залами</h2>
+      </header>
+      <div class="conf-step__wrapper">
+        <p class="conf-step__paragraph">Доступные залы:</p>
+        <ul class="conf-step__list hall-list">
+        </ul>
+        <button class="conf-step__button conf-step__button-accent create-hall">Создать зал</button>
+      </div>
+      <div class="modal-create-hall hidden">
+        <form class="modal-create-hall__form">
+          <button class="modal-create-hall__btn-close"></button>
+          <p class="modal-create-hall__text">Введите название зала: </p>
+          <input type="text" class="modal-create-hall__input" required>
+          <button type="submit"
+            class="conf-step__button conf-step__button-accent modal-create-hall__btn-add">Добавить</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="hall-configuration conf-step">
+      <header class="conf-step__header conf-step__header_opened">
+        <h2 class="conf-step__title">Конфигурация залов</h2>
+      </header>
+      <div class="conf-step__wrapper">
+        <p class="conf-step__paragraph">Выберите зал для конфигурации:</p>
+        <ul class="hall-configuration-halls-list conf-step__selectors-box">
+        </ul>
+        <p class="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в ряду:</p>
+        <div class="conf-step__legend">
+          <label class="conf-step__label">Рядов, шт<input type="text" class="count-rows conf-step__input"></label>
+          <span class="multiplier">x</span>
+          <label class="conf-step__label">Мест, шт<input type="text" class="count-places conf-step__input"></label>
+        </div>
+        <p class="conf-step__paragraph">Теперь вы можете указать типы кресел на схеме зала:</p>
+        <div class="conf-step__legend">
+          <span class="conf-step__chair conf-step__chair_standart"></span> — обычные кресла
+          <span class="conf-step__chair conf-step__chair_vip"></span> — VIP кресла
+          <span class="conf-step__chair conf-step__chair_disabled"></span> — заблокированные (нет кресла)
+          <p class="conf-step__hint">Чтобы изменить вид кресла, нажмите по нему левой кнопкой мыши</p>
+        </div>
+
+        <div class="conf-step__hall">
+          <div class="conf-step__hall-wrapper">
+          </div>
+          <div class="modal-chair-type hidden">
+            <div class="modal-chair-type__list">
+              <span class="conf-step__chair conf-step__chair_standart"></span> — обычные кресла
+              <span class="conf-step__chair conf-step__chair_vip"></span> — VIP кресла
+              <span class="conf-step__chair conf-step__chair_disabled"></span> — заблокированные (нет кресла)
+            </div>
+          </div>
+        </div>
+        <fieldset class="conf-step__buttons text-center">
+          <button class="conf-step__button conf-step__button-regular hall-configuration-btn-cancel">Отмена</button>
+          <input type="submit" value="Сохранить"
+            class="conf-step__button conf-step__button-accent hall-configuration-btn-save">
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="price-configuration conf-step">
+      <header class="conf-step__header conf-step__header_opened">
+        <h2 class="conf-step__title">Конфигурация цен</h2>
+      </header>
+      <div class="conf-step__wrapper">
+        <p class="conf-step__paragraph">Выберите зал для конфигурации:</p>
+        <ul class="price-configuration-halls-list conf-step__selectors-box">
+        </ul>
+        <form class="price-configuration-form">
+          <p class="conf-step__paragraph">Установите цены для типов кресел:</p>
+          <div class="conf-step__legend">
+            <label class="conf-step__label">Цена, рублей<input type="text" class="ticket-price conf-step__input"
+                required></label>
+            за <span class="conf-step__chair conf-step__chair_standart"></span> обычные кресла
+          </div>
+          <div class="conf-step__legend">
+            <label class="conf-step__label">Цена, рублей<input type="text" class="vip-ticket-price conf-step__input"
+                required></label>
+            за <span class="conf-step__chair conf-step__chair_vip"></span> VIP кресла
+          </div>
+          <fieldset class="conf-step__buttons text-center">
+            <button class="price-configuration-cancel-btn conf-step__button conf-step__button-regular">Отмена</button>
+            <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent">
+          </fieldset>
+        </form>
+      </div>
+    </section>
+
+    <section class="seance-grid conf-step">
+      <header class="conf-step__header conf-step__header_opened">
+        <h2 class="conf-step__title">Сетка сеансов</h2>
+      </header>
+      <div class="conf-step__wrapper">
+        <p class="conf-step__paragraph">
+          <button class="add-movie-btn conf-step__button conf-step__button-accent">Добавить фильм</button>
+        </p>
+        <div class="movies-container conf-step__movies">
+        </div>
+
+        <div class="conf-step__seances">
+        </div>
+
+      </div>
+
+      <div class="modal-add-movie hidden">
+        <form class="modal-add-movie__form" method="put" enctype="multipart/form-data">
+          <button class="modal-add-movie__btn-close"></button>
+          <label class="modal-add-movie__label" for="movie-title">Название фильма: </label>
+          <input type="text" id="movie-title" name="title" class="modal-add-movie__input" required>
+          <label class="modal-add-movie__label" for="movie-duration">Длительность: </label>
+          <input type="text" id="movie-duration" name="duration" class="modal-add-movie__input" required>
+          <label class="modal-add-movie__label" for="movie-country">Страна: </label>
+          <input type="text" id="movie-country" name="country" class="modal-add-movie__input" required>
+          <label class="modal-add-movie__label" for="movie-description">Краткое описание: </label>
+          <textarea id="movie-description" name="description" class="modal-add-movie__input" required></textarea>
+          <label class="modal-add-movie__label" for="movie-start_date">Дата старта показа: </label>
+          <input type="date" id="movie-start_date" name="start_date" class="modal-add-movie__input" required>
+          <label class="modal-add-movie__label" for="movie-end_date">Дата последнего показа: </label>
+          <input type="date" id="movie-end_date" name="end_date" class="modal-add-movie__input" required>
+          <input type="file" name="file" multiple style="display: none;" class="modal-add-movie__input_file">
+          <fieldset class="conf-step__buttons text-center">
+            <button
+              class="conf-step__button conf-step__button-accent modal-add-movie__btn-add-img">Добавить постер</button>
+            <button type="submit"
+              class="conf-step__button conf-step__button-accent modal-add-movie__btn-submit">Сохранить</button>
+          </fieldset>
+        </form>
+      </div>
+
+      <div class="modal-poster hidden">
+        <din class="modal-poster-wrapper">
+          <button class="modal-poster__btn-close"></button>
+          <div class="modal-poster-content">
+            <div class="modal-poster-info">
+              <div class="modal-poster-info-wrapper">
+                <span class="modal-poster-info-title-label">Название:</span>
+                <span class="modal-poster-info-title"></span>
+              </div>
+              <div class="modal-poster-info-wrapper">
+                <span class="modal-poster-info-duration-label">Длительность:</span>
+                <span class="modal-poster-info-duration"></span>
+              </div>
+              <div class="modal-poster-info-wrapper">
+                <span class="modal-poster-info-country-label">Страна:</span>
+                <span class="modal-poster-info-country"></span>
+              </div>
+              <div class="modal-poster-info-wrapper">
+                <span class="modal-poster-info-description-label">Краткое описание:</span>
+                <span class="modal-poster-info-description"></span>
+              </div>
+              <div class="modal-poster-info-wrapper">
+                <span class="modal-poster-info-start_date-label">Дата старта показа:</span>
+                <span class="modal-poster-info-start_date"></span>
+              </div>
+              <div class="modal-poster-info-wrapper">
+                <span class="modal-poster-info-end_date-label">Дата окончания показа:</span>
+                <span class="modal-poster-info-end_date"></span>
+              </div>
+              <button class="conf-step__button conf-step__button-accent modal-poster__btn-edit">Редактировать</button>
+            </div>
+            <div class="modal-poster-change">
+              <h3 class="modal-poster-change-label">Добавление сеанса</h3>
+              <select class="modal-poster-hall-select">
+              </select>
+              <form class="modal-poster__form">
+                <div class="modal-poster-time-info-wrapper">
+                  <p class="modal-poster-time-info-label">Доступное время:</p>
+                  <div class="modal-poster-time-info-list"></div>
+                </div>
+                <div class="modal-poster-input-time-label">Выберите время:</div>
+                <select name="hours-select" class="modal-poster-input-time-hours">
+                </select>
+                <select name="minutes-select" class="modal-poster-input-time-minutes">
+                </select>
+                <button type="submit"
+                  class="conf-step__button conf-step__button-accent modal-poster__btn-add">Добавить</button>
+              </form>
+            </div>
+          </div>
+          <fieldset class="modal-poster-btn-wrapper">
+            <button class="conf-step__button conf-step__button-accent modal-poster__btn-remove-all">Удалить все
+              сеансы</button>
+            <button class="conf-step__button conf-step__button-accent modal-poster__btn-remove-movie">Удалить
+              фильм</button>
+          </fieldset>
+        </din>
+      </div>
+
+      <div class="modal-seance hidden">
+        <din class="modal-seance-wrapper">
+          <button class="modal-seance__btn-close"></button>
+          <button class="conf-step__button conf-step__button-accent modal-seance__btn-remove-seance">Удалить
+            сеанс</button>
+        </din>
+      </div>
+    </section>
+
+    <section class="conf-step">
+      <header class="conf-step__header conf-step__header_opened">
+        <h2 class="conf-step__title">Открыть продажи</h2>
+      </header>
+      <div class="conf-step__wrapper text-center">
+        <ul class="footer-halls-list conf-step__selectors-box">
+        </ul>
+        <p class="conf-step__paragraph footer__paragrarh">Всё готово, теперь можно:</p>
+        <button class="conf-step__button conf-step__button-accent footer__button">Открыть продажу билетов</button>
+      </div>
+    </section>
+  </main>
+  <script src="/admin/src/js/app.js" type="module"></script>
+</body>
+
+</html>

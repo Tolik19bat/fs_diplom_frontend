@@ -1,0 +1,178 @@
+* {
+  box-sizing: border-box;
+}
+
+.hidden,
+.modal-create-hall.hidden,
+.modal-chair-type.hidden,
+.modal-add-movie.hidden,
+.modal-poster.hidden,
+.modal-seance.hidden {
+  display: none;
+}
+
+.modal-create-hall,
+.modal-chair-type,
+.modal-add-movie,
+.modal-poster,
+.modal-seance {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 25;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-create-hall__form,
+.modal-chair-type__list,
+.modal-add-movie__form,
+.modal-poster-wrapper,
+.modal-seance-wrapper {
+  position: relative;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #ffffff;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  background-color: #63536C;
+  max-width: 500px;
+  width: 50%;
+  border-radius: 5px;
+  box-shadow: 0 3px 5px 2px rgba(0, 0, 0, .3);
+}
+
+.modal-create-hall__btn-close,
+.modal-add-movie__btn-close,
+.modal-poster__btn-close,
+.modal-seance__btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #63536C;
+  background-image: url("../img/cancel.png");
+  background-size: cover;
+  border: none;
+  width: 15px;
+  height: 15px;
+
+}
+
+.modal-create-hall__input,
+.modal-add-movie__input {
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-top: 17px;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.modal-add-movie__label {
+  margin-top: 10px;
+}
+
+.modal-add-movie__input {
+  margin-top: 5px;
+}
+
+#movie-description {
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 30px;
+}
+
+.modal-create-hall__input:focus,
+.modal-add-movie__input:focus {
+  outline: none;
+}
+
+.modal-create-hall__btn-add,
+.modal-add-movie__btn-add,
+.modal-add-movie__btn-submit,
+.modal-seance__btn-remove-seance {
+  align-self: center;
+}
+
+.modal-chair-type__list {
+  max-width: none;
+  width: auto;
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.modal-chair-type__list .conf-step__chair_vip,
+.modal-chair-type__list .conf-step__chair_disabled {
+  margin-left: 20px;
+}
+
+.modal-poster-wrapper {
+  font-size: 1.4rem;
+  font-weight: 400;
+  width: 60%;
+  max-width: 800px;
+}
+
+.modal-poster-content {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.modal-poster-info,
+.modal-poster-change {
+  padding: 10px;
+  width: calc(50% - 5px);
+  border: 1px solid #877292;
+  border-radius: 5px;
+}
+
+.modal-poster-info-img,
+.modal-add-movie__img {
+  height: 100px;
+  align-self: flex-start;
+}
+
+.modal-poster-info-wrapper {
+  margin-top: 10px;
+  gap: 20px;
+}
+
+.modal-poster-change-label {
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.modal-poster-hall-select,
+.modal-poster-time-info-wrapper,
+.modal-poster-input-time-label {
+  margin-top: 10px;
+}
+
+.modal-poster-hall-select,
+.modal-poster-input-time-hours,
+.modal-poster-input-time-minutes {
+  min-width: 70px;
+}
+
+.modal-poster-btn-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  border: 1px solid #877292;
+  border-radius: 5px;
+  padding-bottom: 17px;
+}
+
+.modal-poster__btn-add {
+  display: block;
+}
+
+.conf-step__seances-movie {
+  cursor: pointer;
+}
