@@ -1,3 +1,5 @@
+import { _URL } from "./app.js";
+
 export function dispatchUpdateEvent(arg) {
     const event = new CustomEvent("updateHall", {
         detail: arg
