@@ -1,6 +1,6 @@
 import { _URL } from "./app.js";
 import { getHalls } from "./functions.js";
-import { defaultRows, defaultChairsInRow, ticketPrice, vipTicketPrice } from "./defaultHallData";
+import { defaultRows, defaultChairsInRow, ticketPrice, vipTicketPrice } from "./defaultHallData.js";
 
 
 export default class HallManagement {
@@ -29,7 +29,7 @@ export default class HallManagement {
         this.modalEl = this.containerEl.querySelector(".modal-create-hall");
         this.modalBtnCloseEl = this.modalEl.querySelector(".modal-create-hall__btn-close");
         this.onClickBtnModalClose = this.onClickBtnModalClose.bind(this);
-        this.modalBtnCloseEl.addEventListener("click", this.modalBtnCloseEl);
+        this.modalBtnCloseEl.addEventListener("click", this.onClickBtnModalClose);
         this.modalInputEl = this.modalEl.querySelector(".modal-create-hall__input");
         this.modalFormEl = this.mainEl.querySelector(".modal-create-hall__form");
         this.onSubmitModalForm = this.onSubmitModalForm.bind(this);
@@ -63,11 +63,11 @@ export default class HallManagement {
         try {
             await fetch(`${_URL}chair/${hall.id}`, {
                 method: "DELETE",
-                headers: { Autorisation: `Beaer ${token}` },
+                headers: { Autorization: `Bearer ${token}` },
             });
             await fetch(`${_URL}hall/${hall.id}`, {
                 method: "DELETE",
-                headers: { Autorisation: `Beaer ${token}` },
+                headers: { Autorization: `Bearer ${token}` },
             });
         } catch (error) {
             console.error(error);
@@ -120,7 +120,7 @@ export default class HallManagement {
                 }),
             });
             const response = await jsonResponse.json();
-            return response.id;
+            return console.log(response.id);
         } catch (error) {
             console.error(error);
         }
@@ -129,16 +129,16 @@ export default class HallManagement {
     async sendDefaultChairs(chairs) {
         const token = localStorage.getItem('token');
         try {
-          await fetch(`${_URL}chair`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Autorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-                chairs,
-            }),
-          });  
+            await fetch(`${_URL}chair`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Autorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    chairs,
+                }),
+            });
         } catch (error) {
             console.error(error);
         }
