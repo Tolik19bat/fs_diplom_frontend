@@ -7,7 +7,6 @@ export default class HallManagement {
     constructor() {
         this.init();
         this.halls = [];
-        this.bindToDom = this.bindToDom.bind(this); // Привязка контекста 
     }
 
     init() {
@@ -37,11 +36,13 @@ export default class HallManagement {
     }
 
     updateHandler(e) {
+        console.log(e);
         this.hall = e.detail.data;
         this.renderHalls();
     }
 
     renderHalls() {
+        console.log('Отображаем залы:', this.halls); // Посмотреть, что в массиве  
         this.hallListEl.innerHTML = "";
         this.halls.forEach((hall) => {
             const hallEl = document.createElement("li");
@@ -63,14 +64,15 @@ export default class HallManagement {
         try {
             await fetch(`${_URL}chair/${hall.id}`, {
                 method: "DELETE",
-                headers: { Autorization: `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${token}` },
             });
             await fetch(`${_URL}hall/${hall.id}`, {
                 method: "DELETE",
-                headers: { Autorization: `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${token}` },
             });
         } catch (error) {
             console.error(error);
+            return null;
         }
     }
 
@@ -92,7 +94,7 @@ export default class HallManagement {
         this.modalEl.classList.add("hidden");
     }
 
-    onSubmitModalForm(e) {
+    async onSubmitModalForm(e) {
         e.preventDefault();
         const hallName = this.modalInputEl.value;
         this.hideModal();
@@ -120,9 +122,10 @@ export default class HallManagement {
                 }),
             });
             const response = await jsonResponse.json();
-            return console.log(response.id);
+            return response.id;
         } catch (error) {
             console.error(error);
+            return null;
         }
     }
 
@@ -133,7 +136,7 @@ export default class HallManagement {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Autorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     chairs,
@@ -141,6 +144,7 @@ export default class HallManagement {
             });
         } catch (error) {
             console.error(error);
+            return null;
         }
     }
 

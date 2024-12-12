@@ -15,8 +15,8 @@
 // 1 - обычные кресла
 // 2 - VIP кресла
 
-const defaultRows = 10;
-const defaultChairsInRow = 10;
+const defaultRows = 3;
+const defaultChairsInRow = 5;
 
 const ticketPrice = 250;
 const vipTicketPrice = 500;
