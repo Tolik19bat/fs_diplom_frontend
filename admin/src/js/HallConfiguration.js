@@ -31,7 +31,11 @@ export default class HallConfiguration {
         this.btnCancelEl = this.containerEl.querySelector(".hall-configuration-btn-cancel");
         this.onClickBtnCancel = this.onClickBtnCancel.bind(this);
 
-        this.btnCancelEl.addEventListener("click", this.onClickBtnCancel);
+        this.btnCancelEl.addEventListener("click", 
+            this.onClickBtnCancel,
+            console.log()
+        
+        );
 
         this.btnSaveEl = this.containerEl.querySelector(".hall-configuration-btn-save");
 
@@ -134,7 +138,7 @@ export default class HallConfiguration {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
+                    // "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify({ chairs }),
             });
@@ -156,7 +160,7 @@ export default class HallConfiguration {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    // Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({ chairs }),
             });
@@ -171,7 +175,7 @@ export default class HallConfiguration {
             const jsonResponse = await fetch(`${_URL}hall/${this.activeHallId}/chairs`, {
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    // Authorization: `Bearer ${token}`,
                 },
             }
             );

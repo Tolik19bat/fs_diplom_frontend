@@ -6,9 +6,9 @@ export function dispatchUpdateEvent(arg) {
     });
     document.querySelector(".main").dispatchEvent(event);
 
-    document.querySelector(".main").addEventListener("updateHall", (event) => {
-        console.log("Данные события:", event.detail);
-    });
+    // document.querySelector(".main").addEventListener("updateHall", (event) => {
+    //     console.log("Данные события:", event.detail);
+    // });
 }
 
 export async function getHalls(activHallId = null) {
@@ -16,7 +16,7 @@ export async function getHalls(activHallId = null) {
     try {
         const jsonResponse = await fetch(`${_URL}hall`, {
             method: "GET",
-            headers: { Autorization: `Bearer ${token}` },
+            // headers: { Autorization: `Bearer ${token}` },
         });
         const response = await jsonResponse.json();
         if (!response.length) {
