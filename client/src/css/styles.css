@@ -33,17 +33,24 @@ body {
   font-weight: 100;
 }
 
-.page-header__setting {
-  position: absolute;
-  right: 14px;
-  top: 18px;
-  width: 30px;
-  height: 30px;
-  background-image: url("/client/src/img/setting.png");
+.button-container {  
+  display: flex; /* Используем flexbox */  
+  align-items: center; /* Центрируем по вертикали, если нужно */  
+  position: absolute; /* Сохраняем абсолютное позиционирование */  
+  right: 14px; /* Позиционирование контейнера */  
+  top: 18px;  
+}  
+
+.page-header__sign-up-btn,  
+.page-header__log-in-btn {
+  font-size: 3rem;
+  min-width: 30px; /* Задаем ширину кнопок */
+  min-height: 30px; /* Задаем высоту кнопок */
   border: none;
-  background-position: center;
+  animation: animateButton 0.3s ease-in-out forwards; /* Применяем анимацию */  
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
+  margin-left: 10px; /* Отступ между кнопками */
 }
 
 /* ~~~~~~~~~~~~ Главная ~~~~~~~~~~~~ */

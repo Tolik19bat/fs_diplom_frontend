@@ -1,5 +1,5 @@
-import Calendar from "./Calendar.js";
-import MoviesList from "./MoviesList.js";
+// import Calendar from "./Calendar.js";
+// import MoviesList from "./MoviesList.js";
 
 export default class Page {
   constructor() {
@@ -16,22 +16,29 @@ export default class Page {
   }
 
   bindToDom() {
-    this.btnSettingEl = document.querySelector(".page-header__setting");
-    // Проверяем, что элемент кнопки существует перед добавлением обработчика  
-    if (this.btnSettingEl) {  
-      this.btnSettingEl.addEventListener("click", this.onClickBtnSetting.bind(this));  
-  } else {  
-      console.warn("Кнопка настроек не найдена.");  
-  } 
+    this.btnLogInEl = this.setupButton(".page-header__log-in-btn", this.onClickBtnLogIn.bind(this), "Кнопка входа не найдена.");
+    this.btnSignUpEl = this.setupButton(".page-header__sign-up-btn", this.onClickBtnSignUp.bind(this), "Кнопка регистрации не найдена.");
   }
 
-   onClickBtnSetting() {  
-    if (confirm("Вы уверены, что хотите перейти на страницу входа?")) {  
-        window.location.href = "/admin/src/html/login.html";  
-    }  
-}
-  // onClickBtnSetting() {
-  //   window.location.href = "/admin/src/html/login.html";
-  // }
+  setupButton(selector, clickHandler, warningMessage) {
+    const buttonEl = document.querySelector(selector);
+    if (buttonEl) {
+      buttonEl.addEventListener("click", clickHandler);
+    } else {
+      console.warn(warningMessage);
+    }
+    return buttonEl; // Возвращаем элемент, если нужно  
+  }
 
+  onClickBtnLogIn() {
+    if (confirm("Хотите перейти на страницу входа в администраторскую?")) {
+      window.location.href = "/admin/src/html/login.html";
+    }
+  }
+
+  onClickBtnSignUp() {
+    if (confirm("Хотите зарегестрироваться как администратор?")) {
+      window.location.href = "/admin/src/html/signup.html";
+    }
+  }
 }
