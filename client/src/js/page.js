@@ -17,7 +17,12 @@ export default class Page {
 
   bindToDom() {
     this.btnSettingEl = document.querySelector(".page-header__setting");
-    this.btnSettingEl.addEventListener("click", this.onClickBtnSetting.bind(this));
+    // Проверяем, что элемент кнопки существует перед добавлением обработчика  
+    if (this.btnSettingEl) {  
+      this.btnSettingEl.addEventListener("click", this.onClickBtnSetting.bind(this));  
+  } else {  
+      console.warn("Кнопка настроек не найдена.");  
+  } 
   }
 
    onClickBtnSetting() {  
