@@ -39,7 +39,7 @@ export default class Login {
 
   async sendForm() {
     try {
-      const jsonResponse = await fetch(`${_URL}tokens/create`, {
+      const jsonResponse = await fetch(`${_URL}login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -16,7 +16,7 @@ export async function getHalls(activHallId = null) {
     try {
         const jsonResponse = await fetch(`${_URL}hall`, {
             method: "GET",
-            // headers: { Autorization: `Bearer ${token}` },
+            headers: { Autorization: `Bearer ${token}` },
         });
         const response = await jsonResponse.json();
         if (!response.length) {

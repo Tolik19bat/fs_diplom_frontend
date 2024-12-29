@@ -14,5 +14,7 @@ export default class Page {
         this.hallManagement = new HallManagement();
         getHalls();
     }
+
+
 }
 
