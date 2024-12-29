@@ -31,13 +31,13 @@ export default class Page {
   }
 
   onClickBtnLogIn() {
-    if (confirm("Хотите перейти на страницу входа в администраторскую?")) {
+    if (confirm("Хотите стать администратором ?")) {
       window.location.href = "/admin/src/html/login.html";
     }
   }
 
   onClickBtnSignUp() {
-    if (confirm("Хотите зарегестрироваться как администратор?")) {
+    if (confirm("Хотите зарегестрироваться как администратор ?")) {
       window.location.href = "/admin/src/html/signup.html";
     }
   }
