@@ -21,10 +21,16 @@ export default class HallSize {
       this.countRowsEl.value = rows;
       this.countPlacesEl.value = places;
     }
+
+    onChangeSize() {  
+      const rows = this.countRowsEl.value.trim();  
+      const places = this.countPlacesEl.value.trim();  
   
-    onChangeSize() {
-      this.handlerChangeSize({rows: this.countRowsEl.value, places: this.countPlacesEl.value});
-    }
+      if (rows === "" || places === "") {  
+          console.warn("Количество рядов и мест не может быть пустым.");  
+          return;  
+      }  
   
-    
+      this.handlerChangeSize({rows: Number(rows), places: Number(places)});  
   }
+}

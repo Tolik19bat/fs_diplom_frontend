@@ -1,3 +1,7 @@
+import { _URL } from "./app.js";
+import HallList from "./HallList.js";
+import HallSize from "./HallSize.js";
+
 export default class HallConfiguration {
     constructor() {
         this.activeHallId = null;
@@ -31,7 +35,7 @@ export default class HallConfiguration {
         this.btnCancelEl = this.containerEl.querySelector(".hall-configuration-btn-cancel");
         this.onClickBtnCancel = this.onClickBtnCancel.bind(this);
 
-        this.btnCancelEl.addEventListener("click", 
+        this.btnCancelEl.addEventListener("click",
             this.onClickBtnCancel,
         );
 
@@ -230,7 +234,7 @@ export default class HallConfiguration {
 
     getChairsFormHall() {
         const chairElArray = this.hallEl.querySelectorAll(".conf-step__chair");
-        const chairs = [ ...chairElArray ]
+        const chairs = [...chairElArray]
             .map((element) => {
                 let type;
                 if (element.classList.contains(".conf-step__chair_vip")) {
@@ -249,9 +253,9 @@ export default class HallConfiguration {
                 const row = element.parentNode.dataset.row;
                 const place = element.dataset.place;
                 return {
-                    row, place,type,
+                    row, place, type,
                 }
-            })        
+            })
             .sort((a, b) => a.id < b.id);
         return chairs;
     }
