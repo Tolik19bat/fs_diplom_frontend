@@ -151,7 +151,7 @@ export default class HallConfiguration {
             }
         } catch (error) {
             // Логируем ошибку запроса  
-            console.error("Error updating chairs:", error);
+            console.log("Error updating chairs:", error);
         }
     }
 
@@ -167,7 +167,7 @@ export default class HallConfiguration {
                 body: JSON.stringify({ chairs }),
             });
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     }
 
@@ -189,7 +189,7 @@ export default class HallConfiguration {
 
             this.chairs = await jsonResponse.json();
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     }
 

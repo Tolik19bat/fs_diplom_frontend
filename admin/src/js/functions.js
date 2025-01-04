@@ -26,6 +26,6 @@ export async function getHalls(activHallId = null) {
             activHallId = response[0].id;
         }
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 }

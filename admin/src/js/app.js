@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const page = new Page(pageContainer);  
             page.init();  
         } else {  
-            console.error("Элемент .main не найден");  
+            console.log("Элемент .main не найден");  
         }  
     }  
 });

@@ -17,7 +17,6 @@ export default class HallManagement {
         this.mainEl = document.querySelector(".main");
         // console.log(this.mainEl)
         this.updateHandler = this.updateHandler.bind(this);
-        // console.log(this.updateHandler)
         this.mainEl.addEventListener("updateHall", this.updateHandler);
         this.containerEl = document.querySelector(".hall-management");
         this.btnCreateHallEl = this.containerEl.querySelector(".create-hall");
@@ -71,7 +70,7 @@ export default class HallManagement {
                 headers: { Authorization: `Bearer ${token}` },
             });
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return null;
         }
     }
@@ -124,7 +123,7 @@ export default class HallManagement {
             const response = await jsonResponse.json();
             return response.id;
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return null;
         }
     }
@@ -143,7 +142,7 @@ export default class HallManagement {
                 }),
             });
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return null;
         }
     }

@@ -57,11 +57,11 @@ export default class Login {
         window.location.href = _URL_ADMIN_INDEX; // Перенаправляем на админскую панель
       } else {
         const errorResponse = await jsonResponse.json();
-        console.error(errorResponse);
+        console.log(errorResponse);
         alert("Ошибка авторизации. Проверьте данные и попробуйте снова.");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("Произошла ошибка. Попробуйте снова позже.");
     }
   }

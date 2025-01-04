@@ -42,11 +42,11 @@ export default class SignUp {
         window.location.href = "/admin/src/html/login.html"; // Перенаправляем на страницу входа
       } else {
         const errorResponse = await jsonResponse.json();
-        console.error(errorResponse);
+        console.log(errorResponse);
         alert("Ошибка регистрации. Проверьте данные и попробуйте снова.");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("Произошла ошибка. Попробуйте снова позже.");
     }
   }
