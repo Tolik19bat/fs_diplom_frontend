@@ -1,10 +1,9 @@
-// import { _URL } from "./app.js";  // URL для взаимодействия с API
-// import { getHalls } from "./functions.js";  // Функция для получения списка залов
-// import { defaultRows, defaultChairsInRow, ticketPrice, vipTicketPrice } from "./defaultHallData.js";  // Константы для настройки залов
+import { _URL } from "./app.js";  // URL для взаимодействия с API
+import { getHalls } from "./functions.js";  // Функция для получения списка залов
+import { defaultRows, defaultChairsInRow, ticketPrice, vipTicketPrice } from "./defaultHallData.js";  // Константы для настройки залов
 
-// // Определяем класс управления залами
-// export default 
-class HallManagement {
+// Определяем класс управления залами
+export default class HallManagement {
     constructor() {
         this.init();  // Инициализация
         this.halls = [];  // Массив для хранения данных о залах

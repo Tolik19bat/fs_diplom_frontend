@@ -2,50 +2,48 @@ import { _URL } from "./app.js";
 import HallList from "./HallList.js";
 import HallSize from "./HallSize.js";
 
+// Определение класса для конфигурации зала
 export default class HallConfiguration {
     constructor() {
-        this.activeHallId = null;
-        this.selectedElement = null;
-        this.chairs = [];
-        this.chairsCopy = [];
-        this.init();
+        // Инициализация свойств
+        this.activeHallId = null; // Идентификатор активного зала
+        this.selectedElement = null; // Выбранный элемент
+        this.chairs = []; // Массив кресел в текущем зале
+        this.chairsCopy = []; // Копия массива кресел для отмены изменений
+        this.init(); // Вызов метода инициализации
     }
 
     init() {
+        // Связывание элементов DOM и инициализация подмодулей
         this.bindToDom();
-        this.hallList = new HallList(this.hallsListEl);
-        this.hallList.handlerUpdate = this.renderConfigurationOptions.bind(this);
-        this.hallSize = new HallSize();
-        this.hallSize.handlerCangeSize = this.changeSize.bind(this);
+        this.hallList = new HallList(this.hallsListEl); // Инициализация списка залов
+        this.hallList.handlerUpdate = this.renderConfigurationOptions.bind(this); // Привязка обработчика для обновления
+        this.hallSize = new HallSize(); // Инициализация объекта размера зала
+        this.hallSize.handlerCangeSize = this.changeSize.bind(this); // Обработчик изменения размера
     }
 
     bindToDom() {
+        // Поиск элементов DOM для работы с конфигурацией зала
         this.containerEl = document.querySelector(".hall-configuration");
-
         this.hallsListEl = this.containerEl.querySelector(".hall-configuration-halls-list");
-
         this.hallEl = this.containerEl.querySelector(".conf-step__hall-wrapper");
-
         this.modalEl = this.containerEl.querySelector(".modal-chair-type");
 
+        // Связывание методов с текущим контекстом
         this.onClickModal = this.onClickModal.bind(this);
-
         this.modalEl.addEventListener("click", this.onClickModal);
 
         this.btnCancelEl = this.containerEl.querySelector(".hall-configuration-btn-cancel");
         this.onClickBtnCancel = this.onClickBtnCancel.bind(this);
-
-        this.btnCancelEl.addEventListener("click",
-            this.onClickBtnCancel,
-        );
+        this.btnCancelEl.addEventListener("click", this.onClickBtnCancel);
 
         this.btnSaveEl = this.containerEl.querySelector(".hall-configuration-btn-save");
-
         this.onClickBtnSave = this.onClickBtnSave.bind(this);
         this.btnSaveEl.addEventListener("click", this.onClickBtnSave);
     }
 
     renderConfigurations(activeHall) {
+        // Установка активного зала и отображение его конфигурации
         this.activeHallId = activeHall.Id;
         this.getChairs().then(() => {
             this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
@@ -55,6 +53,7 @@ export default class HallConfiguration {
     }
 
     changeSize(arg) {
+        // Изменение размеров зала с сохранением предыдущей конфигурации
         if (this.chairsCopy.length === 0) {
             this.chairs.forEach((element) => {
                 this.chairsCopy.push({ ...element });
@@ -75,44 +74,44 @@ export default class HallConfiguration {
     }
 
     showModal() {
+        // Показать модальное окно выбора типа кресла
         this.modalEl.classList.remove("hidden");
     }
 
     hideModal() {
+        // Скрыть модальное окно
         this.modalEl.classList.add("hidden");
     }
 
     onClickModal(e) {
+        // Обработчик клика по модальному окну
         e.preventDefault();
         if (!e.target.classList.contains("conf-step__chair")) {
             this.hideModal();
             return;
         }
 
-        for (let i = 0; i < this.selectedElement.classList.length; i += 1) {
-            const currentClass = this.selectedElement.classList[i];
+        // Обновление классов для выбора типа кресла
+        [...this.selectedElement.classList].forEach((currentClass) => {
             if (currentClass != "conf-step__chair") {
                 this.selectedElement.classList.remove(currentClass);
             }
-        }
+        });
 
-        for (let i = 0; i < e.target.classList.length; i += 1) {
-            const currentClass = e.target.classList[i];
+        [...e.target.classList].forEach((currentClass) => {
             if (currentClass != "conf-step__chair") {
                 this.selectedElement.classList.add(currentClass);
             }
-        }
+        });
 
         this.hideModal();
     }
 
     onClickBtnCancel() {
+        // Обработчик для кнопки отмены
         if (this.chairsCopy.length > 0) {
             this.selectedPlace = null;
-            this.chairs = [];
-            this.chairsCopy.forEach((element) => {
-                this.chairs.push({ ...element });
-            });
+            this.chairs = this.chairsCopy.map((element) => ({ ...element }));
             this.chairsCopy = [];
             this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
             this.hallEl.innerHTML = "";
@@ -121,6 +120,7 @@ export default class HallConfiguration {
     }
 
     onClickBtnSave() {
+        // Обработчик для кнопки сохранения
         if (this.chairsCopy.length == 0) {
             return;
         }
@@ -134,6 +134,7 @@ export default class HallConfiguration {
     }
 
     async updateChairs(chairs) {
+        // Асинхронное обновление кресел через API
         const token = localStorage.getItem('token');
         try {
             const response = await fetch(`${_URL}chair`, {
@@ -145,17 +146,16 @@ export default class HallConfiguration {
                 body: JSON.stringify({ chairs }),
             });
             if (!response.ok) {
-                // Если ответ не успешен, генерируем ошибку с сообщением  
                 const errorMessage = await response.text();
                 throw new Error(`Failed to update chairs: ${errorMessage}`);
             }
         } catch (error) {
-            // Логируем ошибку запроса  
             console.log("Error updating chairs:", error);
         }
     }
 
     async createChairs(chairs, hallId) {
+        // Создание новых кресел через API
         const token = localStorage.getItem('token');
         try {
             await fetch(`${_URL}chair/${hallId}`, {
@@ -172,6 +172,7 @@ export default class HallConfiguration {
     }
 
     async getChairs() {
+        // Получение списка кресел через API
         const token = localStorage.getItem('token');
         try {
             const jsonResponse = await fetch(`${_URL}hall/${this.activeHallId}/chairs`, {
@@ -179,14 +180,11 @@ export default class HallConfiguration {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-            }
-            );
-
+            });
             if (!jsonResponse.ok) {
                 const errorMessage = await jsonResponse.text();
                 throw new Error(`Failed to fetch chairs: ${errorMessage}`);
             }
-
             this.chairs = await jsonResponse.json();
         } catch (error) {
             console.log(error);
@@ -194,7 +192,8 @@ export default class HallConfiguration {
     }
 
     renderHall(chairs) {
-        const { rows: rowsCount, pleaces: charsInRow } = this.getSizeHall(chairs);
+        // Рендеринг зала с указанными креслами
+        const { rows: rowsCount, places: charsInRow } = this.getSizeHall(chairs);
         for (let i = 1; i <= rowsCount; i += 1) {
             const rowEl = document.createElement("div");
             rowEl.classList.add("conf-step__row");
@@ -222,6 +221,7 @@ export default class HallConfiguration {
     }
 
     onClickChair(e) {
+        // Обработчик клика по креслу
         e.preventDefault();
         this.selectedElement = e.currentTarget;
         if (this.chairsCopy.length === 0) {
@@ -233,6 +233,7 @@ export default class HallConfiguration {
     }
 
     getChairsFormHall() {
+        // Получение конфигурации кресел из зала
         const chairElArray = this.hallEl.querySelectorAll(".conf-step__chair");
         const chairs = [...chairElArray]
             .map((element) => {
@@ -254,17 +255,17 @@ export default class HallConfiguration {
                 const place = element.dataset.place;
                 return {
                     row, place, type,
-                }
+                };
             })
             .sort((a, b) => a.id < b.id);
         return chairs;
     }
 
     getSizeHall(chairs) {
+        // Определение размеров зала
         return {
             rows: Math.max(...chairs.map((chair) => chair.row)),
             places: Math.max(...chairs.map((chair) => chair.place)),
-        }
+        };
     }
-
 }
