@@ -42,7 +42,7 @@ export default class HallConfiguration {
         this.btnSaveEl.addEventListener("click", this.onClickBtnSave);
     }
 
-    renderConfigurations(activeHall) {
+    renderConfigurationOptions(activeHall) {
         // Установка активного зала и отображение его конфигурации
         this.activeHallId = activeHall.Id;
         this.getChairs().then(() => {
@@ -91,18 +91,27 @@ export default class HallConfiguration {
             return;
         }
 
-        // Обновление классов для выбора типа кресла
-        [...this.selectedElement.classList].forEach((currentClass) => {
-            if (currentClass != "conf-step__chair") {
-                this.selectedElement.classList.remove(currentClass);
-            }
-        });
+        // Сначала очищаем все классы, оставляя только "conf-step__chair"  
+        this.selectedElement.className = "conf-step__chair";
 
+        // Затем добавляем классы из e.target, кроме "conf-step__chair"  
         [...e.target.classList].forEach((currentClass) => {
-            if (currentClass != "conf-step__chair") {
+            if (currentClass !== "conf-step__chair") {
                 this.selectedElement.classList.add(currentClass);
             }
         });
+        // // Обновление классов для выбора типа кресла
+        // [...this.selectedElement.classList].forEach((currentClass) => {
+        //     if (currentClass != "conf-step__chair") {
+        //         this.selectedElement.classList.remove(currentClass);
+        //     }
+        // });
+
+        // [...e.target.classList].forEach((currentClass) => {
+        //     if (currentClass != "conf-step__chair") {
+        //         this.selectedElement.classList.add(currentClass);
+        //     }
+        // });
 
         this.hideModal();
     }
