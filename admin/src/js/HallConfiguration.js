@@ -19,7 +19,7 @@ export default class HallConfiguration {
         this.hallList = new HallList(this.hallsListEl); // Инициализация списка залов
         this.hallList.handlerUpdate = this.renderConfigurationOptions.bind(this); // Привязка обработчика для обновления
         this.hallSize = new HallSize(); // Инициализация объекта размера зала
-        this.hallSize.handlerCangeSize = this.changeSize.bind(this); // Обработчик изменения размера
+        this.hallSize.handlerChangeSize = this.changeSize.bind(this); // Обработчик изменения размера
     }
 
     bindToDom() {
