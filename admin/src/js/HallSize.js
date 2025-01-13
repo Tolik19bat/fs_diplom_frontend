@@ -10,11 +10,11 @@ export default class HallSize {
   
     bindToDom() {
       this.countRowsEl = document.querySelector(".count-rows");
+      console.log(this.countRowsEl);
       this.onChangeSize = this.onChangeSize.bind(this);
       this.countRowsEl.addEventListener("input", this.onChangeSize);
       this.countPlacesEl = document.querySelector(".count-places");
       this.countPlacesEl.addEventListener("input", this.onChangeSize);
-      console.log(".count-places");
     }
   
     renderHallSize({rows, places}) {
