@@ -30,13 +30,15 @@
         <p class="conf-step__paragraph">Доступные залы:</p>
         <ul class="conf-step__list hall-list">
         </ul>
-        <button class="conf-step__button conf-step__button-accent create-hall">Создать зал</button>
+        <button type="button" class="conf-step__button conf-step__button-accent create-hall">Создать зал</button>
       </div>
       <div class="modal-create-hall hidden">
         <form class="modal-create-hall__form">
-          <button class="modal-create-hall__btn-close"></button>
-          <p class="modal-create-hall__text">Введите название зала: </p>
-          <input type="text" class="modal-create-hall__input" required>
+          <button type="button" class="modal-create-hall__btn-close"></button>
+          <label for="hallName">
+            <p class="modal-create-hall__text">Название зала: </p>
+          </label>
+          <input type="text" id="hallName" class="modal-create-hall__input" placeholder="Введите название зала" required>
           <button type="submit"
             class="conf-step__button conf-step__button-accent modal-create-hall__btn-add">Добавить</button>
         </form>
@@ -105,7 +107,7 @@
             за <span class="conf-step__chair conf-step__chair_vip"></span> VIP кресла
           </div>
           <fieldset class="conf-step__buttons text-center">
-            <button class="price-configuration-cancel-btn conf-step__button conf-step__button-regular">Отмена</button>
+            <button type="button" class="price-configuration-cancel-btn conf-step__button conf-step__button-regular">Отмена</button>
             <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent">
           </fieldset>
         </form>
@@ -128,9 +130,9 @@
 
       </div>
 
-      <div class="modal-add-movie hidden">
+      <div class="modal-add-movie idden">
         <form class="modal-add-movie__form" method="put" enctype="multipart/form-data">
-          <button class="modal-add-movie__btn-close"></button>
+          <button type="button" class="modal-add-movie__btn-close"></button>
           <label class="modal-add-movie__label" for="movie-title">Название фильма: </label>
           <input type="text" id="movie-title" name="title" class="modal-add-movie__input" required>
           <label class="modal-add-movie__label" for="movie-duration">Длительность: </label>
@@ -143,10 +145,11 @@
           <input type="date" id="movie-start_date" name="start_date" class="modal-add-movie__input" required>
           <label class="modal-add-movie__label" for="movie-end_date">Дата последнего показа: </label>
           <input type="date" id="movie-end_date" name="end_date" class="modal-add-movie__input" required>
-          <input type="file" name="file" multiple style="display: none;" class="modal-add-movie__input_file">
+          <label for="file-input" class="modal-add-file-input__label">Выберите файл:</label>  
+          <input type="file" id="file-input" name="file" multiple class="modal-add-movie__input_file">
           <fieldset class="conf-step__buttons text-center">
-            <button
-              class="conf-step__button conf-step__button-accent modal-add-movie__btn-add-img">Добавить постер</button>
+            <button type="button" class="conf-step__button conf-step__button-accent modal-add-movie__btn-add-img">Добавить
+              постер</button>
             <button type="submit"
               class="conf-step__button conf-step__button-accent modal-add-movie__btn-submit">Сохранить</button>
           </fieldset>
@@ -182,11 +185,13 @@
                 <span class="modal-poster-info-end_date-label">Дата окончания показа:</span>
                 <span class="modal-poster-info-end_date"></span>
               </div>
-              <button class="conf-step__button conf-step__button-accent modal-poster__btn-edit">Редактировать</button>
+              <button type="button" class="conf-step__button conf-step__button-accent modal-poster__btn-edit">Редактировать</button>
             </div>
             <div class="modal-poster-change">
-              <h3 class="modal-poster-change-label">Добавление сеанса</h3>
-              <select class="modal-poster-hall-select">
+              <label for="hallSelect">
+                <h3 class="modal-poster-change-label">Добавление сеанса</h3>
+              </label>
+              <select id="hallSelect" class="modal-poster-hall-select">
               </select>
               <form class="modal-poster__form">
                 <div class="modal-poster-time-info-wrapper">
@@ -194,9 +199,11 @@
                   <div class="modal-poster-time-info-list"></div>
                 </div>
                 <div class="modal-poster-input-time-label">Выберите время:</div>
-                <select name="hours-select" class="modal-poster-input-time-hours">
+                <label for="hours-select" class="modal-poster-input-time-label">Часы:</label>
+                <select id="hours-select" name="hours-select" class="modal-poster-input-time-hours">
                 </select>
-                <select name="minutes-select" class="modal-poster-input-time-minutes">
+                <label for="minutes-select" class="modal-poster-input-time-label">Минуты:</label>
+                <select id="minutes-select" name="minutes-select" class="modal-poster-input-time-minutes">
                 </select>
                 <button type="submit"
                   class="conf-step__button conf-step__button-accent modal-poster__btn-add">Добавить</button>

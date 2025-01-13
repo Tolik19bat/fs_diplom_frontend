@@ -80,6 +80,14 @@
   margin-top: 5px;
 }
 
+.modal-add-file-input__label {
+  display: none;  
+}
+
+.modal-add-movie__input_file {  
+  display: none;  
+}
+
 #movie-description {
   max-width: 100%;
   min-width: 100%;
