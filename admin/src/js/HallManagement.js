@@ -11,7 +11,7 @@ export default class HallManagement {
 
     // Метод инициализации
     init() {
-        this.bindToDom();  // Связываем обработчики событий с элементами DOM
+        this.bindToDom();
     }
 
     // Метод связывания элементов DOM с обработчиками
@@ -148,7 +148,7 @@ export default class HallManagement {
         const token = localStorage.getItem('token');  // Получаем токен
         try {
             await fetch(`${_URL}chair`, {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
