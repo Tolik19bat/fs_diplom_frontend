@@ -160,7 +160,7 @@ export default class HallManagement {
     const token = localStorage.getItem("token"); // Получаем токен
     try {
       await fetch(`${_URL}chair`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
