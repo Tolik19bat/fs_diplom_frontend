@@ -1,5 +1,5 @@
 import Calendar from "./Calendar.js";
-// import MoviesList from "./MoviesList.js";
+import MoviesList from "./MoviesList.js";
 
 export default class Page {
   constructor() {
@@ -10,9 +10,9 @@ export default class Page {
   init() {
     this.bindToDom();
     this.calendar = new Calendar();
-    // this.moviesList = new MoviesList();
-    // this.calendar.onChangeDate = this.moviesList.getMoviesList;
-    // this.calendar.init();
+    this.moviesList = new MoviesList();
+    this.calendar.onChangeDate = this.moviesList.getMoviesList;
+    this.calendar.init();
   }
 
   bindToDom() {
