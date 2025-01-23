@@ -1,4 +1,3 @@
-// Импортируем переменные _URL и _URL_HALL из модуля app.js
 import { _URL, _URL_HALL } from "./app.js";
 
 // Определяем класс MovieSeancesHall для работы с сеансами фильмов в конкретном зале
