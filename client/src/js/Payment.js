@@ -1,4 +1,4 @@
-import { _URL, _URL_TICKET } from "./app.js"; // Импортируем константы URL
+import { _URL, _URL_TICKET } from "./app.js";
 
 // Класс для обработки платежей
 export default class Payment {
