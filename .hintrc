@@ -3,6 +3,7 @@
     "development"
   ],
   "hints": {
+    "x-content-type-options": "error",
     "axe/name-role-value": [
       "default",
       {

@@ -158,6 +158,7 @@ export default class HallManagement {
   // Метод для отправки данных о креслах на сервер
   async sendDefaultChairs(chairs) {
     const token = localStorage.getItem("token"); // Получаем токен
+    console.log(chairs);
     try {
       await fetch(`${_URL}chair`, {
         method: "POST",
@@ -166,6 +167,7 @@ export default class HallManagement {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ chairs }), // Отправляем данные о креслах
+        
       });
     } catch (error) {
       console.log(error); // Логируем ошибку
