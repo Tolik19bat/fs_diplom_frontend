@@ -18,7 +18,7 @@ export default class Page {
 
   // Метод для инициализации страницы
   init() {
-    accordeon(); // Инициализируем аккордеон
+    this.initAccordeon(); // Инициализируем аккордеон
     this.hallManagement = new HallManagement(); // Создаем экземпляр для управления залами
     this.hallConfiguration = new HallConfiguration(); // Экземпляр для конфигурации залов
     this.priceConfiguration = new PriceConfiguration(); // Экземпляр для настройки цен
