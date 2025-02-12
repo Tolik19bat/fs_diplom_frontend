@@ -1,5 +1,6 @@
 // Импортируем зависимости для управления разными частями приложения
-import accordeon from "./accordeon.js"; // Модуль для аккордеона
+import { _URL } from "./app.js";
+//import accordeon from "./accordeon.js"; // Модуль для аккордеона
 import { getHalls } from "./functions.js"; // Функция для получения данных о залах
 import HallManagement from "./HallManagement.js"; // Управление залами
 import HallConfiguration from "./HallConfiguration.js"; // Конфигурация залов
@@ -23,16 +24,27 @@ export default class Page {
     this.priceConfiguration = new PriceConfiguration(); // Экземпляр для настройки цен
     this.seanceGrid = new SeanceGrid(); // Экземпляр для сетки сеансов
     this.openSales = new OpenSales(); // Экземпляр для управления продажами билетов
-    this.loadHalls(); // Загружаем данные о залах
+    getHalls(); // Загружаем данные о залах
   }
 
-  // Асинхронный метод для загрузки залов с обработкой ошибок
-  async loadHalls() {
-    try {
-      this.halls = await getHalls(); // Ждем получения данных о залах и сохраняем их
-      console.log("Полученные залы:", this.halls); // Выводим полученные залы в консоль
-    } catch (error) {
-      console.error("Ошибка при загрузке залов:", error); // Обрабатываем ошибки при загрузке
-    }
+  initAccordeon() {
+    const headers = Array.from(
+      this.containerEl.querySelectorAll(".conf-step__header")
+    );
+    headers.forEach((header) =>
+      header.addEventListener("click", () => {
+        header.classList.toggle("conf-step__header_closed");
+        header.classList.toggle("conf-step__header_opened");
+      })
+    );
   }
+  // Асинхронный метод для загрузки залов с обработкой ошибок
+  // async getHalls() {
+  //   try {
+  //     this.halls = await getHalls(); // Ждем получения данных о залах и сохраняем их
+  //     console.log("Полученные залы:", this.halls); // Выводим полученные залы в консоль
+  //   } catch (error) {
+  //     console.error("Ошибка при загрузке залов:", error); // Обрабатываем ошибки при загрузке
+  //   }
+  // }
 }

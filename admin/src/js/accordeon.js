@@ -5,7 +5,7 @@ export default function accordeon() {
       header.classList.toggle("conf-step__header_closed");
       header.classList.toggle("conf-step__header_opened");
     })
-  );
+  )
 
   //   const headers = Array.from(
   //       document.querySelectorAll('.conf-step__header'));
