@@ -48,7 +48,10 @@ export default class Payment {
   }
 
   // Обработчик нажатия на кнопку подтверждения
-  onClickAcceptinButtonEl() {
+  async onClickAcceptinButtonEl() {
+    
+    console.log("onClickAcceptinButtonEl");
+    console.log(this.paymentInfo.chairs);
     // Перебираем все выбранные места и сохраняем информацию о каждом
     this.paymentInfo.chairs.forEach((chair, idx) => {
       this.saveTicketInformation(chair.id).then(() => {
@@ -64,6 +67,7 @@ export default class Payment {
 
   // Метод сохранения информации о билете
   async saveTicketInformation(chairId) {
+    console.log(chairId);
     try {
       const response = await fetch(`${_URL}ticket`, {
         method: "POST",
