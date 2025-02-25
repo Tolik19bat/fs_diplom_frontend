@@ -1,14 +1,15 @@
 // Экспортируем класс HallList
 export default class HallList {
-  // Конструктор класса, принимает элемент контейнера
-  constructor(containerEl) {
+  // Конструктор класса, принимает элемент контейнера и массив залов
+  constructor(containerEl, halls = []) {
     this.containerEl = containerEl; // сохраняем элемент контейнера
     HallList.counterIncrement(); // увеличиваем счетчик классов
     this.objectId = HallList.counter; // присваиваем объекту уникальный идентификатор
-    this.halls = []; // массив для хранения залов
-    this.activeHallId = []; // идентификатор активного зала
+    this.halls = halls; // массив для хранения залов
+    this.activeHallId = this.halls.length > 0 ? this.halls[0].id : null; // идентификатор активного зала
     this.handlerUpdate = null; // обработчик обновления
-    this.init(); // инициализация экземпляра класса
+     // Логирование созданного объекта
+    console.log("Создан новый объект HallList:", this);
   }
 
   // Статический счетчик для идентификации объектов класса
@@ -22,6 +23,8 @@ export default class HallList {
   // Инициализация логики класса
   init() {
     this.bindToDom(); // связываем DOM-элементы с методами
+    this.renderHallsList();
+    this.handlerUpdate(this.halls.find(hall => hall.id === this.activeHallId));
   }
 
   // Метод для связывания DOM-элементов с обработчиками событий
