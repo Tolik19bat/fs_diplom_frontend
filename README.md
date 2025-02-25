@@ -47,3 +47,31 @@
 }
 
 * * *
+Объект HallManagement {
+  "halls": [
+    {
+      "id": 1,
+      "name": "Зал 1",
+      "ticket_price": 500,
+      "vip_ticket_price": 1000,
+      "sales": false
+    },
+    {
+      "id": 2,
+      "name": "Зал 2",
+      "ticket_price": 600,
+      "vip_ticket_price": 1200,
+      "sales": true
+    }
+  ],
+  "mainEl": "<div class='main'>...</div>",
+  "containerEl": "<div class='hall-management'>...</div>",
+  "btnCreateHallEl": "<button class='create-hall'>Создать зал</button>",
+  "hallListEl": "<ul class='hall-list'>...</ul>",
+  "modalEl": "<div class='modal-create-hall'>...</div>",
+  "modalBtnCloseEl": "<button class='modal-create-hall__btn-close'>Закрыть</button>",
+  "modalInputEl": "<input class='modal-create-hall__input' type='text'>",
+  "modalFormEl": "<form class='modal-create-hall__form'>...</form>"
+}
+
+* * *
