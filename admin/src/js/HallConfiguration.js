@@ -4,8 +4,9 @@ import HallSize from "./HallSize.js";
 
 // Определение класса для конфигурации зала
 export default class HallConfiguration {
-  constructor() {
+  constructor(halls = []) {
     // Инициализация свойств
+    this.halls = halls; // Мфссив залов
     this.activeHallId = null; // Идентификатор активного зала
     this.selectedElement = null; // Выбранный элемент
     this.chairs = []; // Массив кресел в текущем зале
@@ -16,8 +17,9 @@ export default class HallConfiguration {
   init() {
     // Связывание элементов DOM и инициализация подмодулей
     this.bindToDom();
-    this.hallList = new HallList(this.hallsListEl); // Инициализация списка залов
+    this.hallList = new HallList(this.hallsListEl, this.halls); // Инициализация списка залов
     this.hallList.handlerUpdate = this.renderConfigurationOptions.bind(this); // Привязка обработчика для обновления
+    this.hallList.init(); 
     this.hallSize = new HallSize(); // Инициализация объекта размера зала
     this.hallSize.handlerChangeSize = this.changeSize.bind(this); // Обработчик изменения размера
   }
@@ -49,6 +51,9 @@ export default class HallConfiguration {
   }
 
   renderConfigurationOptions(activeHall) {
+    if(!activeHall) {
+      return
+    }
     // Установка активного зала и отображение его конфигурации
     this.activeHallId = activeHall.Id;
     this.getChairs().then(() => {
@@ -126,7 +131,10 @@ export default class HallConfiguration {
     // Обработчик для кнопки отмены
     if (this.chairsCopy.length > 0) {
       this.selectedPlace = null;
-      this.chairs = this.chairsCopy.map((element) => ({ ...element }));
+      this.chairs = [];
+      this.chairsCopy.forEach((element) => {
+        this.chairs.push({ ...element });
+      });
       this.chairsCopy = [];
       this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
       this.hallEl.innerHTML = "";
@@ -152,7 +160,7 @@ export default class HallConfiguration {
     // Асинхронное обновление кресел через API
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${_URL}chair`, {
+      await fetch(`${_URL}chair`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -160,10 +168,6 @@ export default class HallConfiguration {
         },
         body: JSON.stringify({ chairs }),
       });
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(`Failed to update chairs: ${errorMessage}`);
-      }
     } catch (error) {
       console.log("Error updating chairs:", error);
     }
