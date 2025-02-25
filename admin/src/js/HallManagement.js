@@ -9,20 +9,22 @@ import {
 
 // Определяем класс управления залами
 export default class HallManagement {
-  constructor() {
+  constructor(halls = []) {
+    this.halls = halls; // Массив залов
     this.init(); // Инициализация
-    this.halls = []; // Массив для хранения данных о залах
+    // Логирование созданного объекта
+   console.log("Создан новый объект HallManagement:", this);
   }
 
   // Метод инициализации
   init() {
     this.bindToDom();
+    this.renderHalls();
   }
 
   // Метод связывания элементов DOM с обработчиками
   bindToDom() {
     this.mainEl = document.querySelector(".main"); // Основной элемент страницы
-    console.log(this.mainEl);
     this.updateHandler = this.updateHandler.bind(this); // Привязываем метод к контексту
     this.mainEl.addEventListener("updateHall", this.updateHandler); // Добавляем обработчик события обновления зала
     this.containerEl = document.querySelector(".hall-management"); // Контейнер управления залами
@@ -44,14 +46,12 @@ export default class HallManagement {
 
   // Обработчик обновления зала
   updateHandler(e) {
-    console.log(e); // Выводим событие в консоль
     this.hall = e.detail.data; // Сохраняем данные о зале
     this.renderHalls(); // Отображаем залы
   }
 
   // Метод для отрисовки списка залов
   renderHalls() {
-    console.log("Отображаем залы:", this.halls); // Логируем текущие залы
     this.hallListEl.innerHTML = ""; // Очищаем список залов
     this.halls.forEach((hall) => {
       // Проходим по каждому залу
@@ -67,6 +67,7 @@ export default class HallManagement {
 
   // Обработчик кнопки удаления зала
   btnRemoveHandle(hall) {
+    console.log("btnRemoveHandle");
     this.removeHall(hall).then(() => getHalls()); // Удаляем зал и обновляем список
   }
 
@@ -74,11 +75,10 @@ export default class HallManagement {
   async removeHall(hall) {
     const token = localStorage.getItem("token"); // Получаем токен авторизации
     try {
-      // Удаляем кресла зала
-      await fetch(`${_URL}chair/${hall.id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // await fetch(`${_URL}chair/${hall.id}`, {
+      //   method: "DELETE",
+      //   headers: { Authorization: `Bearer ${token}` },
+      // });
       // Удаляем сам зал
       await fetch(`${_URL}hall/${hall.id}`, {
         method: "DELETE",
@@ -86,7 +86,6 @@ export default class HallManagement {
       });
     } catch (error) {
       console.log(error); // Логируем ошибку
-      return null;
     }
   }
 
@@ -151,14 +150,12 @@ export default class HallManagement {
       return response.id; // Возвращаем ID нового зала
     } catch (error) {
       console.log(error); // Логируем ошибку
-      return null;
     }
   }
 
   // Метод для отправки данных о креслах на сервер
   async sendDefaultChairs(chairs) {
     const token = localStorage.getItem("token"); // Получаем токен
-    console.log(chairs);
     try {
       await fetch(`${_URL}chair`, {
         method: "POST",
@@ -171,7 +168,6 @@ export default class HallManagement {
       });
     } catch (error) {
       console.log(error); // Логируем ошибку
-      return null;
     }
   }
 

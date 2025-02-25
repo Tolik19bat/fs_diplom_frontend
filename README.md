@@ -11,7 +11,7 @@
 ## 3. запустить сервер в сценариях NPM start live-server ОТКРОЕТСЯ СТРАНИЦА ПРИЛОЖЕНИЯ! САЙТ
 
 * * *
-Создан новый объект HallList: HallList {
+Объект HallList {
   containerEl: [элемент DOM],
   objectId: 1,
   halls: [],
@@ -21,7 +21,7 @@
 }
 
 * * *
-Объект Hallconfiguration: Hallconfiguration {
+Объект Hallconfiguration {
   "halls": [
     { "Id": 1, "name": "Зал 1" },
     { "Id": 2, "name": "Зал 2" }
@@ -38,6 +38,12 @@
   "modalEl": { /* DOM элемент .modal-chair-type */ },
   "btnCancelEl": { /* DOM элемент .hall-configuration-btn-cancel */ },
   "btnSaveEl": { /* DOM элемент .hall-configuration-btn-save */ }
+}
+
+* * *
+Объект HallSize {
+  rows: 10,
+  places: 15
 }
 
 * * *

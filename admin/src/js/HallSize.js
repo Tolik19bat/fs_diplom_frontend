@@ -4,6 +4,8 @@ export default class HallSize {
   constructor() {
     this.init(); // инициализация логики класса
     this.handlerChangeSize = null; // обработчик изменения размера
+    // Логирование созданного объекта
+   console.log("Создан новый объект Hallize:", this);
   }
 
   // Инициализация метода
