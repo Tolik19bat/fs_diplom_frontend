@@ -3,9 +3,9 @@ import HallList from "./HallList.js";
 
 // Объявление класса OpenSales для управления продажами билетов
 export default class OpenSales {
-  constructor() {
-    this.halls = []; // Массив для хранения залов
-    this.activeHallId = null; // ID активного зала
+  constructor(halls = []) {
+    this.halls = halls; // Массив для хранения залов
+    this.activeHallId = this.halls.length > 0 ? this.halls[0].id : null; // ID активного зала
     this.sales = false; // Статус продаж (открыты/закрыты)
     this.init(); // Инициализация класса
   }
@@ -13,12 +13,9 @@ export default class OpenSales {
   // Метод инициализации
   init() {
     this.bindToDom(); // Привязка элементов DOM к свойствам объекта
-    this.getHalls().then(() => {
-      // После получения данных о залах создаём новый экземпляр HallList
-      this.hallList = new HallList(this.hallsListEl);
-      // Привязываем метод обновления залов
-      this.hallList.handlerUpdate = this.updateHalls.bind(this);
-    });
+    this.hallList = new HallList(this.hallsListEl, this.halls);
+    this.hallList.handlerUpdate = this.updateHalls.bind(this);
+    this.hallList.init();
   }
 
   // Привязка элементов DOM к свойствам класса

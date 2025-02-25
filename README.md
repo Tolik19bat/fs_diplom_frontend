@@ -75,3 +75,42 @@
 }
 
 * * *
+Объект OpenSales {
+  "halls": [
+    {
+      "id": 1,
+      "name": "Большой зал",
+      "seats": 100,
+      "sales": true
+    },
+    {
+      "id": 2,
+      "name": "Малый зал",
+      "seats": 50,
+      "sales": false
+    }
+  ],
+  "activeHallId": 1,
+  "sales": true,
+  "hallList": {
+    "halls": [
+      {
+        "id": 1,
+        "name": "Большой зал",
+        "seats": 100,
+        "sales": true
+      },
+      {
+        "id": 2,
+        "name": "Малый зал",
+        "seats": 50,
+        "sales": false
+      }
+    ]
+  },
+  "paragraphEl": "[HTMLElement]",
+  "buttonEl": "[HTMLElement]",
+  "hallsListEl": "[HTMLElement]"
+}
+
+* * *
