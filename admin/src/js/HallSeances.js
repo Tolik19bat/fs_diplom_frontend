@@ -1,5 +1,6 @@
 import { _URL } from "./app.js";
 import Seance from "./Seance.js";
+import Fetch from "./Fetch.js";
 
 export default class HallSeances {
   // Конструктор принимает информацию о зале и список фильмов
@@ -21,17 +22,24 @@ export default class HallSeances {
 
   // Асинхронный метод для получения списка сеансов из API
   async getSeances() {
-    const token = localStorage.getItem("token"); // Получаем токен авторизации
-    try {
-      // Делаем GET-запрос к API для получения сеансов данного зала
-      const jsonResponse = await fetch(`${_URL}hall/${this.hall.id}/seances`, {
-        method: "GET", // Используем метод GET
-        headers: { Authorization: `Bearer ${token}` }, // Добавляем токен в заголовок
-      });
-      this.seances = await jsonResponse.json(); // Сохраняем полученные данные сеансов
-    } catch (error) {
-      console.error(error); // Обрабатываем ошибки запроса
-    }
+    this.seances = await Fetch.send("GET", `hall/${this.hall.id}/seances`);
+    // Отправляем асинхронный GET-запрос на сервер для получения списка сеансов (сеансы – это расписание показов в зале)
+    // Используем метод `send` из объекта `Fetch`, передавая в него:
+    // - метод запроса "GET"
+    // - URL-адрес, сформированный с помощью интерполяции строк (подставляем ID зала)
+    // Дожидаемся ответа от сервера с помощью `await` и сохраняем результат в `this.seances`
+
+    // const token = localStorage.getItem("token"); // Получаем токен авторизации
+    // try {
+    //   // Делаем GET-запрос к API для получения сеансов данного зала
+    //   const jsonResponse = await fetch(`${_URL}hall/${this.hall.id}/seances`, {
+    //     method: "GET", // Используем метод GET
+    //     headers: { Authorization: `Bearer ${token}` }, // Добавляем токен в заголовок
+    //   });
+    //   this.seances = await jsonResponse.json(); // Сохраняем полученные данные сеансов
+    // } catch (error) {
+    //   console.error(error); // Обрабатываем ошибки запроса
+    // }
   }
 
   // Метод для создания DOM-элемента, отображающего сеансы зала
