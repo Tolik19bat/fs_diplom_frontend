@@ -1,4 +1,5 @@
 import { _URL } from "./app.js";
+import Fetch from "./Fetch.js";
 
 export default class AddMovieModal {
   // Объявление и инициализация статических свойств класса для работы с элементами формы редактирования фильма
@@ -110,16 +111,29 @@ export default class AddMovieModal {
   }
 
   static onSubmitForm(e) {
-    e.preventDefault(); // Предотвращаем стандартное поведение формы
-    let method;
-    if (AddMovieModal.editMode) {
-      method = AddMovieModal.editMovie; // Устанавливаем метод в редактирование
-    } else {
-      method = AddMovieModal.addMovie; // Устанавливаем метод в добавление
+    e.preventDefault(); // Предотвращаем стандартное поведение формы (чтобы страница не перезагружалась)
+
+    // Проверяем, является ли введенное значение числом и больше ли оно нуля
+    if (
+      !isFinite(+AddMovieModal.durationInputEl.value) || // Проверяем, является ли числом
+      +AddMovieModal.durationInputEl.value <= 0 // Проверяем, больше ли нуля
+    ) {
+      return; // Если не число или меньше/равно нулю, выходим из функции
     }
+
+    let method; // Объявляем переменную для метода, который будем вызывать
+
+    // Определяем, в каком режиме работает модальное окно (редактирование или добавление)
+    if (AddMovieModal.editMode) {
+      method = AddMovieModal.editMovie; // Если режим редактирования, используем метод редактирования
+    } else {
+      method = AddMovieModal.addMovie; // Если добавление, используем метод добавления
+    }
+
+    // Вызываем выбранный метод (добавление или редактирование) и после выполнения:
     method().then(() => {
-      AddMovieModal.hideModal(); // Закрываем модальное окно после завершения
-      AddMovieModal.updatePosterList(); // Обновляем список постеров
+      AddMovieModal.hideModal(); // Закрываем модальное окно
+      AddMovieModal.updatePosterList(); // Обновляем список постеров на странице
     });
   }
 
@@ -128,36 +142,60 @@ export default class AddMovieModal {
     document.querySelector(".main").dispatchEvent(event); // Генерируем событие обновления
   }
 
+  /**
+   * Функция для создания нового фильма,
+   * данные formData
+   *
+   * @static
+   * @async
+   * @returns {*}
+   */
   static async addMovie() {
-    const token = localStorage.getItem("token"); // Получаем токен из localStorage
-    try {
-      const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
-      await fetch(`${_URL}movie`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` }, // Устанавливаем заголовки
-        body: formData, // Отправляем данные формы
-      });
-    } catch (error) {
-      console.error(error); // Логируем ошибку
-    }
+    // const token = localStorage.getItem("token"); // Получаем токен из localStorage
+    // try {
+    const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
+    //   await fetch(`${_URL}movie`, {
+    //     method: "POST",
+    //     headers: { Authorization: `Bearer ${token}` }, // Устанавливаем заголовки
+    //     body: formData, // Отправляем данные формы
+    //   });
+    // } catch (error) {
+    //   console.error(error); // Логируем ошибку
+    // }
+
+    // Отправляем HTTP-запрос методом POST на эндпоинт "movie", передавая данные формы (formData)
+    await Fetch.send("POST", "movie", { formData });
   }
 
+  /**
+   * Функция для редактирования фильма,
+   * данные formData,
+   * заменяются по параметру AddMovieModal.movieId
+   *
+   */
   static async editMovie() {
     if (!AddMovieModal.movieId) {
       return; // Если ID фильма отсутствует, выходим
     }
-    const token = localStorage.getItem("token"); // Получаем токен из localStorage
-    try {
-      const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
-      formData.append("_method", "PUT"); // Указываем, что будем обновлять
-      await fetch(`${_URL}movie/${AddMovieModal.movieId}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` }, // Устанавливаем заголовки
-        body: formData, // Отправляем данные формы
-      });
-    } catch (error) {
-      console.error(error); // Логируем ошибку
-    }
+    // const token = localStorage.getItem("token"); // Получаем токен из localStorage
+    // try {
+    const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
+    //   formData.append("_method", "PUT"); // Указываем, что будем обновлять
+    //   await fetch(`${_URL}movie/${AddMovieModal.movieId}`, {
+    //     method: "POST",
+    //     headers: { Authorization: `Bearer ${token}` }, // Устанавливаем заголовки
+    //     body: formData, // Отправляем данные формы
+    //   });
+    // } catch (error) {
+    //   console.error(error); // Логируем ошибку
+    // }
+
+    // Отправляем HTTP-запрос методом POST на эндпоинт "movie/{movieId}", передавая данные формы (formData)
+    // Дополнительно передаём параметр addPut: true (чтобы обработать запрос особым образом)
+    await Fetch.send("POST", `movie/${AddMovieModal.movieId}`, {
+      formData,
+      addPut: true,
+    });
   }
 
   static edit(movie) {
