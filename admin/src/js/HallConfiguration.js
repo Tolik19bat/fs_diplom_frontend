@@ -1,4 +1,5 @@
 import { _URL } from "./app.js";
+import Fetch from "./Fetch.js";
 import HallList from "./HallList.js";
 import HallSize from "./HallSize.js";
 
@@ -19,7 +20,7 @@ export default class HallConfiguration {
     this.bindToDom();
     this.hallList = new HallList(this.hallsListEl, this.halls); // Инициализация списка залов
     this.hallList.handlerUpdate = this.renderConfigurationOptions.bind(this); // Привязка обработчика для обновления
-    this.hallList.init(); 
+    this.hallList.init();
     this.hallSize = new HallSize(); // Инициализация объекта размера зала
     this.hallSize.handlerChangeSize = this.changeSize.bind(this); // Обработчик изменения размера
   }
@@ -51,14 +52,13 @@ export default class HallConfiguration {
   }
 
   renderConfigurationOptions(activeHall) {
-    if(!activeHall) {
-      return
+    if (!activeHall) {
+      return;
     }
     // Установка активного зала и отображение его конфигурации
     this.activeHallId = activeHall.Id;
     this.getChairs().then(() => {
       this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
-      this.hallEl.innerHTML = "";
       this.renderHall(this.chairs);
     });
   }
@@ -80,7 +80,7 @@ export default class HallConfiguration {
         });
       }
     }
-    this.hallEl.innerHTML = "";
+
     this.renderHall(chairs);
   }
 
@@ -137,7 +137,7 @@ export default class HallConfiguration {
       });
       this.chairsCopy = [];
       this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
-      this.hallEl.innerHTML = "";
+
       this.renderHall(this.chairs);
     }
   }
@@ -147,80 +147,122 @@ export default class HallConfiguration {
     if (this.chairsCopy.length == 0) {
       return;
     }
-    this.chairsCopy = [];
+
     const chairs = this.getChairsFormHall();
+    if (chairs.length === 0) {
+      this.onClickBtnCancel();
+      return;
+    }
+    this.chairsCopy = [];
+
     if (chairs.every((chair) => chair.id)) {
       this.updateChairs(chairs);
     } else {
-      this.createChairs(chairs, this.activeHallId);
+      this.createChairs(chairs, this.activeHallId).then((resolve) =>
+        this.renderHall(resolve)
+      );
     }
   }
 
+  /**
+   * Функция для обновления кресел по их id
+   * применяется, когда размеры зала не менялась,
+   * а поменялись типы кресел
+   *
+   * @async
+   * @param {*} chairs
+   * @returns {*}
+   */
   async updateChairs(chairs) {
+    await Fetch.send("PUT", "chair", { bodyJson: { chairs } });
+    // Отправляем HTTP-запрос методом PUT на эндпоинт "chair"
+    // В теле запроса передаём объект JSON с ключом "chairs"
+
     // Асинхронное обновление кресел через API
-    const token = localStorage.getItem("token");
-    try {
-      await fetch(`${_URL}chair`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ chairs }),
-      });
-    } catch (error) {
-      console.log("Error updating chairs:", error);
-    }
+    // const token = localStorage.getItem("token");
+    // try {
+    //   await fetch(`${_URL}chair`, {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({ chairs }),
+    //   });
+    // } catch (error) {
+    //   console.log("Error updating chairs:", error);
+    // }
   }
 
+  /**
+   * Функция для создания новых кресел,
+   * в случааи изменения размеров зала,
+   * креслам присваиваится новые id
+   *
+   * @async
+   * @param {*} chairs
+   * @param {*} hallId
+   * @returns {*}
+   */
   async createChairs(chairs, hallId) {
+    return await Fetch.send("PUT", `chair/${hallId}`, { bodyJson: { chairs } });
+    // Отправляем HTTP-запрос методом PUT на эндпоинт "chair/{hallId}"
+    // В теле запроса передаём объект JSON с ключом "chairs"
+    // Используем return, чтобы вернуть результат выполнения Fetch.send()
+
     // Создание новых кресел через API
-    const token = localStorage.getItem("token");
-    try {
-      await fetch(`${_URL}chair/${hallId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ chairs }),
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    // const token = localStorage.getItem("token");
+    // try {
+    //   const jsonResponse = await fetch(`${_URL}chair/${hallId}`, {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({ chairs }),
+    //   });
+    //   return await jsonResponse.json();
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   async getChairs() {
+    this.chairs = await Fetch.send("GET", `hall/${this.activeHallId}/chairs`);
+    // Отправляем HTTP-запрос методом GET на эндпоинт "hall/{activeHallId}/chairs"
+    // Ожидаем ответ от сервера и присваиваем его в this.chairs
+
     // Получение списка кресел через API
-    const token = localStorage.getItem("token");
-    try {
-      const jsonResponse = await fetch(
-        `${_URL}hall/${this.activeHallId}/chairs`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!jsonResponse.ok) {
-        const errorMessage = await jsonResponse.text();
-        throw new Error(`Failed to fetch chairs: ${errorMessage}`);
-      }
-      this.chairs = await jsonResponse.json();
-    } catch (error) {
-      console.log(error);
-    }
+    // const token = localStorage.getItem("token");
+    // try {
+    //   const jsonResponse = await fetch(
+    //     `${_URL}hall/${this.activeHallId}/chairs`,
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   );
+    //   if (!jsonResponse.ok) {
+    //     const errorMessage = await jsonResponse.text();
+    //     throw new Error(`Failed to fetch chairs: ${errorMessage}`);
+    //   }
+    //   this.chairs = await jsonResponse.json();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   renderHall(chairs) {
     // Рендеринг зала с указанными креслами
-    const { rows: rowsCount, places: charsInRow } = this.getSizeHall(chairs);
+    this.hallEl.innerHTML = "";
+    const { rows: rowsCount, places: chairsInRow } = this.getSizeHall(chairs);
     for (let i = 1; i <= rowsCount; i += 1) {
       const rowEl = document.createElement("div");
       rowEl.classList.add("conf-step__row");
       rowEl.dataset.row = i;
-      for (let j = 1; j <= charsInRow; j += 1) {
+      for (let j = 1; j <= chairsInRow; j += 1) {
         const chairEl = document.createElement("span");
         chairEl.classList.add("conf-step__chair");
         chairEl.dataset.place = j;
