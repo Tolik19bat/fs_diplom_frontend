@@ -1,17 +1,21 @@
 import HallSeances from "./HallSeances.js";
 
 export default class SeancesList {
-  constructor(movies) {
+  constructor(movies, halls = []) {
     // Сохраняем список фильмов и создаём массивы для залов и их сеансов.
     this.movies = movies;
-    this.halls = [];
+    this.halls = halls;
     this.hallsSeances = [];
     this.init();
+    // Логирование созданного объекта
+   console.log("Создан новый объект SeancesList:", this);
   }
 
   // Метод инициализации, вызывающий привязку событий к элементам DOM.
   init() {
     this.bindToDom();
+    this.getHallsSeances(this.halls);
+    this.renderHallsSeances();
   }
 
   // Метод привязки элементов и событий DOM.
@@ -53,15 +57,14 @@ export default class SeancesList {
   }
 
   // Метод отрисовки всех сеансов для залов.
-  renderHallsSeances() {
+  async renderHallsSeances() {
     // Очищаем контейнер перед добавлением новых элементов.
     this.containerEl.innerHTML = "";
     // Добавляем элементы сеансов для каждого зала.
-    this.hallsSeances.forEach((el) => {
-      el.getSeancesHallElement().then((elem) => {
-        this.containerEl.appendChild(elem);
-      });
-    });
+    for (const item of this.hallsSeances) {
+      const element = await item.getSeancesHallElement();
+      this.containerEl.appendChild(element);
+  }
   }
 
   // Обновляет список сеансов, вызывая соответствующие методы.
