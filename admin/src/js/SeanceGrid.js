@@ -7,7 +7,7 @@ import SeanceModal from "./SeanceModal.js";
 
 export default class SeanceGrid {
   constructor(halls = []) {
-    this.halls = halls;
+    this.halls = halls; // Инициализируем массив залов
     this.init(); // Инициализируем экземпляр класса
     // Логирование созданного объекта
    console.log("Создан новый объект SeqanceGrid:", this);

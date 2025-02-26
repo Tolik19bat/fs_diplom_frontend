@@ -3,7 +3,7 @@ import HallSeances from "./HallSeances.js";
 export default class SeancesList {
   constructor(movies, halls = []) {
     // Сохраняем список фильмов и создаём массивы для залов и их сеансов.
-    this.movies = movies;
+    this.movies = movies; 
     this.halls = halls;
     this.hallsSeances = [];
     this.init();
