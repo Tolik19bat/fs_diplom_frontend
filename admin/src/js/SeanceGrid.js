@@ -6,8 +6,11 @@ import SeancesList from "./SeanceList.js";
 import SeanceModal from "./SeanceModal.js";
 
 export default class SeanceGrid {
-  constructor() {
+  constructor(halls = []) {
+    this.halls = halls;
     this.init(); // Инициализируем экземпляр класса
+    // Логирование созданного объекта
+   console.log("Создан новый объект SeqanceGrid:", this);
   }
 
   // Метод для инициализации логики класса
@@ -18,7 +21,7 @@ export default class SeanceGrid {
       AddMovieModal.init(); // Инициализация окна добавления фильма
       this.posterList = new PosterList(movies); // Создаем список постеров фильмов
       PosterModal.init(); // Инициализация модального окна постера
-      this.seancesList = new SeancesList(movies); // Создаем список сеансов
+      this.seancesList = new SeancesList(movies, this.halls); // Создаем список сеансов
       SeanceModal.init(); // Инициализация модального окна сеанса
     });
   }
