@@ -6,6 +6,7 @@ import {
   ticketPrice,
   vipTicketPrice,
 } from "./defaultHallData.js"; // Константы для настройки залов
+import Fetch from "./Fetch.js";
 
 // Определяем класс управления залами
 export default class HallManagement {
@@ -13,7 +14,7 @@ export default class HallManagement {
     this.halls = halls; // Массив залов
     this.init(); // Инициализация
     // Логирование созданного объекта
-   console.log("Создан новый объект HallManagement:", this);
+    console.log("Создан новый объект HallManagement:", this);
   }
 
   // Метод инициализации
@@ -73,20 +74,20 @@ export default class HallManagement {
 
   // Метод для удаления зала
   async removeHall(hall) {
-    const token = localStorage.getItem("token"); // Получаем токен авторизации
-    try {
-      // await fetch(`${_URL}chair/${hall.id}`, {
-      //   method: "DELETE",
-      //   headers: { Authorization: `Bearer ${token}` },
-      // });
-      // Удаляем сам зал
-      await fetch(`${_URL}hall/${hall.id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-    } catch (error) {
-      console.log(error); // Логируем ошибку
-    }
+    await Fetch.send("DELETE", `hall/${hall.id}`);
+    // Отправляем HTTP-запрос методом DELETE на эндпоинт "hall/{hall.id}"
+    // Это удаляет зал с указанным идентификатором hall.id
+
+    // const token = localStorage.getItem("token"); // Получаем токен авторизации
+    // try {
+    //   // Удаляем сам зал
+    //   await fetch(`${_URL}hall/${hall.id}`, {
+    //     method: "DELETE",
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   });
+    // } catch (error) {
+    //   console.log(error); // Логируем ошибку
+    // }
   }
 
   // Обработчик кнопки создания зала
@@ -130,45 +131,69 @@ export default class HallManagement {
 
   // Метод для добавления нового зала
   async addHall(hall) {
-    const token = localStorage.getItem("token"); // Получаем токен
-    try {
-      // Запрос на добавление нового зала
-      const jsonResponse = await fetch(`${_URL}hall`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: hall, // Имя зала
-          ticket_price: ticketPrice, // Цена обычного билета
-          vip_ticket_price: vipTicketPrice, // Цена VIP-билета
-          sales: false, // Продажи выключены
-        }),
-      });
-      const response = await jsonResponse.json(); // Преобразуем ответ в JSON
-      return response.id; // Возвращаем ID нового зала
-    } catch (error) {
-      console.log(error); // Логируем ошибку
-    }
+    // Отправляем HTTP-запрос методом POST на эндпоинт "hall"
+    // В теле запроса передаём JSON-объект с данными нового зала
+    const response = await Fetch.send("POST", "hall", {
+      bodyJson: {
+        name: hall, // Название зала
+        ticket_price: ticketPrice, // Цена обычного билета
+        vip_ticket_price: vipTicketPrice, // Цена VIP-билета
+        sales: false, // Флаг продаж (по умолчанию отключены)
+      },
+    });
+    // Возвращаем идентификатор созданного зала (сервер в ответе присылает объект с id)
+    return response.id;
+
+    // const token = localStorage.getItem("token"); // Получаем токен
+    // try {
+    //   // Запрос на добавление нового зала
+    //   const jsonResponse = await fetch(`${_URL}hall`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({
+    //       name: hall, // Имя зала
+    //       ticket_price: ticketPrice, // Цена обычного билета
+    //       vip_ticket_price: vipTicketPrice, // Цена VIP-билета
+    //       sales: false, // Продажи выключены
+    //     }),
+    //   });
+    //   const response = await jsonResponse.json(); // Преобразуем ответ в JSON
+    //   return response.id; // Возвращаем ID нового зала
+    // } catch (error) {
+    //   console.log(error); // Логируем ошибку
+    // }
   }
 
+  /**
+   * Функция отправляет кресла для создания их в новом зале
+   * в креслах указаны hall_id, row, place, type
+   *
+   * @async
+   * @param {*} chairs
+   * @returns {*}
+   */
   // Метод для отправки данных о креслах на сервер
   async sendDefaultChairs(chairs) {
-    const token = localStorage.getItem("token"); // Получаем токен
-    try {
-      await fetch(`${_URL}chair`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ chairs }), // Отправляем данные о креслах
-        
-      });
-    } catch (error) {
-      console.log(error); // Логируем ошибку
-    }
+    await Fetch.send("POST", "chair", { bodyJson: { chairs } });
+    // Отправляем HTTP-запрос методом POST на эндпоинт "chair"
+    // В теле запроса передаём JSON-объект с ключом "chairs"
+
+    // const token = localStorage.getItem("token"); // Получаем токен
+    // try {
+    //   await fetch(`${_URL}chair`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({ chairs }), // Отправляем данные о креслах
+    //   });
+    // } catch (error) {
+    //   console.log(error); // Логируем ошибку
+    // }
   }
 
   // Метод для создания массива стандартных кресел
