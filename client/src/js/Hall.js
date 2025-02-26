@@ -36,35 +36,20 @@ export default class Hall {
         
         // Привязываем кнопку подтверждения и добавляем обработчик
         this.acceptinBtnEl = this.containerEl.querySelector(".acceptin-button");
-        if (this.acceptinBtnEl) {
-            this.acceptinBtnEl.addEventListener("click", this.onClickAcceptinBtn.bind(this));
-        } else {
-            console.warn("Кнопка не найдена.");
-        }
+        this.acceptinBtnEl.addEventListener("click", this.onClickAcceptinBtn.bind(this));
+        
     }
 
     getDataFromSessionStorage() {
         // Извлекаем дату и ID сеанса из sessionStorage
         this.date = sessionStorage.getItem("date");
-        const seanceId = sessionStorage.getItem("seanceId");
-
-        if (!this.date || !seanceId) {
-            console.warn("Не удалось получить данные из sessionStorage.");
-        }
-        return seanceId; // Возвращаем ID сеанса
+        return sessionStorage.getItem("seanceId");
     }
 
     async getBuyingInfo(seanceId) {
-        if (!seanceId) {
-            console.warn("ID сеанса не указан.");
-            return;
-        }
         try {
-            const response = await fetch(`${_URL}seance/${seanceId}`); // Отправляем запрос для получения информации о сеансе
-            if (!response.ok) {
-                throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
-            }
-            const jsonResponse = await response.json(); // Парсим ответ JSON
+            const jsonResponse = await fetch(`${_URL}seance/${seanceId}`);
+            const response = await jsonResponse.json();
             this.hall = jsonResponse.hall; // Сохраняем данные зала
             this.movie = jsonResponse.movie; // Сохраняем данные фильма
             this.seance = jsonResponse.seance; // Сохраняем данные сеанса
@@ -141,7 +126,7 @@ export default class Hall {
         this.goToPagePayment(); // Переходим на страницу оплаты
     }
 
-    async getChair(chairId) {
+    async getChair(chairId) { 
         try {
             const jsonResponse = await fetch(`${_URL}chair/${chairId}`); // Запрос на получение данных кресла
             return jsonResponse.json(); // Возвращаем результат
