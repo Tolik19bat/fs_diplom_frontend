@@ -8,6 +8,8 @@ export default class OpenSales {
     this.activeHallId = this.halls.length > 0 ? this.halls[0].id : null; // ID активного зала
     this.sales = false; // Статус продаж (открыты/закрыты)
     this.init(); // Инициализация класса
+    // Логирование созданного объекта
+   console.log("Создан новый объект OpenSales:", this);
   }
 
   // Метод инициализации

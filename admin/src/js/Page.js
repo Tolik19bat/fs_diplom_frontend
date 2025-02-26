@@ -14,17 +14,19 @@ export default class Page {
   constructor(container) {
     this.containerEl = container; // Сохраняем контейнер для дальнейшего использования
     this.halls = []; // Инициализируем массив залов
+    // Логирование созданного объекта
+   console.log("Создан новый объект Page:", this);
   }
 
   // Метод для инициализации страницы
-  init() {
+  async init() {
+    this.halls = await this.getHalls(); // Загружаем данные о залах
     this.initAccordeon(); // Инициализируем аккордеон
-    this.hallManagement = new HallManagement(); // Создаем экземпляр для управления залами
-    this.hallConfiguration = new HallConfiguration(); // Экземпляр для конфигурации залов
-    this.priceConfiguration = new PriceConfiguration(); // Экземпляр для настройки цен
-    this.seanceGrid = new SeanceGrid(); // Экземпляр для сетки сеансов
-    this.openSales = new OpenSales(); // Экземпляр для управления продажами билетов
-    getHalls(); // Загружаем данные о залах
+    this.hallManagement = new HallManagement(this.halls); // Создаем экземпляр для управления залами
+    this.hallConfiguration = new HallConfiguration(this.halls); // Экземпляр для конфигурации залов
+    this.priceConfiguration = new PriceConfiguration(this.halls); // Экземпляр для настройки цен
+    this.seanceGrid = new SeanceGrid(this.halls); // Экземпляр для сетки сеансов
+    this.openSales = new OpenSales(this.halls); // Экземпляр для управления продажами билетов
   }
 
   initAccordeon() {
@@ -38,13 +40,20 @@ export default class Page {
       })
     );
   }
-  // Асинхронный метод для загрузки залов с обработкой ошибок
-  // async getHalls() {
-  //   try {
-  //     this.halls = await getHalls(); // Ждем получения данных о залах и сохраняем их
-  //     console.log("Полученные залы:", this.halls); // Выводим полученные залы в консоль
-  //   } catch (error) {
-  //     console.error("Ошибка при загрузке залов:", error); // Обрабатываем ошибки при загрузке
-  //   }
-  // }
+// Асинхронный метод для загрузки залов с сервера
+async getHalls() {
+  try {
+    // Отправляем GET-запрос к API для получения списка залов
+    const jsonResponse = await fetch(`${_URL}hall`, {
+      method: "GET", // Метод запроса
+      headers: { Authorization: `Bearer ${token}` }, // Передаём токен авторизации в заголовках
+    });
+
+    // Преобразуем ответ в JSON и возвращаем результат
+    return await jsonResponse.json();
+  } catch (error) {
+    // Если произошла ошибка во время запроса, выводим её в консоль
+    console.error("Ошибка при загрузке залов:", error);
+  }
+}
 }

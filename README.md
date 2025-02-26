@@ -114,3 +114,15 @@
 }
 
 * * *
+Объект Page {
+  containerEl: <div id="app"></div>, // Контейнер страницы
+  halls: [
+    { id: 1, name: "Большой зал", seats: 100 },
+    { id: 2, name: "Малый зал", seats: 50 }
+  ],
+  hallManagement: HallManagement { halls: [...] },
+  hallConfiguration: HallConfiguration { halls: [...] },
+  priceConfiguration: PriceConfiguration { halls: [...] },
+  seanceGrid: SeanceGrid { halls: [...] },
+  openSales: OpenSales { halls: [...] }
+}
