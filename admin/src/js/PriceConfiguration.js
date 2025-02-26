@@ -3,16 +3,24 @@ import { getHalls } from "./functions.js";
 import HallList from "./HallList.js";
 
 export default class PriceConfiguration {
-  constructor() {
-    this.activeHallId = null; // Идентификатор активного зала
+  constructor(halls = []) {
+    this.halls = halls; //сохраняем массив
+    this.activeHallId = halls[0]?.id; // Идентификатор активного зала
     this.init(); // Инициализация экземпляра класса
+    // Логирование созданного объекта
+   console.log("Создан новый объект PriceConfiguration:", this);
   }
 
   // Метод для инициализации логики класса
   init() {
     this.bindToDom(); // Связываем DOM-элементы с методами
-    this.hallList = new HallList(this.hallsListEl); // Создаем новый экземпляр HallList
+    this.hallList = new HallList(this.hallsListEl, this.halls); // Создаем новый экземпляр HallList
     this.hallList.handlerUpdate = this.update.bind(this); // Привязываем обработчик обновления
+    this.hallList.init();  // Инициализируем созданный экземпляр HallList, чтобы он начал работу
+    // Если есть активный зал, вызываем метод рендеринга цен для этого зала
+    if (this.activeHallId) {
+      this.renderPrices(this.halls.find(hall => hall.id === this.activeHallId));
+    }
   }
 
   // Метод для связывания DOM-элементов
@@ -41,6 +49,9 @@ export default class PriceConfiguration {
 
   // Метод для обновления активного зала и цен
   update(activeHall) {
+    if (!activeHall) {
+      return;
+    }
     this.activeHallId = activeHall.id; // Устанавливаем идентификатор активного зала
     this.renderPrices(activeHall); // Отображаем цены для данного зала
   }
