@@ -4,13 +4,14 @@ import PosterList from "./PosterList.js";
 import PosterModal from "./PosterModal.js";
 import SeancesList from "./SeanceList.js";
 import SeanceModal from "./SeanceModal.js";
+import Fetch from "./Fetch.js";
 
 export default class SeanceGrid {
   constructor(halls = []) {
     this.halls = halls; // Инициализируем массив залов
     this.init(); // Инициализируем экземпляр класса
     // Логирование созданного объекта
-   console.log("Создан новый объект SeqanceGrid:", this);
+    console.log("Создан новый объект SeqanceGrid:", this);
   }
 
   // Метод для инициализации логики класса
@@ -49,16 +50,18 @@ export default class SeanceGrid {
 
   // Асинхронный метод для получения списка фильмов
   async getMovies() {
-    const token = localStorage.getItem("token"); // Получаем токен из локального хранилища
-    try {
-      const jsonResponse = await fetch(`${_URL}movie`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` }, // Добавляем токен в заголовки запроса
-      });
-      const response = await jsonResponse.json(); // Преобразуем ответ в JSON
-      return response; // Возвращаем список фильмов
-    } catch (error) {
-      console.error(error); // Выводим ошибку в консоль при возникновении
-    }
+    return await Fetch.send("GET", "movie"); // Отправляем асинхронный GET-запрос на сервер для получения списка фильмов
+
+    // const token = localStorage.getItem("token"); // Получаем токен из локального хранилища
+    // try {
+    //   const jsonResponse = await fetch(`${_URL}movie`, {
+    //     method: "GET",
+    //     headers: { Authorization: `Bearer ${token}` }, // Добавляем токен в заголовки запроса
+    //   });
+    //   const response = await jsonResponse.json(); // Преобразуем ответ в JSON
+    //   return response; // Возвращаем список фильмов
+    // } catch (error) {
+    //   console.error(error); // Выводим ошибку в консоль при возникновении
+    // }
   }
 }
