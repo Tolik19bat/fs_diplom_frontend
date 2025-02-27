@@ -1,6 +1,7 @@
 import AddMovieModal from "./AddMovieModal.js";
 import { _URL } from "./app.js";
 import SeancesTime from "./SeancesTime.js";
+import Fetch from "./Fetch.js";
 
 export default class PosterModal {
   // Объявление статических свойств класса для хранения данных и элементов управления фильмом
@@ -185,18 +186,25 @@ export default class PosterModal {
 
   // Метод для получения списока залов с сервера
   static async getHalls() {
-    const token = localStorage.getItem("token");
-    try {
-      const jsonResponse = await fetch(`${_URL}hall`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const response = await jsonResponse.json();
-      return response.length ? response : []; // Возвращаем ответ или пустой массив
-    } catch (error) {
-      console.error(error);
-      return []; // Возвращаем пустой массив в случае ошибки
+    const response = await Fetch.send("GET", "hall"); // Отправляем асинхронный GET-запрос на сервер, чтобы получить список залов
+
+    if (!response.length) {
+      return [];
     }
+    return response;
+
+    // const token = localStorage.getItem("token");
+    // try {
+    //   const jsonResponse = await fetch(`${_URL}hall`, {
+    //     method: "GET",
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   });
+    //   const response = await jsonResponse.json();
+    //   return response.length ? response : []; // Возвращаем ответ или пустой массив
+    // } catch (error) {
+    //   console.error(error);
+    //   return []; // Возвращаем пустой массив в случае ошибки
+    // }
   }
 
   // Метод для отображения доступного времени
@@ -264,26 +272,37 @@ export default class PosterModal {
 
   // Метод для добавления сеанса
   static async addSeance() {
-    const token = localStorage.getItem("token");
-    try {
-      const jsonResponse = await fetch(`${_URL}seance`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          movie_id: PosterModal.movie.id, // ID фильма
-          hall_id: PosterModal.hallSelectEl.value, // ID зала
-          start: `${PosterModal.hoursSelectEl.value}:${PosterModal.minutesSelectEl.value}`, // Время начала
-        }),
-      });
-      const response = await jsonResponse.json();
-      return response.id; // Возвращаем ID созданного сеанса
-    } catch (error) {
-      console.error(error);
-      return null; // Возвращаем null в случае ошибки
-    }
+    const response = await Fetch.send("POST", "seance", {
+      // Отправляем асинхронный POST-запрос на сервер для создания нового сеанса
+      bodyJson: {
+        // Передаем данные в теле запроса в формате JSON
+        movie_id: PosterModal.movie.id, // Указываем ID выбранного фильма
+        hall_id: PosterModal.hallSelectEl.value, // Указываем ID выбранного зала из выпадающего списка
+        start: `${PosterModal.hoursSelectEl.value}:${PosterModal.minutesSelectEl.value}`, // Формируем строку времени начала сеанса из выбранных часов и минут
+      },
+    });
+    return response.id; // Возвращаем ID созданного сеанса, полученный в ответе от сервера
+
+    // const token = localStorage.getItem("token");
+    // try {
+    //   const jsonResponse = await fetch(`${_URL}seance`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({
+    //       movie_id: PosterModal.movie.id, // ID фильма
+    //       hall_id: PosterModal.hallSelectEl.value, // ID зала
+    //       start: `${PosterModal.hoursSelectEl.value}:${PosterModal.minutesSelectEl.value}`, // Время начала
+    //     }),
+    //   });
+    //   const response = await jsonResponse.json();
+    //   return response.id; // Возвращаем ID созданного сеанса
+    // } catch (error) {
+    //   console.error(error);
+    //   return null; // Возвращаем null в случае ошибки
+    // }
   }
 
   // Обработчик клика для удаления всех сеансов
@@ -308,22 +327,25 @@ export default class PosterModal {
 
   // Метод для удаления всех сеансов фильма
   static async removeAllSeances() {
-    const token = localStorage.getItem("token");
-    try {
-      const jsonResponse = await fetch(
-        `${_URL}seance/all/${PosterModal.movie.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return jsonResponse.ok; // Возвращаем статус удаления
-    } catch (error) {
-      console.error(error);
-    }
+    await Fetch.send("DELETE", `seance/all/${PosterModal.movie.id}`); // Отправляем асинхронный DELETE-запрос на сервер для удаления всех сеансов выбранного фильма
+    // Используем `PosterModal.movie.id`, чтобы указать ID фильма, сеансы которого нужно удалить
+
+    // const token = localStorage.getItem("token");
+    // try {
+    //   const jsonResponse = await fetch(
+    //     `${_URL}seance/all/${PosterModal.movie.id}`,
+    //     {
+    //       method: "DELETE",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   );
+    //   return jsonResponse.ok; // Возвращаем статус удаления
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   // Обработчик клика для удаления фильма
@@ -337,18 +359,21 @@ export default class PosterModal {
 
   // Метод для удаления фильма
   static async removeMovie() {
-    const token = localStorage.getItem("token");
-    try {
-      const jsonResponse = await fetch(`${_URL}movie/${PosterModal.movie.id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return jsonResponse.ok; // Возвращаем статус удаления
-    } catch (error) {
-      console.error(error);
-    }
+    await Fetch.send("DELETE", `movie/${PosterModal.movie.id}`); // Отправляем асинхронный DELETE-запрос на сервер для удаления фильма с указанным ID
+    // `PosterModal.movie.id` содержит идентификатор фильма, который нужно удалить
+
+    // const token = localStorage.getItem("token");
+    // try {
+    //   const jsonResponse = await fetch(`${_URL}movie/${PosterModal.movie.id}`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   });
+    //   return jsonResponse.ok; // Возвращаем статус удаления
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 }
