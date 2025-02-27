@@ -187,7 +187,6 @@ export default class PosterModal {
   // Метод для получения списока залов с сервера
   static async getHalls() {
     const response = await Fetch.send("GET", "hall"); // Отправляем асинхронный GET-запрос на сервер, чтобы получить список залов
-
     if (!response.length) {
       return [];
     }

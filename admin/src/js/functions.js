@@ -23,12 +23,12 @@ export async function getHalls(activeHallId = null) {
   let response; // Объявляем переменную `response`, в которую будет сохранен результат запроса
   await Fetch.send("GET", "hall").then((resolve) => (response = resolve)); // Отправляем асинхронный GET-запрос на сервер для получения списка залов
   // Используем `then()`, чтобы присвоить полученный результат переменной `response` после завершения запроса
-
-  if (response.length > 0 && !activeHallId) { // Проверяем, содержит ли `response` хотя бы один элемент и не задан ли `activeHallId`
+  if (response.length > 0 && !activeHallId) {
+    // Проверяем, содержит ли `response` хотя бы один элемент и не задан ли `activeHallId`
     activeHallId = response[0].id; // Если `activeHallId` не установлен, присваиваем ему ID первого зала из списка
   }
-  
-  dispatchUpdateEvent({ // Вызываем функцию `dispatchUpdateEvent`, передавая ей объект с обновленными данными
+  dispatchUpdateEvent({
+    // Вызываем функцию `dispatchUpdateEvent`, передавая ей объект с обновленными данными
     data: response, // Передаем полученные данные о залах
     activeHallId, // Передаем актуальный ID активного зала
   });
