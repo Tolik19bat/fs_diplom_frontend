@@ -151,9 +151,12 @@ export default class AddMovieModal {
    * @returns {*}
    */
   static async addMovie() {
+    const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
+    await Fetch.send("POST", "movie", { formData });
+
     // const token = localStorage.getItem("token"); // Получаем токен из localStorage
     // try {
-    const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
+    // const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
     //   await fetch(`${_URL}movie`, {
     //     method: "POST",
     //     headers: { Authorization: `Bearer ${token}` }, // Устанавливаем заголовки
@@ -164,7 +167,7 @@ export default class AddMovieModal {
     // }
 
     // Отправляем HTTP-запрос методом POST на эндпоинт "movie", передавая данные формы (formData)
-    await Fetch.send("POST", "movie", { formData });
+    // await Fetch.send("POST", "movie", { formData });
   }
 
   /**
@@ -177,9 +180,15 @@ export default class AddMovieModal {
     if (!AddMovieModal.movieId) {
       return; // Если ID фильма отсутствует, выходим
     }
+    const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
+    await Fetch.send("POST", `movie/${AddMovieModal.movieId}`, {
+      formData,
+      addPut: true,
+    });
+
     // const token = localStorage.getItem("token"); // Получаем токен из localStorage
     // try {
-    const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
+    // const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
     //   formData.append("_method", "PUT"); // Указываем, что будем обновлять
     //   await fetch(`${_URL}movie/${AddMovieModal.movieId}`, {
     //     method: "POST",
@@ -192,10 +201,10 @@ export default class AddMovieModal {
 
     // Отправляем HTTP-запрос методом POST на эндпоинт "movie/{movieId}", передавая данные формы (formData)
     // Дополнительно передаём параметр addPut: true (чтобы обработать запрос особым образом)
-    await Fetch.send("POST", `movie/${AddMovieModal.movieId}`, {
-      formData,
-      addPut: true,
-    });
+    // await Fetch.send("POST", `movie/${AddMovieModal.movieId}`, {
+    //   formData,
+    //   addPut: true,
+    // });
   }
 
   static edit(movie) {
