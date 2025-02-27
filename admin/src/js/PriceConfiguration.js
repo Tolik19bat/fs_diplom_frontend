@@ -1,6 +1,7 @@
 import { _URL } from "./app.js";
 import { getHalls } from "./functions.js";
 import HallList from "./HallList.js";
+import Fetch from "./Fetch.js";
 
 export default class PriceConfiguration {
   constructor(halls = []) {
@@ -8,7 +9,7 @@ export default class PriceConfiguration {
     this.activeHallId = halls[0]?.id; // Идентификатор активного зала
     this.init(); // Инициализация экземпляра класса
     // Логирование созданного объекта
-   console.log("Создан новый объект PriceConfiguration:", this);
+    console.log("Создан новый объект PriceConfiguration:", this);
   }
 
   // Метод для инициализации логики класса
@@ -16,10 +17,12 @@ export default class PriceConfiguration {
     this.bindToDom(); // Связываем DOM-элементы с методами
     this.hallList = new HallList(this.hallsListEl, this.halls); // Создаем новый экземпляр HallList
     this.hallList.handlerUpdate = this.update.bind(this); // Привязываем обработчик обновления
-    this.hallList.init();  // Инициализируем созданный экземпляр HallList, чтобы он начал работу
+    this.hallList.init(); // Инициализируем созданный экземпляр HallList, чтобы он начал работу
     // Если есть активный зал, вызываем метод рендеринга цен для этого зала
     if (this.activeHallId) {
-      this.renderPrices(this.halls.find(hall => hall.id === this.activeHallId));
+      this.renderPrices(
+        this.halls.find((hall) => hall.id === this.activeHallId)
+      );
     }
   }
 
@@ -67,6 +70,16 @@ export default class PriceConfiguration {
   // Обработчик события отправки формы
   onSubmitForm(e) {
     e.preventDefault(); // Отменяем стандартное поведение отправки формы
+    if (
+      !Number.isInteger(+this.inputTicketPriceEl.value) || // Проверяем, является ли введенное значение для обычного билета целым числом
+      !Number.isInteger(+this.inputVipTicketPriceEl.value) || // Проверяем, является ли введенное значение для VIP-билета целым числом
+      +this.inputTicketPriceEl.value === 0 || // Проверяем, не равно ли значение обычного билета нулю
+      +this.inputVipTicketPriceEl.value === 0 // Проверяем, не равно ли значение VIP-билета нулю
+    ) {
+      this.inputTicketPriceEl.value = ""; // Очищаем поле ввода для обычного билета, если введены некорректные данные
+      this.inputVipTicketPriceEl.value = ""; // Очищаем поле ввода для VIP-билета, если введены некорректные данные
+      return; // Прерываем выполнение кода, если проверка не пройдена
+    }
     this.setPrices().then(() => {
       // Устанавливаем цены и обновляем список залов
       getHalls(this.activeHallId);
@@ -75,23 +88,30 @@ export default class PriceConfiguration {
 
   // Метод для установки цен залов
   async setPrices() {
-    const token = localStorage.getItem("token"); // Получаем токен из локального хранилища
-    try {
-      // Отправляем запрос на обновление цен
-      await fetch(`${_URL}hall/prices/${this.activeHallId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Добавляем токен в заголовки
-        },
-        body: JSON.stringify({
-          ticket_price: this.inputTicketPriceEl.value, // Указываем цену обычного билета
-          vip_ticket_price: this.inputVipTicketPriceEl.value, // Указываем цену VIP-билета
-        }),
-      });
-    } catch (error) {
-      console.error(error); // Выводим ошибку в консоль при возникновении
-    }
+    await Fetch.send("PUT", `hall/prices/${this.activeHallId}`, { // Отправляем асинхронный PUT-запрос для обновления цен на билеты в конкретном зале
+      bodyJson: { // Передаем данные в теле запроса в формате JSON
+        ticket_price: this.inputTicketPriceEl.value, // Указываем цену обычного билета из поля ввода
+        vip_ticket_price: this.inputVipTicketPriceEl.value, // Указываем цену VIP-билета из поля ввода
+      }
+    });
+
+    // const token = localStorage.getItem("token"); // Получаем токен из локального хранилища
+    // try {
+    //   // Отправляем запрос на обновление цен
+    //   await fetch(`${_URL}hall/prices/${this.activeHallId}`, {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`, // Добавляем токен в заголовки
+    //     },
+    //     body: JSON.stringify({
+    //       ticket_price: this.inputTicketPriceEl.value, // Указываем цену обычного билета
+    //       vip_ticket_price: this.inputVipTicketPriceEl.value, // Указываем цену VIP-билета
+    //     }),
+    //   });
+    // } catch (error) {
+    //   console.error(error); // Выводим ошибку в консоль при возникновении
+    // }
   }
 
   // Метод для обработки нажатия кнопки отмены
