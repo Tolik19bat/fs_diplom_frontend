@@ -1,4 +1,5 @@
 import { _URL, _URL_TICKET } from "./app.js";
+import Fetch from "./Fetch.js";
 
 // Класс для обработки платежей
 export default class Payment {
@@ -69,24 +70,49 @@ export default class Payment {
   async saveTicketInformation(chairId) {
     console.log(chairId);
     try {
-      const response = await fetch(`${_URL}ticket`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      // Отправляем POST-запрос для создания билета
+      const response = await Fetch.send("POST", "ticket", {
+        bodyJson: {
+          // Преобразуем дату оплаты в строку в локальном формате (например, "27.02.2025")
+          date: new Date(this.paymentInfo.date).toLocaleDateString(),
+          
+          // Передаем ID сеанса, на который покупается билет
+          seance_id: this.paymentInfo.seance.id,
+          
+          // Передаем ID кресла, на которое оформляется билет
+          chair_id: chairId,
         },
-        body: JSON.stringify({
-          date: new Date(this.paymentInfo.date).toLocaleDateString(), // Форматируем дату
-          seance_id: this.paymentInfo.seance.id, // ID сеанса
-          chair_id: chairId, // ID кресла
-        }),
+        
+        // Опция cleanResponse: true означает, что метод Fetch.send вернет "сырой" response,
+        // а не автоматически обработанный JSON или текст
+        cleanResponse: true,
       });
-      
-      // Проверяем, успешно ли выполнен запрос
       if (!response.ok) {
-        throw new Error(response.status); // Выбрасываем ошибку, если статус не 200
+        throw new Error(response.status);
       }
     } catch (error) {
-      this.error = error; // Сохраняем ошибку
+      this.error = error;
     }
+    
+    // try {
+    //   const response = await fetch(`${_URL}ticket`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       date: new Date(this.paymentInfo.date).toLocaleDateString(), // Форматируем дату
+    //       seance_id: this.paymentInfo.seance.id, // ID сеанса
+    //       chair_id: chairId, // ID кресла
+    //     }),
+    //   });
+      
+    //   // Проверяем, успешно ли выполнен запрос
+    //   if (!response.ok) {
+    //     throw new Error(response.status); // Выбрасываем ошибку, если статус не 200
+    //   }
+    // } catch (error) {
+    //   this.error = error; // Сохраняем ошибку
+    // }
   }
 }
