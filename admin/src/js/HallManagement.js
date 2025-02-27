@@ -131,18 +131,15 @@ export default class HallManagement {
 
   // Метод для добавления нового зала
   async addHall(hall) {
-    // Отправляем HTTP-запрос методом POST на эндпоинт "hall"
-    // В теле запроса передаём JSON-объект с данными нового зала
-    const response = await Fetch.send("POST", "hall", {
-      bodyJson: {
+    const response = await Fetch.send("POST", "hall", { // Отправляем HTTP-запрос методом POST на эндпоинт "hall"
+      bodyJson: { // В теле запроса передаём JSON-объект с данными нового зала
         name: hall, // Название зала
         ticket_price: ticketPrice, // Цена обычного билета
         vip_ticket_price: vipTicketPrice, // Цена VIP-билета
         sales: false, // Флаг продаж (по умолчанию отключены)
       },
     });
-    // Возвращаем идентификатор созданного зала (сервер в ответе присылает объект с id)
-    return response.id;
+    return response.id; // Возвращаем идентификатор созданного зала (сервер в ответе присылает объект с id)
 
     // const token = localStorage.getItem("token"); // Получаем токен
     // try {
