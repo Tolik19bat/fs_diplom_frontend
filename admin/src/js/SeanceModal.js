@@ -67,20 +67,22 @@ export default class SeanceModal {
 
   // Асинхронный метод для удаления сеанса с использованием API
   static async removeSeance() {
-    const token = localStorage.getItem("token"); // Получаем токен из localStorage
-    try {
-      const jsonResponse = await fetch(
-        `${_URL}seance/${SeanceModal.seanceId}`,
-        {
-          method: "DELETE", // Метод удаления
-          headers: {
-            "Content-Type": "application/json", // Заголовок типа контента
-            Authorization: `Bearer ${token}`, // Авторизация с использованием токена
-          },
-        }
-      );
-    } catch (error) {
-      console.error(error); // Логируем ошибки, если они возникли
-    }
+    await Fetch.send("DELETE", `seance/${SeanceModal.seanceId}`); // Отправляем асинхронный DELETE-запрос на сервер для удаления конкретного сеанса
+
+    // const token = localStorage.getItem("token"); // Получаем токен из localStorage
+    // try {
+    //   const jsonResponse = await fetch(
+    //     `${_URL}seance/${SeanceModal.seanceId}`,
+    //     {
+    //       method: "DELETE", // Метод удаления
+    //       headers: {
+    //         "Content-Type": "application/json", // Заголовок типа контента
+    //         Authorization: `Bearer ${token}`, // Авторизация с использованием токена
+    //       },
+    //     }
+    //   );
+    // } catch (error) {
+    //   console.error(error); // Логируем ошибки, если они возникли
+    // }
   }
 }
