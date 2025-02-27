@@ -81,11 +81,11 @@
 }
 
 .modal-add-file-input__label {
-  display: none;  
+  display: none;
 }
 
-.modal-add-movie__input_file {  
-  display: none;  
+.modal-add-movie__input_file {
+  display: none;
 }
 
 #movie-description {
@@ -196,17 +196,28 @@
   border-right: 16px solid #16A6AF;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
   animation: spin 2s linear infinite;
 }
 
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

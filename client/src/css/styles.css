@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 * {
   margin: 0;
   padding: 0;
@@ -29,28 +30,37 @@ body {
   color: #FFFFFF;
   text-transform: uppercase;
 }
+
 .page-header__title span {
   font-weight: 100;
 }
 
-.button-container {  
-  display: flex; /* Используем flexbox */  
-  align-items: center; /* Центрируем по вертикали, если нужно */  
-  position: absolute; /* Сохраняем абсолютное позиционирование */  
-  right: 14px; /* Позиционирование контейнера */  
-  top: 18px;  
-}  
+.button-container {
+  display: flex;
+  /* Используем flexbox */
+  align-items: center;
+  /* Центрируем по вертикали, если нужно */
+  position: absolute;
+  /* Сохраняем абсолютное позиционирование */
+  right: 14px;
+  /* Позиционирование контейнера */
+  top: 18px;
+}
 
-.page-header__sign-up-btn,  
+.page-header__sign-up-btn,
 .page-header__log-in-btn {
   font-size: 3rem;
-  min-width: 30px; /* Задаем ширину кнопок */
-  min-height: 30px; /* Задаем высоту кнопок */
+  min-width: 30px;
+  /* Задаем ширину кнопок */
+  min-height: 30px;
+  /* Задаем высоту кнопок */
   border: none;
-  animation: animateButton 0.3s ease-in-out forwards; /* Применяем анимацию */  
+  animation: animateButton 0.3s ease-in-out forwards;
+  /* Применяем анимацию */
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
-  margin-left: 10px; /* Отступ между кнопками */
+  margin-left: 10px;
+  /* Отступ между кнопками */
 }
 
 /* ~~~~~~~~~~~~ Главная ~~~~~~~~~~~~ */
@@ -64,6 +74,7 @@ body {
   color: #000000;
   z-index: 10;
 }
+
 .page-nav .page-nav__day {
   flex-basis: calc(100% / 8);
   font-size: 1.2rem;
@@ -74,31 +85,40 @@ body {
   text-decoration: none;
   color: #000000;
 }
-.page-nav .page-nav__day + .page-nav__day {
+
+.page-nav .page-nav__day+.page-nav__day {
   margin-left: 1px;
 }
+
 .page-nav .page-nav__day .page-nav__day-week::after {
   content: ',';
 }
+
 .page-nav .page-nav__day .page-nav__day-number::before {
   content: ' ';
 }
-.page-nav .page-nav__day .page-nav__day-week, .page-nav .page-nav__day .page-nav__day-number {
+
+.page-nav .page-nav__day .page-nav__day-week,
+.page-nav .page-nav__day .page-nav__day-number {
   display: block;
 }
+
 .page-nav .page-nav__day_chosen {
   flex-grow: 1;
   background-color: #FFFFFF;
   font-weight: 700;
   transform: scale(1.1);
 }
+
 .page-nav .page-nav__day_weekend {
   color: #DE2121;
 }
+
 .page-nav .page-nav__day_next,
 .page-nav .page-nav__day_previous {
   text-align: center;
 }
+
 .page-nav .page-nav__day_next::before,
 .page-nav .page-nav__day_previous::before {
   content: '>';
@@ -106,14 +126,18 @@ body {
   font-weight: 700;
   font-size: 2.4rem;
 }
+
 .page-nav .page-nav__day_previous::before {
   content: '<';
 }
+
 .page-nav .page-nav__day_today .page-nav__day-week::before {
   content: 'Сегодня';
   display: block;
 }
-.page-nav .page-nav__day_today .page-nav__day-week, .page-nav .page-nav__day_today .page-nav__day-number {
+
+.page-nav .page-nav__day_today .page-nav__day-week,
+.page-nav .page-nav__day_today .page-nav__day-number {
   display: inline;
 }
 
@@ -124,9 +148,11 @@ body {
   background: rgba(241, 235, 230, 0.95);
   color: #000000;
 }
+
 .movie .movie__info {
   display: flex;
 }
+
 .movie .movie__poster {
   position: relative;
   width: 12.5rem;
@@ -134,12 +160,14 @@ body {
   /*    left: 1.5rem;
       top: -1.5rem;*/
 }
+
 .movie .movie__poster .movie__poster-image {
   position: relative;
   top: -3rem;
   width: 12.5rem;
   height: 17.5rem;
 }
+
 .movie .movie__poster::after {
   content: '';
   display: block;
@@ -151,44 +179,55 @@ body {
   border-right: 0 solid transparent;
   border-left: 0.7rem solid #772720;
 }
+
 .movie .movie__description {
   flex-grow: 1;
   padding-left: 1.5rem;
 }
+
 .movie .movie__title {
   font-weight: 700;
   font-size: 1.6rem;
 }
+
 .movie .movie__synopsis {
   font-size: 1.4rem;
   margin-top: 1rem;
 }
+
 .movie .movie__data {
   font-size: 1.4rem;
   font-weight: 300;
   margin-top: 1rem;
 }
+
 .movie__data .movie__data-origin {
   margin-left: 4px;
 }
-.movie .movie-seances__hall + .movie-seances__hall {
+
+.movie .movie-seances__hall+.movie-seances__hall {
   margin-top: 2rem;
 }
+
 .movie .movie-seances__hall .movie-seances__hall-title {
   font-weight: 700;
   font-size: 1.6rem;
 }
+
 .movie .movie-seances__hall .movie-seances__list {
   margin-top: 0.7rem;
   font-size: 0;
 }
+
 .movie .movie-seances__hall .movie-seances__time-block {
   display: inline-block;
   margin-bottom: 4px;
 }
+
 .movie .movie-seances__hall .movie-seances__time-block:nth-last-of-type(n + 1) {
   margin-right: 4px;
 }
+
 .movie .movie-seances__hall .movie-seances__time {
   display: block;
   padding: 8px;
@@ -226,28 +265,35 @@ body {
   justify-content: space-between;
   padding: 1.5rem;
 }
+
 .buying__info .buying__info-description {
   padding-right: 1.5rem;
 }
-.buying__info .buying__info-title, .buying__info .buying__info-hall {
+
+.buying__info .buying__info-title,
+.buying__info .buying__info-hall {
   font-size: 1.6rem;
   font-weight: 700;
 }
+
 .buying__info .buying__info-start {
   font-size: 1.4rem;
   font-weight: 300;
   margin: 0.7rem 0;
 }
+
 .buying__info .buying__info-hint {
   position: relative;
   font-weight: 300;
   font-size: 1.4rem;
   text-align: center;
 }
+
 .buying__info .buying__info-hint p {
   position: relative;
   width: 10rem;
 }
+
 .buying__info .buying__info-hint p::before {
   content: '';
   position: absolute;
@@ -275,11 +321,12 @@ body {
   background-size: 100%;
   padding-top: 3rem;
 }
+
 .buying-scheme__wrapper::before {
   content: '';
 }
 
-.buying-scheme__row + .buying-scheme__row {
+.buying-scheme__row+.buying-scheme__row {
   margin-top: 4px;
 }
 
@@ -292,6 +339,7 @@ body {
   box-sizing: border-box;
   border-radius: 4px;
 }
+
 .buying-scheme__chair:not(:first-of-type) {
   margin-left: 4px;
 }
@@ -327,22 +375,27 @@ body {
   flex-wrap: nowrap;
   text-align: left;
 }
+
 .buying-scheme__legend .col {
   max-width: 25rem;
 }
+
 .buying-scheme__legend .col:first-of-type {
   padding-right: 1.5rem;
   margin-left: auto;
 }
+
 .buying-scheme__legend .col:last-of-type {
   margin-right: auto;
 }
-.buying-scheme__legend .buying-scheme__legend-price + .buying-scheme__legend-price {
+
+.buying-scheme__legend .buying-scheme__legend-price+.buying-scheme__legend-price {
   margin-top: 1rem;
 }
 
 /* ~~~~~~~~~~~~ Билет ~~~~~~~~~~~~ */
-.tichet__check, .ticket__info-wrapper {
+.tichet__check,
+.ticket__info-wrapper {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   background-color: rgba(241, 235, 230, 0.95);
@@ -353,6 +406,7 @@ body {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
 }
+
 .tichet__check::before {
   content: '';
   display: block;
@@ -364,6 +418,7 @@ body {
   background-image: url(../img/border-top.png);
   background-size: 10px 3px;
 }
+
 .tichet__check::after {
   content: '';
   display: block;
@@ -382,6 +437,7 @@ body {
   padding-top: 2rem;
   padding-bottom: 3rem;
 }
+
 .ticket__info-wrapper::before {
   content: '';
   display: block;
@@ -393,6 +449,7 @@ body {
   background-image: url(../img/border-top.png);
   background-size: 10px 3px;
 }
+
 .ticket__info-wrapper::after {
   content: '';
   display: block;
@@ -416,7 +473,8 @@ body {
   font-size: 1.6rem;
   color: #000000;
 }
-.ticket__info + .ticket__info {
+
+.ticket__info+.ticket__info {
   margin-top: 1rem;
 }
 
@@ -429,7 +487,8 @@ body {
   font-size: 1.4rem;
   margin-top: 3rem;
 }
-.ticket__hint + .ticket__hint {
+
+.ticket__hint+.ticket__hint {
   margin-top: 1rem;
 }
 
@@ -445,13 +504,18 @@ body {
     padding: 1rem 2rem;
   }
 }
+
 @media screen and (min-width: 990px) {
-  .page-header, nav, main {
+
+  .page-header,
+  nav,
+  main {
     width: 990px;
     margin: auto;
   }
 
-  .movie, .buying {
+  .movie,
+  .buying {
     border-radius: 2px;
   }
 
@@ -471,17 +535,28 @@ body {
   border-right: 16px solid #16A6AF;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
   animation: spin 2s linear infinite;
 }
 
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

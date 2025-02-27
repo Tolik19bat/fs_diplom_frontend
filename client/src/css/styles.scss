@@ -1,9 +1,8 @@
-$font-stack: 'Roboto', sans-serif;
+$font-stack: "Roboto", sans-serif;
 
 $black: #000000;
-$white: #FFFFFF;
-$green: #16A6AF;
-
+$white: #ffffff;
+$green: #16a6af;
 
 * {
   margin: 0;
@@ -17,7 +16,7 @@ html {
 }
 
 body {
-  background-image: url('../img/background.jpg');
+  background-image: url("../img/background.jpg");
   background-size: cover;
   background-attachment: fixed;
   background-position: right;
@@ -32,7 +31,7 @@ body {
   font-weight: 900;
   font-size: 3.4rem;
   color: $white;
-  text-transform: uppercase;  
+  text-transform: uppercase;
 
   span {
     font-weight: 100;
@@ -50,7 +49,7 @@ body {
   align-items: stretch;
   color: $black;
   z-index: 10;
-  
+
   .page-nav__day {
     flex-basis: calc(100% / 8);
     font-size: 1.2rem;
@@ -60,55 +59,57 @@ body {
     border-radius: 2px;
     text-decoration: none;
     color: $black;
-    
+
     & + .page-nav__day {
       margin-left: 1px;
     }
-    
+
     .page-nav__day-week::after {
-      content: ',';
+      content: ",";
     }
-    
+
     .page-nav__day-number::before {
-      content: ' ';
-    }    
-    
-    .page-nav__day-week, .page-nav__day-number {
+      content: " ";
+    }
+
+    .page-nav__day-week,
+    .page-nav__day-number {
       display: block;
-    }  
+    }
   }
-  
+
   .page-nav__day_chosen {
     flex-grow: 1;
     background-color: $white;
     font-weight: 700;
     transform: scale(1.1);
   }
-  
+
   .page-nav__day_weekend {
-    color: #DE2121;
+    color: #de2121;
   }
-  
+
   .page-nav__day_next {
     text-align: center;
 
     &::before {
-      content: '>';
+      content: ">";
       font-family: monospace;
       font-weight: 700;
       font-size: 2.4rem;
-    }    
+    }
   }
-  
+
   .page-nav__day_today {
     .page-nav__day-week::before {
-      content: 'Сегодня';
+      content: "Сегодня";
       display: block;
-    } 
-    .page-nav__day-week, .page-nav__day-number {
+    }
+    .page-nav__day-week,
+    .page-nav__day-number {
       display: inline;
-    }    
-  }   
+    }
+  }
 }
 
 .movie {
@@ -117,27 +118,27 @@ body {
   margin-top: 3rem;
   background: rgba(241, 235, 230, 0.95);
   color: $black;
-  
+
   .movie__info {
     display: flex;
   }
-  
+
   .movie__poster {
     position: relative;
     width: 12.5rem;
     height: 17.5rem;
-/*    left: 1.5rem;
+    /*    left: 1.5rem;
     top: -1.5rem;*/
-    
+
     .movie__poster-image {
       position: relative;
       top: -3rem;
       width: 12.5rem;
       height: 17.5rem;
     }
-    
+
     &::after {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       right: -0.7rem;
@@ -146,65 +147,65 @@ body {
       border-bottom: 0 solid transparent;
       border-right: 0 solid transparent;
       border-left: 0.7rem solid rgb(119, 39, 32);
-    } 
+    }
   }
-  
+
   .movie__description {
     flex-grow: 1;
     padding-left: 1.5rem;
-  }  
-  
+  }
+
   .movie__title {
     font-weight: 700;
     font-size: 1.6rem;
   }
-  
+
   .movie__synopsis {
     font-size: 1.4rem;
     margin-top: 1rem;
   }
-  
+
   .movie__data {
     font-size: 1.4rem;
     font-weight: 300;
     margin-top: 1rem;
   }
-  
+
   .movie-seances__hall {
-    
     & + .movie-seances__hall {
-      margin-top: 2rem;  
+      margin-top: 2rem;
     }
-        
+
     .movie-seances__hall-title {
       font-weight: 700;
       font-size: 1.6rem;
     }
-    
+
     .movie-seances__list {
       margin-top: 0.7rem;
       font-size: 0;
     }
-    
+
     .movie-seances__time-block {
       display: inline-block;
       margin-bottom: 4px;
-      
+
       &:nth-last-of-type(n + 1) {
         margin-right: 4px;
       }
     }
-    
+
     .movie-seances__time {
       display: block;
       padding: 8px;
-      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12);
-      border-radius: 2px;  
-      background-color: $white; 
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24),
+        0px 0px 2px rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
+      background-color: $white;
       color: $black;
       text-decoration: none;
       font-size: 1.5rem;
-    } 
+    }
   }
 }
 
@@ -219,9 +220,9 @@ body {
   padding: 12px 57px;
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 1.4rem;  
-  background-color: $green;  
-  color: $white;  
+  font-size: 1.4rem;
+  background-color: $green;
+  color: $white;
 }
 
 .buying {
@@ -234,34 +235,35 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem;
-  
+
   .buying__info-description {
     padding-right: 1.5rem;
   }
-  
-  .buying__info-title, .buying__info-hall {
+
+  .buying__info-title,
+  .buying__info-hall {
     font-size: 1.6rem;
     font-weight: 700;
   }
-  
+
   .buying__info-start {
     font-size: 1.4rem;
     font-weight: 300;
     margin: 0.7rem 0;
   }
-  
+
   .buying__info-hint {
     position: relative;
     font-weight: 300;
     font-size: 1.4rem;
     text-align: center;
-    
+
     p {
       position: relative;
       width: 10rem;
-      
+
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         left: -1rem;
         top: calc(50% - 1.6rem);
@@ -270,14 +272,14 @@ body {
         height: 3.2rem;
         background-image: url(../img/hint.png);
         background-size: 2.4rem 3.2rem;
-      }      
-    } 
-  }  
+      }
+    }
+  }
 }
 
 .buying-scheme {
   text-align: center;
-  background-color: #171D24;
+  background-color: #171d24;
   padding: 1.5rem 3rem 1.5rem;
 }
 
@@ -289,11 +291,10 @@ body {
   background-repeat: no-repeat;
   background-size: 100%;
   padding-top: 3rem;
-  
+
   &::before {
-    content: '';
+    content: "";
   }
-  
 }
 
 .buying-scheme__row + .buying-scheme__row {
@@ -316,7 +317,7 @@ body {
 
 .buying-scheme__chair_disabled {
   opacity: 0;
-}  
+}
 
 .buying-scheme__chair_standart {
   background-color: $white;
@@ -327,12 +328,12 @@ body {
 }
 
 .buying-scheme__chair_vip {
-  background-color: #F9953A;
+  background-color: #f9953a;
 }
 
 .buying-scheme__chair_selected {
-  background-color: #25C4CE;
-  box-shadow: 0px 0px 4px #16A6AF;
+  background-color: #25c4ce;
+  box-shadow: 0px 0px 4px #16a6af;
   transform: scale(1.2);
 }
 
@@ -347,26 +348,26 @@ body {
 
   .col {
     max-width: 25rem;
-    
+
     &:first-of-type {
       padding-right: 1.5rem;
       margin-left: auto;
     }
-    
+
     &:last-of-type {
       margin-right: auto;
     }
   }
-  
+
   .buying-scheme__legend-price + .buying-scheme__legend-price {
     margin-top: 1rem;
   }
 }
 
-
 /* ~~~~~~~~~~~~ Билет ~~~~~~~~~~~~ */
 
-.tichet__check, .ticket__info-wrapper {
+.tichet__check,
+.ticket__info-wrapper {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   background-color: rgba(241, 235, 230, 0.95);
@@ -376,9 +377,9 @@ body {
   position: relative;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
-  
+
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: -3px;
@@ -388,9 +389,9 @@ body {
     background-image: url(../img/border-top.png);
     background-size: 10px 3px;
   }
-  
+
   &::after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     bottom: -3px;
@@ -399,8 +400,7 @@ body {
     height: 3px;
     background-image: url(../img/border-bottom.png);
     background-size: 10px 3px;
-  }  
-  
+  }
 }
 
 .ticket__info-wrapper {
@@ -408,9 +408,9 @@ body {
   margin-top: 6px;
   padding-top: 2rem;
   padding-bottom: 3rem;
-  
+
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: -3px;
@@ -420,9 +420,9 @@ body {
     background-image: url(../img/border-top.png);
     background-size: 10px 3px;
   }
-  
+
   &::after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     bottom: -3px;
@@ -431,25 +431,23 @@ body {
     height: 3px;
     background-image: url(../img/border-bottom.png);
     background-size: 10px 3px;
-  }    
-  
+  }
 }
 
 .ticket__check-title {
   font-weight: 700;
   font-size: 2.2rem;
   text-transform: uppercase;
-  color: #C76F00;  
+  color: #c76f00;
 }
 
 .ticket__info {
   font-size: 1.6rem;
   color: $black;
-  
+
   & + .ticket__info {
     margin-top: 1rem;
   }
-  
 }
 
 .ticket__details {
@@ -460,7 +458,7 @@ body {
   font-weight: 300;
   font-size: 1.4rem;
   margin-top: 3rem;
-    
+
   & + .ticket__hint {
     margin-top: 1rem;
   }
@@ -473,7 +471,6 @@ body {
   height: 20rem;
 }
 
-
 @media screen and (min-width: 479px) {
   .page-nav .page-nav__day {
     padding: 1rem 2rem;
@@ -481,11 +478,14 @@ body {
 }
 
 @media screen and (min-width: 990px) {
-  .page-header, nav, main {
+  .page-header,
+  nav,
+  main {
     width: 990px;
     margin: auto;
   }
-  .movie, .buying {
+  .movie,
+  .buying {
     border-radius: 2px;
   }
   .buying__info-hint {

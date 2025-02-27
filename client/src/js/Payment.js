@@ -25,19 +25,26 @@ export default class Payment {
     this.ticketStartEl = this.containerEl.querySelector(".ticket__start"); // Время начала сеанса
     this.ticketCostEl = this.containerEl.querySelector(".ticket__cost"); // Стоимость билета
     this.acceptinButtonEl = this.containerEl.querySelector(".acceptin-button"); // Кнопка подтверждения
-    
+
     // Добавляем обработчик события на кнопку подтверждения
-    this.acceptinButtonEl.addEventListener("click", this.onClickAcceptinButtonEl.bind(this));
+    this.acceptinButtonEl.addEventListener(
+      "click",
+      this.onClickAcceptinButtonEl.bind(this)
+    );
   }
 
   // Отображение информации о билете
   renderInfo() {
-    this.ticketDateEl.textContent = new Date(this.paymentInfo.date).toLocaleString("ru", { day: "numeric", month: "long", year: "numeric" });
+    this.ticketDateEl.textContent = new Date(
+      this.paymentInfo.date
+    ).toLocaleString("ru", { day: "numeric", month: "long", year: "numeric" });
     this.ticketTitleEl.textContent = this.paymentInfo.movieTitle;
-    
+
     // Формируем строку с номерами рядов и мест
-    this.ticketChairsEl.textContent = this.paymentInfo.chairs.map(chair => `ряд:${chair.row} место:${chair.place}`).join(", ");
-    
+    this.ticketChairsEl.textContent = this.paymentInfo.chairs
+      .map((chair) => `ряд:${chair.row} место:${chair.place}`)
+      .join(", ");
+
     this.ticketHallEl.textContent = this.paymentInfo.hallName;
     this.ticketStartEl.textContent = this.paymentInfo.seance.start;
     this.ticketCostEl.textContent = this.paymentInfo.cost;
@@ -50,7 +57,6 @@ export default class Payment {
 
   // Обработчик нажатия на кнопку подтверждения
   async onClickAcceptinButtonEl() {
-    
     console.log("onClickAcceptinButtonEl");
     console.log(this.paymentInfo.chairs);
     // Перебираем все выбранные места и сохраняем информацию о каждом
@@ -75,17 +81,15 @@ export default class Payment {
         bodyJson: {
           // Преобразуем дату оплаты в строку в локальном формате (например, "27.02.2025")
           date: new Date(this.paymentInfo.date).toLocaleDateString(),
-          
+
           // Передаем ID сеанса, на который покупается билет
           seance_id: this.paymentInfo.seance.id,
-          
+
           // Передаем ID кресла, на которое оформляется билет
           chair_id: chairId,
         },
-        
-        // Опция cleanResponse: true означает, что метод Fetch.send вернет "сырой" response,
+        cleanResponse: true, // Опция cleanResponse: true означает, что метод Fetch.send вернет "сырой" response,
         // а не автоматически обработанный JSON или текст
-        cleanResponse: true,
       });
       if (!response.ok) {
         throw new Error(response.status);
@@ -93,7 +97,7 @@ export default class Payment {
     } catch (error) {
       this.error = error;
     }
-    
+
     // try {
     //   const response = await fetch(`${_URL}ticket`, {
     //     method: "POST",
@@ -106,7 +110,7 @@ export default class Payment {
     //       chair_id: chairId, // ID кресла
     //     }),
     //   });
-      
+
     //   // Проверяем, успешно ли выполнен запрос
     //   if (!response.ok) {
     //     throw new Error(response.status); // Выбрасываем ошибку, если статус не 200

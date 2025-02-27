@@ -31,7 +31,8 @@ export default class Loader {
     clearTimeout(Loader.timeId); // Очищаем предыдущий таймер, если он был установлен
     Loader.endTime = Date.now() + DELAY - 100; // Запоминаем момент, когда загрузчик должен исчезнуть
     Loader.timeId = setTimeout(() => {
-      if (Date.now() > Loader.endTime) { // Проверяем, прошло ли достаточно времени
+      if (Date.now() > Loader.endTime) {
+        // Проверяем, прошло ли достаточно времени
         clearTimeout(Loader.timeId); // Очищаем таймер
         Loader.start = false; // Сбрасываем флаг активности загрузчика
         Loader.haideLoader(); // Скрываем загрузчик

@@ -7,9 +7,7 @@ export function dispatchUpdateEvent(arg) {
   const event = new CustomEvent("updateHall", {
     detail: arg, // Внутреннее свойство 'detail' содержит переданные данные
   });
-
-  // Находим элемент с классом '.main' и отправляем на него событие
-  document.querySelector(".main").dispatchEvent(event);
+  document.querySelector(".main").dispatchEvent(event); // Находим элемент с классом '.main' и отправляем на него событие
 
   // Добавляем обработчик события 'updateHall' на элемент '.main'
   // document.querySelector(".main").addEventListener("updateHall", (event) => {
@@ -21,8 +19,7 @@ export function dispatchUpdateEvent(arg) {
 // Асинхронная функция для получения данных о залах
 export async function getHalls(activeHallId = null) {
   let response; // Объявляем переменную `response`, в которую будет сохранен результат запроса
-  await Fetch.send("GET", "hall").then((resolve) => (response = resolve)); // Отправляем асинхронный GET-запрос на сервер для получения списка залов
-  // Используем `then()`, чтобы присвоить полученный результат переменной `response` после завершения запроса
+  await Fetch.send("GET", "hall").then((resolve) => (response = resolve)); // Отправляем асинхронный GET-запрос на сервер для получения списка залов  // Используем `then()`, чтобы присвоить полученный результат переменной `response` после завершения запроса
   if (response.length > 0 && !activeHallId) {
     // Проверяем, содержит ли `response` хотя бы один элемент и не задан ли `activeHallId`
     activeHallId = response[0].id; // Если `activeHallId` не установлен, присваиваем ему ID первого зала из списка

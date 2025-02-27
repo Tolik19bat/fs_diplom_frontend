@@ -42,11 +42,8 @@ export default class MoviesList {
 
   // Асинхронный метод для получения фильмов с сервера
   async getMovies(date) {
-    // Преобразуем дату в строку формата "YYYY-MM-DD"
-    const formateDate = date.toISOString().slice(0, 10);
-
-    // Отправляем GET-запрос для получения списка фильмов на указанную дату
-    this.movies = await Fetch.send("GET", `movie/date/${formateDate}`);
+    const formateDate = date.toISOString().slice(0, 10); // Преобразуем дату в строку формата "YYYY-MM-DD"
+    this.movies = await Fetch.send("GET", `movie/date/${formateDate}`); // Отправляем GET-запрос для получения списка фильмов на указанную дату
 
     // try {
     //   const formateDate = date.toISOString().slice(0, 10); // Форматируем дату в строку
@@ -59,8 +56,7 @@ export default class MoviesList {
 
   // Асинхронный метод для получения залов с доступными сеансами
   async getHalls() {
-    // Отправляем GET-запрос для получения списка залов с доступными сеансами
-    this.halls = await Fetch.send("GET", "hall/seances/available");
+    this.halls = await Fetch.send("GET", "hall/seances/available"); // Отправляем GET-запрос для получения списка залов с доступными сеансами
 
     // фильтрация залов, где включены продажи билетов
     // this.halls = response.filter(hall => hall.sales);

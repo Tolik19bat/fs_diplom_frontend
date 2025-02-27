@@ -8,7 +8,7 @@ export default class HallList {
     this.halls = halls; // массив для хранения залов
     this.activeHallId = this.halls.length > 0 ? this.halls[0].id : null; // идентификатор активного зала
     this.handlerUpdate = null; // обработчик обновления
-     // Логирование созданного объекта
+    // Логирование созданного объекта
     console.log("Создан новый объект HallList:", this);
   }
 
@@ -24,7 +24,9 @@ export default class HallList {
   init() {
     this.bindToDom(); // связываем DOM-элементы с методами
     this.renderHallsList();
-    this.handlerUpdate(this.halls.find(hall => hall.id === this.activeHallId));
+    this.handlerUpdate(
+      this.halls.find((hall) => hall.id === this.activeHallId)
+    );
   }
 
   // Метод для связывания DOM-элементов с обработчиками событий

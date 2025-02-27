@@ -1,5 +1,5 @@
-// import { _URL } from "./app.js";
-// import Fetch from "./Fetch.js";
+import { _URL } from "./app.js";
+import Fetch from "./Fetch.js";
 
 // Класс для обработки информации о билете
 export default class Ticket {
@@ -65,7 +65,6 @@ export default class Ticket {
         ticketStart: this.paymentInfo.seance.start, // Время начала сеанса
       },
     });
-
     return response; // Возвращаем полученный ответ, содержащий информацию о созданном QR-коде
 
     // try {

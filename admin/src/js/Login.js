@@ -52,19 +52,22 @@ export default class Login {
    * @returns {*}
    */
   async sendForm() {
-    const jsonResponse = await Fetch.send( // Отправляем асинхронный POST-запрос и сохраняем ответ в переменную `jsonResponse`
+    const jsonResponse = await Fetch.send(
+      // Отправляем асинхронный POST-запрос и сохраняем ответ в переменную `jsonResponse`
       "POST", // Указываем метод запроса - POST (отправка данных)
       "tokens/create", // Указываем URL эндпоинта, который обрабатывает создание токена
       {
         cleanResponse: true, // Возможно, указывает серверу вернуть "чистый" ответ без обертки
-        bodyJson: { // Передаем тело запроса в формате JSON
+        bodyJson: {
+          // Передаем тело запроса в формате JSON
           email: this.loginInputEmailEl.value, // Значение поля email из формы авторизации
           password: this.loginInputPasswordEl.value, // Значение поля password из формы авторизации
           device_name: "windows", // Указываем имя устройства для идентификации
         },
       }
     );
-    if (jsonResponse.ok) { // Проверяем, успешно ли выполнен запрос (статус ответа 200-299)
+    if (jsonResponse.ok) {
+      // Проверяем, успешно ли выполнен запрос (статус ответа 200-299)
       const response = await jsonResponse.json(); // Асинхронно парсим JSON-ответ от сервера и сохраняем в переменную `response`
       this.putTokenIntoLocalStorage(response.token); // Вызываем метод, который сохраняет полученный токен в локальное хранилище
       window.location.href = _URL_ADMIN_INDEX; // Перенаправляем пользователя на страницу администратора

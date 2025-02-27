@@ -64,8 +64,7 @@ export default class Hall {
   }
 
   async getBuyingInfo(seanceId) {
-    // Отправляем асинхронный GET-запрос для получения информации о конкретном сеансе по его ID
-    const response = await Fetch.send("GET", `seance/${seanceId}`);
+    const response = await Fetch.send("GET", `seance/${seanceId}`); // Отправляем асинхронный GET-запрос для получения информации о конкретном сеансе по его ID
     this.hall = response.hall; // Сохраняем данные зала
     this.movie = response.movie; // Сохраняем данные фильма
     this.seance = response.seance; // Сохраняем данные сеанса
@@ -159,8 +158,7 @@ export default class Hall {
   }
 
   async getChair(chairId) {
-    // Отправляем асинхронный GET-запрос для получения информации о конкретном кресле по его ID
-    return await Fetch.send("GET", `chair/${chairId}`);
+    return await Fetch.send("GET", `chair/${chairId}`); // Отправляем асинхронный GET-запрос для получения информации о конкретном кресле по его ID
 
     // try {
     //   const jsonResponse = await fetch(`${_URL}chair/${chairId}`); // Запрос на получение данных кресла

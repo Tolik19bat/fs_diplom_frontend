@@ -35,8 +35,7 @@ export default class ChairsInHall {
 
   // Асинхронный метод для получения всех кресел из API
   async getChairs() {
-    // Отправляем асинхронный GET-запрос для получения данных о креслах в зале
-    this.chairs = await Fetch.send("GET", `hall/${this.hallId}/chairs`);
+    this.chairs = await Fetch.send("GET", `hall/${this.hallId}/chairs`); // Отправляем асинхронный GET-запрос для получения данных о креслах в зале
 
     // try {
     //   const jsonResponse = await fetch(`${_URL}hall/${this.hallId}/chairs`);

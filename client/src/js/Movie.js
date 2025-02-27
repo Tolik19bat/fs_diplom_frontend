@@ -90,8 +90,7 @@ export default class Movie {
 
   // Асинхронный метод для получения сеансов фильма в конкретном зале
   async getSeances(hallId) {
-    // Отправляем асинхронный GET-запрос для получения сеансов конкретного фильма в выбранном зале
-    return await Fetch.send("GET", `hall/${hallId}/seances/${this.movie.id}`);
+    return await Fetch.send("GET", `hall/${hallId}/seances/${this.movie.id}`); // Отправляем асинхронный GET-запрос для получения сеансов конкретного фильма в выбранном зале
 
     // try {
     //   const jsonResponse = await fetch(

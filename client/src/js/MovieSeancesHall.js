@@ -5,7 +5,7 @@ export default class MovieSeancesHall {
   // Конструктор принимает название зала и список сеансов
   constructor(hallName, seances) {
     this.hallName = hallName; // Название зала
-    this.seances = seances;   // Массив объектов сеансов
+    this.seances = seances; // Массив объектов сеансов
     this.movieSeancesHallEl = null; // Элемент DOM для отображения зала и его сеансов
   }
 
@@ -34,12 +34,15 @@ export default class MovieSeancesHall {
       const movieSeancesTimeEl = document.createElement("a");
       movieSeancesTimeEl.classList.add("movie-seances__time");
       movieSeancesTimeEl.setAttribute("href", _URL_HALL); // Устанавливаем URL для перехода
-      movieSeancesTimeEl.dataset.seanceId = seance.id;    // Добавляем ID сеанса в атрибут data
-      movieSeancesTimeEl.textContent = seance.start;      // Устанавливаем время начала сеанса
+      movieSeancesTimeEl.dataset.seanceId = seance.id; // Добавляем ID сеанса в атрибут data
+      movieSeancesTimeEl.textContent = seance.start; // Устанавливаем время начала сеанса
 
       // Привязываем обработчик событий к ссылке
       this.onClickMovieSeansesTime = this.onClickMovieSeansesTime.bind(this);
-      movieSeancesTimeEl.addEventListener("click", this.onClickMovieSeansesTime);
+      movieSeancesTimeEl.addEventListener(
+        "click",
+        this.onClickMovieSeansesTime
+      );
 
       // Добавляем ссылку в блок времени, а блок в список
       movieSeancesTimeBlockEl.appendChild(movieSeancesTimeEl);
@@ -54,7 +57,7 @@ export default class MovieSeancesHall {
   // Метод для получения элемента зала с сеансами
   getHallSeancesEl() {
     this.createMovieSeancesHallEl(); // Создаем элемент при первом вызове
-    return this.movieSeancesHallEl;  // Возвращаем созданный элемент
+    return this.movieSeancesHallEl; // Возвращаем созданный элемент
   }
 
   // Обработчик клика по времени сеанса

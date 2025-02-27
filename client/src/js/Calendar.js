@@ -13,7 +13,7 @@ export default class Calendar {
 
   // Инициализация календаря
   init() {
-    this.bindToDom();  // Привязка к DOM-элементу
+    this.bindToDom(); // Привязка к DOM-элементу
     this.renderDays(); // Отрисовка дней
     this.onChangeDate(this.chosenDay); // Вызов коллбэка при изменении даты
   }
@@ -26,12 +26,12 @@ export default class Calendar {
   // Отрисовка дней календаря
   renderDays() {
     // Если первая дата меньше текущей, обновляем её
-    if (this.firstDay.getTime() < (new Date()).getTime()) {
+    if (this.firstDay.getTime() < new Date().getTime()) {
       this.firstDay = new Date();
     }
     const date = new Date(this.firstDay); // Копируем первую дату
 
-    let countDays;  // Количество отображаемых дней
+    let countDays; // Количество отображаемых дней
     let firstDayNextGroup; // Первая дата следующей группы дней
 
     // Если сегодня, показываем 6 дней, иначе 5
@@ -41,11 +41,15 @@ export default class Calendar {
       countDays = 5;
     }
 
-    const endData = new Date(date);  // Дата конца группы
+    const endData = new Date(date); // Дата конца группы
     endData.setDate(endData.getDate() + countDays - 1);
 
     // Если выбранный день не задан или выходит за границы, устанавливаем текущий
-    if (!this.chosenDay || date.getTime() > this.chosenDay.getTime() || endData.getTime() < this.chosenDay.getTime()) {
+    if (
+      !this.chosenDay ||
+      date.getTime() > this.chosenDay.getTime() ||
+      endData.getTime() < this.chosenDay.getTime()
+    ) {
       this.chosenDay = new Date(date);
     }
 
@@ -57,7 +61,10 @@ export default class Calendar {
       const element = calendarDay.getElement(); // Получаем DOM-элемент
 
       // Если дата совпадает с выбранной, добавляем класс выделения
-      if (new Date(+element.dataset.date).toLocaleDateString() === this.chosenDay.toLocaleDateString()) {
+      if (
+        new Date(+element.dataset.date).toLocaleDateString() ===
+        this.chosenDay.toLocaleDateString()
+      ) {
         element.classList.add("page-nav__day_chosen");
       } else {
         element.classList.remove("page-nav__day_chosen");
@@ -78,7 +85,10 @@ export default class Calendar {
     const nextDaysEl = document.createElement("a");
     nextDaysEl.classList.add("page-nav__day", "page-nav__day_next");
     nextDaysEl.setAttribute("href", "#");
-    nextDaysEl.addEventListener("click", this.onClickNextDays.bind(this, firstDayNextGroup));
+    nextDaysEl.addEventListener(
+      "click",
+      this.onClickNextDays.bind(this, firstDayNextGroup)
+    );
     this.containerEl.appendChild(nextDaysEl);
 
     // Если отображаем 5 дней, добавляем элемент для перехода к предыдущим
@@ -86,7 +96,10 @@ export default class Calendar {
       const previousDaysEl = document.createElement("a");
       previousDaysEl.classList.add("page-nav__day", "page-nav__day_previous");
       previousDaysEl.setAttribute("href", "#");
-      previousDaysEl.addEventListener("click", this.onClickPreviousDays.bind(this, this.firstDay));
+      previousDaysEl.addEventListener(
+        "click",
+        this.onClickPreviousDays.bind(this, this.firstDay)
+      );
       this.containerEl.prepend(previousDaysEl);
     }
   }
@@ -96,7 +109,10 @@ export default class Calendar {
     e.preventDefault(); // Отмена стандартного поведения ссылки
 
     // Проверка, если уже выбранный день совпадает с нажатым
-    if (this.chosenDay.toLocaleDateString() === (new Date(+e.currentTarget.dataset.date)).toLocaleDateString()) {
+    if (
+      this.chosenDay.toLocaleDateString() ===
+      new Date(+e.currentTarget.dataset.date).toLocaleDateString()
+    ) {
       return;
     }
 
@@ -123,7 +139,7 @@ export default class Calendar {
     startDate.setDate(startDate.getDate() - 6); // Смещаем на 6 дней назад
 
     // Если смещение совпадает с текущим днем, оставляем
-    if (startDate.toLocaleDateString() === (new Date()).toLocaleDateString()) {
+    if (startDate.toLocaleDateString() === new Date().toLocaleDateString()) {
     } else {
       startDate = new Date(argDate);
       startDate.setDate(startDate.getDate() - 5); // Иначе смещаем на 5 дней

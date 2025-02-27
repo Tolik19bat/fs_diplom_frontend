@@ -16,7 +16,7 @@ export default class Page {
     this.containerEl = container; // Сохраняем контейнер для дальнейшего использования
     this.halls = []; // Инициализируем массив залов
     // Логирование созданного объекта
-   console.log("Создан новый объект Page:", this);
+    console.log("Создан новый объект Page:", this);
   }
 
   // Метод для инициализации страницы
@@ -41,22 +41,22 @@ export default class Page {
       })
     );
   }
-// Асинхронный метод для загрузки залов с сервера
-async getHalls() {
-  return await Fetch.send("GET", "hall"); // Отправляем асинхронный GET-запрос на сервер для получения списка залов
+  // Асинхронный метод для загрузки залов с сервера
+  async getHalls() {
+    return await Fetch.send("GET", "hall"); // Отправляем асинхронный GET-запрос на сервер для получения списка залов
 
-  // try {
-  //   // Отправляем GET-запрос к API для получения списка залов
-  //   const jsonResponse = await fetch(`${_URL}hall`, {
-  //     method: "GET", // Метод запроса
-  //     headers: { Authorization: `Bearer ${token}` }, // Передаём токен авторизации в заголовках
-  //   });
+    // try {
+    //   // Отправляем GET-запрос к API для получения списка залов
+    //   const jsonResponse = await fetch(`${_URL}hall`, {
+    //     method: "GET", // Метод запроса
+    //     headers: { Authorization: `Bearer ${token}` }, // Передаём токен авторизации в заголовках
+    //   });
 
-  //   // Преобразуем ответ в JSON и возвращаем результат
-  //   return await jsonResponse.json();
-  // } catch (error) {
-  //   // Если произошла ошибка во время запроса, выводим её в консоль
-  //   console.error("Ошибка при загрузке залов:", error);
-  // }
-}
+    //   // Преобразуем ответ в JSON и возвращаем результат
+    //   return await jsonResponse.json();
+    // } catch (error) {
+    //   // Если произошла ошибка во время запроса, выводим её в консоль
+    //   console.error("Ошибка при загрузке залов:", error);
+    // }
+  }
 }
