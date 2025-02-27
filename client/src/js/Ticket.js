@@ -1,4 +1,5 @@
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
+// import Fetch from "./Fetch.js";
 
 // Класс для обработки информации о билете
 export default class Ticket {
@@ -10,9 +11,9 @@ export default class Ticket {
   init() {
     this.bindToDom(); // Привязываем элементы DOM
     this.getDataFromSessionStorage(); // Загружаем данные из sessionStorage
-    
+
     // Получаем QR-код и после успешного выполнения отображаем информацию
-    this.getQrCode().then(resolve => {
+    this.getQrCode().then((resolve) => {
       this.renderInfo(resolve);
     });
   }
@@ -30,14 +31,16 @@ export default class Ticket {
 
   // Отображение информации о билете
   renderInfo(qrCodeUrl) {
-    this.ticketDateEl.textContent = new Date(this.paymentInfo.date).toLocaleString("ru", { day: "numeric", month: "long", year: "numeric" });
+    this.ticketDateEl.textContent = new Date(
+      this.paymentInfo.date
+    ).toLocaleString("ru", { day: "numeric", month: "long", year: "numeric" });
     this.ticketTitleEl.textContent = this.paymentInfo.movieTitle;
-    
+
     // Формируем строку с номерами рядов и мест
     this.ticketChairsEl.textContent = this.paymentInfo.chairs
       .map((chair) => `ряд:${chair.row} место:${chair.place}`)
       .join(", ");
-    
+
     this.ticketHallEl.textContent = this.paymentInfo.hallName;
     this.ticketStartEl.textContent = this.paymentInfo.seance.start;
     this.ticketInfoQrEl.src = qrCodeUrl; // Устанавливаем QR-код
@@ -50,26 +53,41 @@ export default class Ticket {
 
   // Получение QR-кода через API
   async getQrCode() {
-    try {
-      const jsonResponse = await fetch(`${_URL}qrcode`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ticketTitle: this.paymentInfo.movieTitle, // Название фильма
-          ticketChairs: this.paymentInfo.chairs
-            .map((chair) => `ряд:${chair.row} место:${chair.place}`)
-            .join(", "), // Места
-          ticketHall: this.paymentInfo.hallName, // Название зала
-          ticketStart: this.paymentInfo.seance.start, // Время начала сеанса
-        }),
-      });
-      
-      const response = await jsonResponse.json(); // Парсим ответ
-      return response;
-    } catch (error) {
-      console.error(error); // Логируем ошибку, если запрос не удался
-    }
+    const response = await Fetch.send("POST", "qrcode", {
+      // Отправляем POST-запрос для создания QR-кода, передавая данные билета
+      bodyJson: {
+        // Передаем данные в формате JSON в теле запроса
+        ticketTitle: this.paymentInfo.movieTitle, // Заголовок билета — название фильма
+        ticketChairs: this.paymentInfo.chairs // Формирование строки с информацией о креслах
+          .map((chair) => `ряд:${chair.row} место:${chair.place}`) // Для каждого кресла формируем строку вида "ряд:<row> место:<place>"
+          .join(", "), // Объединяем все строки через запятую для удобства отображения
+        ticketHall: this.paymentInfo.hallName, // Название зала, где проходит сеанс
+        ticketStart: this.paymentInfo.seance.start, // Время начала сеанса
+      },
+    });
+
+    return response; // Возвращаем полученный ответ, содержащий информацию о созданном QR-коде
+
+    // try {
+    //   const jsonResponse = await fetch(`${_URL}qrcode`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       ticketTitle: this.paymentInfo.movieTitle, // Название фильма
+    //       ticketChairs: this.paymentInfo.chairs
+    //         .map((chair) => `ряд:${chair.row} место:${chair.place}`)
+    //         .join(", "), // Места
+    //       ticketHall: this.paymentInfo.hallName, // Название зала
+    //       ticketStart: this.paymentInfo.seance.start, // Время начала сеанса
+    //     }),
+    //   });
+
+    //   const response = await jsonResponse.json(); // Парсим ответ
+    //   return response;
+    // } catch (error) {
+    //   console.error(error); // Логируем ошибку, если запрос не удался
+    // }
   }
 }
