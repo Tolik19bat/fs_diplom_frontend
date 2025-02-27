@@ -1,4 +1,5 @@
 import Page from "./Page.js";
+import Loader from "./Loader.js";
 
 // Определяем базовый URL для API запросов
 export const _URL = "http://127.0.0.1:80/api/";
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     location.pathname === "/admin/src/html/" ||
     location.pathname === "/admin/src/html/index.html"
   ) {
+    Loader.init();
     // Находим контейнер с классом .main для инициализации страницы
     const pageContainer = document.querySelector(".main");
 
