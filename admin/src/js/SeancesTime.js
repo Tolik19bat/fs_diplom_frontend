@@ -1,4 +1,5 @@
 import { _URL } from "./app.js";
+import Fetch from "./Fetch.js";
 
 export default class SeancesTime {
   constructor(hallId, movie) {
@@ -44,17 +45,20 @@ export default class SeancesTime {
 
   // Асинхронный метод для получения всех сеансов зала.
   async getSeances() {
-    const token = localStorage.getItem("token"); // Получаем токен для авторизации.
-    try {
-      const jsonResponse = await fetch(`${_URL}hall/${this.hallId}/seances`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` }, // Заголовок с токеном.
-      });
-      const response = await jsonResponse.json(); // Парсим JSON-ответ.
-      this.seances = response; // Сохраняем полученные сеансы.
-    } catch (error) {
-      console.error(error); // Обработка ошибок.
-    }
+    this.seances = await Fetch.send("GET", `hall/${this.hallId}/seances`); // Отправляем асинхронный GET-запрос на сервер для получения списка сеансов в указанном зале
+    // `this.hallId` содержит идентификатор зала, для которого запрашиваются сеансы
+
+    // const token = localStorage.getItem("token"); // Получаем токен для авторизации.
+    // try {
+    //   const jsonResponse = await fetch(`${_URL}hall/${this.hallId}/seances`, {
+    //     method: "GET",
+    //     headers: { Authorization: `Bearer ${token}` }, // Заголовок с токеном.
+    //   });
+    //   const response = await jsonResponse.json(); // Парсим JSON-ответ.
+    //   this.seances = response; // Сохраняем полученные сеансы.
+    // } catch (error) {
+    //   console.error(error); // Обработка ошибок.
+    // }
   }
 
   // Метод для вычисления доступного времени с учетом занятых сеансов.
