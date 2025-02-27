@@ -1,4 +1,4 @@
-import { _URL, _URL_HALL } from "./app.js";
+import { _URL_HALL } from "./app.js";
 
 // Определяем класс MovieSeancesHall для работы с сеансами фильмов в конкретном зале
 export default class MovieSeancesHall {

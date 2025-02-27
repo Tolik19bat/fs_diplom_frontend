@@ -1,5 +1,5 @@
 import AddMovieModal from "./AddMovieModal.js";
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
 import SeancesTime from "./SeancesTime.js";
 import Fetch from "./Fetch.js";
 

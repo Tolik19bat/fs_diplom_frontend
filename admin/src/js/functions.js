@@ -1,4 +1,4 @@
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
 import Fetch from "./Fetch.js";
 
 // Функция для создания и отправки пользовательского события 'updateHall' с дополнительными данными

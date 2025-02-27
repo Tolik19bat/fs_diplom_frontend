@@ -1,4 +1,4 @@
-import { _URL, _URL_HALL } from "./app.js";
+import { _URL_HALL } from "./app.js";
 import Movie from "./Movie.js";
 import Fetch from "./Fetch.js";
 

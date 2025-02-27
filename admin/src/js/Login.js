@@ -1,4 +1,4 @@
-import { _URL, _URL_ADMIN_INDEX } from "./app.js";
+import { _URL_ADMIN_INDEX } from "./app.js";
 import Fetch from "./Fetch.js";
 
 // Определяем класс Login для управления логикой входа

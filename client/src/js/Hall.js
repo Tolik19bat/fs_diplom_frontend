@@ -1,4 +1,4 @@
-import { _URL, _URL_PAYMENT } from "./app.js"; // Импортируем URL-ы для запросов
+import { _URL_PAYMENT } from "./app.js"; // Импортируем URL-ы для запросов
 import ChairsInHall from "./ChairsInHall.js"; // Импортируем класс для управления креслами в зале
 import Fetch from "./Fetch.js";
 

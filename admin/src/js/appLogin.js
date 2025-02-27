@@ -3,3 +3,4 @@ import Loader from "/admin/src/js/Loader.js";
 
 Loader.init();
 const login = new Login();
+console.log(login);

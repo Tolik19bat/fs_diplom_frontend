@@ -1,4 +1,4 @@
-import { _URL } from "./app.js"; // URL для взаимодействия с API
+// import { _URL } from "./app.js"; // URL для взаимодействия с API
 import { getHalls } from "./functions.js"; // Функция для получения списка залов
 import {
   defaultRows,

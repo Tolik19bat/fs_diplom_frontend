@@ -1,4 +1,4 @@
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
 import Seance from "./Seance.js";
 import Fetch from "./Fetch.js";
 

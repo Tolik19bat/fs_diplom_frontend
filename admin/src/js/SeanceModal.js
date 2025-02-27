@@ -1,4 +1,5 @@
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
+import Fetch from "./Fetch.js";
 
 // Определяем класс для управления модальным окном сеанса
 export default class SeanceModal {

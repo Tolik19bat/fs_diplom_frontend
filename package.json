@@ -10,8 +10,9 @@
     "start": "live-server"
   },
   "devDependencies": {
-    "eslint": "^8.52.0",
-    "globals": "^15.14.0",
+    "@eslint/js": "^9.21.0",
+    "eslint": "^8.57.1",
+    "globals": "^15.15.0",
     "hint": "^7.1.13",
     "live-server": "^1.2.2"
   },

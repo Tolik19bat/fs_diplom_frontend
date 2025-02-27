@@ -1,5 +1,5 @@
 // Импортируем базовый URL из другого модуля
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";    
 import Fetch from "./Fetch.js";
 
 // Экспортируем класс ChairsInHall, который отвечает за управление креслами в зале

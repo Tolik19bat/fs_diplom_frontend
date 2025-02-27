@@ -1,7 +1,6 @@
 // Импортируем зависимости для управления разными частями приложения
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
 import Fetch from "./Fetch.js";
-import Loader from "./Loader.js";
 //import accordeon from "./accordeon.js"; // Модуль для аккордеона
 import HallManagement from "./HallManagement.js"; // Управление залами
 import HallConfiguration from "./HallConfiguration.js"; // Конфигурация залов

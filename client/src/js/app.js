@@ -12,4 +12,5 @@ export const _URL_TICKET = "/client/src/html/ticket.html";
 if (location.pathname === "/" || location.pathname === "/index.html") {
   Loader.init();
   const page = new Page();
+  console.log(page);
 }

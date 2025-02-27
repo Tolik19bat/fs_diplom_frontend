@@ -1,4 +1,4 @@
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
 import Fetch from "./Fetch.js";
 import HallList from "./HallList.js";
 import HallSize from "./HallSize.js";

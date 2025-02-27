@@ -30,14 +30,14 @@
   "selectedElement": null,
   "chairs": [],
   "chairsCopy": [],
-  "hallList": { /* объект HallList */ },
+  "hallList": { /*объект HallList */ },
   "hallSize": { /* объект HallSize */ },
   "containerEl": { /* DOM элемент .hall-configuration */ },
   "hallsListEl": { /* DOM элемент .hall-configuration-halls-list */ },
   "hallEl": { /* DOM элемент .conf-step__hall-wrapper */ },
   "modalEl": { /* DOM элемент .modal-chair-type */ },
   "btnCancelEl": { /* DOM элемент .hall-configuration-btn-cancel */ },
-  "btnSaveEl": { /* DOM элемент .hall-configuration-btn-save */ }
+  "btnSaveEl": { /* DOM элемент .hall-configuration-btn-save*/ }
 }
 
 * * *
@@ -64,14 +64,14 @@
       "sales": true
     }
   ],
-  "mainEl": "<div class='main'>...</div>",
-  "containerEl": "<div class='hall-management'>...</div>",
-  "btnCreateHallEl": "<button class='create-hall'>Создать зал</button>",
-  "hallListEl": "<ul class='hall-list'>...</ul>",
-  "modalEl": "<div class='modal-create-hall'>...</div>",
-  "modalBtnCloseEl": "<button class='modal-create-hall__btn-close'>Закрыть</button>",
-  "modalInputEl": "<input class='modal-create-hall__input' type='text'>",
-  "modalFormEl": "<form class='modal-create-hall__form'>...</form>"
+   "mainEl": "div class='main'>.../div>",
+  "containerEl": "div class='hall-management'>.../div>",
+  "btnCreateHallEl": "button class='create-hall'>Создать зал/button>",
+  "hallListEl": "ul class='hall-list'>.../ul>",
+  "modalEl": "div class='modal-create-hall'>.../div>",
+  "modalBtnCloseEl": "button class='modal-create-hall__btn-close'>Закрыть/button>",
+  "modalInputEl": "input class='modal-create-hall__input' type='text'>",
+  "modalFormEl": "form class='modal-create-hall__form'>.../form>"
 }
 
 * * *
@@ -115,7 +115,7 @@
 
 * * *
 Объект Page {
-  containerEl: <div id="app"></div>, // Контейнер страницы
+  containerEl: div id="app">/div>, // Контейнер страницы
   halls: [
     { id: 1, name: "Большой зал", seats: 100 },
     { id: 2, name: "Малый зал", seats: 50 }

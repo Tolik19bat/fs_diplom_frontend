@@ -140,6 +140,7 @@ export default class Calendar {
 
     // Если смещение совпадает с текущим днем, оставляем
     if (startDate.toLocaleDateString() === new Date().toLocaleDateString()) {
+      console.log();
     } else {
       startDate = new Date(argDate);
       startDate.setDate(startDate.getDate() - 5); // Иначе смещаем на 5 дней

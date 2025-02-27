@@ -1,4 +1,4 @@
-import { _URL, _URL_TICKET } from "./app.js";
+import { _URL_TICKET } from "./app.js";
 import Fetch from "./Fetch.js";
 
 // Класс для обработки платежей

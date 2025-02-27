@@ -1,4 +1,4 @@
-import { _URL } from "./app.js";
+// import { _URL } from "./app.js";
 import AddMovieModal from "./AddMovieModal.js";
 import PosterList from "./PosterList.js";
 import PosterModal from "./PosterModal.js";
