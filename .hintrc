@@ -1,11 +1,21 @@
 {
-  "extends": ["development"],
+  "extends": [
+    "development"
+  ],
   "hints": {
     "x-content-type-options": "error",
     "axe/name-role-value": [
       "default",
       {
         "button-name": "off"
+      }
+    ],
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "text-size-adjust"
+        ]
       }
     ]
   }

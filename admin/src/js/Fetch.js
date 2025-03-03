@@ -18,7 +18,10 @@ export default class Fetch {
       // Формируем объект с параметрами запроса
       const requestOptions = {
         method, // HTTP-метод (GET, POST, PUT, DELETE и т. д.)
-        headers: { Authorization: `Bearer ${token}` }, // Добавляем заголовок Authorization с токеном
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${token}` 
+          }, // Добавляем заголовок Authorization с токеном
       };
 
       // Если переданы данные в формате FormData
@@ -35,9 +38,18 @@ export default class Fetch {
         requestOptions.body = JSON.stringify(options.bodyJson); // Преобразуем объект в JSON-строку
         requestOptions.headers["Content-Type"] = "application/json"; // Добавляем заголовок Content-Type
       }
+      
+      // Логируем запрос перед отправкой
+      console.log("Запрос:", {
+        url: _URL + query,
+        method: requestOptions.method,
+        headers: requestOptions.headers,
+        body: requestOptions.body ? requestOptions.body : "нет тела запроса",
+      });
 
       // Выполняем запрос к серверу
       const response = await fetch(_URL + query, requestOptions);
+      
 
       // Если нужен "сырой" ответ, просто возвращаем объект Response
       if (options?.cleanResponse) {

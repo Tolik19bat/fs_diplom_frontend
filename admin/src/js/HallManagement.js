@@ -14,7 +14,7 @@ export default class HallManagement {
     this.halls = halls; // Массив залов
     this.init(); // Инициализация
     // Логирование созданного объекта
-    console.log("Создан новый объект HallManagement:", this);
+    // console.log("Создан новый объект HallManagement:", this);
   }
 
   // Метод инициализации

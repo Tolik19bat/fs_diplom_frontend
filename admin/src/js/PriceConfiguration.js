@@ -9,7 +9,7 @@ export default class PriceConfiguration {
     this.activeHallId = halls[0]?.id; // Идентификатор активного зала
     this.init(); // Инициализация экземпляра класса
     // Логирование созданного объекта
-    console.log("Создан новый объект PriceConfiguration:", this);
+    // console.log("Создан новый объект PriceConfiguration:", this);
   }
 
   // Метод для инициализации логики класса

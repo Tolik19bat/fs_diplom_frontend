@@ -9,7 +9,7 @@ export default class HallList {
     this.activeHallId = this.halls.length > 0 ? this.halls[0].id : null; // идентификатор активного зала
     this.handlerUpdate = null; // обработчик обновления
     // Логирование созданного объекта
-    console.log("Создан новый объект HallList:", this);
+    // console.log("Создан новый объект HallList:", this);
   }
 
   // Статический счетчик для идентификации объектов класса

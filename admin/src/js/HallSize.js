@@ -5,7 +5,7 @@ export default class HallSize {
     this.init(); // инициализация логики класса
     this.handlerChangeSize = null; // обработчик изменения размера
     // Логирование созданного объекта
-    console.log("Создан новый объект Hallize:", this);
+    // console.log("Создан новый объект Hallize:", this);
   }
 
   // Инициализация метода
@@ -16,7 +16,7 @@ export default class HallSize {
   // Метод для связывания DOM-элементов
   bindToDom() {
     this.countRowsEl = document.querySelector(".count-rows"); // находим элемент для количества рядов
-    console.log(this.countRowsEl); // выводим элемент в консоль (для отладки)
+    // console.log(this.countRowsEl); // выводим элемент в консоль (для отладки)
     this.onChangeSize = this.onChangeSize.bind(this); // связываем контекст для обработчика
     this.countRowsEl.addEventListener("input", this.onChangeSize); // добавляем обработчик события изменения для рядов
 

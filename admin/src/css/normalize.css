@@ -11,7 +11,14 @@
 html {
   line-height: 1.15;
   /* 1 */
-  -webkit-text-size-adjust: 100%;
+  /* Для старых версий Internet Explorer */
+-ms-text-size-adjust: 100%;
+
+/* Для Safari, Firefox Android и iOS */
+-webkit-text-size-adjust: 100%;
+
+/* Для современных браузеров (Chrome 54+, Edge 79+, Opera 41+) */
+text-size-adjust: 100%;
   /* 2 */
 }
 

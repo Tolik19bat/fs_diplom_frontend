@@ -8,7 +8,7 @@ export default class SeancesList {
     this.hallsSeances = [];
     this.init();
     // Логирование созданного объекта
-   console.log("Создан новый объект SeancesList:", this);
+  //  console.log("Создан новый объект SeancesList:", this);
   }
 
   // Метод инициализации, вызывающий привязку событий к элементам DOM.

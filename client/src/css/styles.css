@@ -527,17 +527,16 @@ body {
 .loader {
   z-index: 30;
   position: fixed;
-  top: calc(75% - 60px);
-  left: calc(50% - 60px);
-  border: 16px solid #f3f3f3;
+  top: calc(75% - 30px);
+  left: calc(50% - 30px);
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  border-top: 16px solid #16A6AF;
-  border-right: 16px solid #16A6AF;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite;
-  /* Safari */
-  animation: spin 2s linear infinite;
+  border: 6px solid transparent;
+  border-top: 6px solid #333333;
+  border-bottom: 6px solid #333333;
+  animation: spin 1.2s linear infinite;
+  opacity: 0.5;
 }
 
 /* Safari */
@@ -547,7 +546,7 @@ body {
   }
 
   100% {
-    -webkit-transform: rotate(360deg);
+    -webkit-transform: rotate(-360deg);
   }
 }
 
@@ -557,6 +556,6 @@ body {
   }
 
   100% {
-    transform: rotate(360deg);
+    transform: rotate(-360deg);
   }
 }
