@@ -13,6 +13,7 @@ export default class HallConfiguration {
     this.chairs = []; // Массив кресел в текущем зале
     this.chairsCopy = []; // Копия массива кресел для отмены изменений
     this.init(); // Вызов метода инициализации
+    console.log({"HallConfiguration": this});
   }
 
   init() {
@@ -51,7 +52,7 @@ export default class HallConfiguration {
     this.btnSaveEl.addEventListener("click", this.onClickBtnSave);
   }
 
-  renderConfigurationOptions(activeHall) {
+  async renderConfigurationOptions(activeHall) {
     if (!activeHall) {
       return;
     }
@@ -142,7 +143,7 @@ export default class HallConfiguration {
     }
   }
 
-  onClickBtnSave() {
+  async onClickBtnSave() {
     // Обработчик для кнопки сохранения
     if (this.chairsCopy.length == 0) {
       return;
@@ -156,12 +157,12 @@ export default class HallConfiguration {
     this.chairsCopy = [];
 
     if (chairs.every((chair) => chair.id)) {
-      this.updateChairs(chairs);
+      await this.updateChairs(chairs);
     } else {
-      this.createChairs(chairs, this.activeHallId).then((resolve) =>
-        this.renderHall(resolve)
-      );
+      const sevedChairs = await this.createChairs(chairs, this.activeHallId);
+      this.renderHall(sevedChairs);
     }
+    await this.getChairs();
   }
 
   /**

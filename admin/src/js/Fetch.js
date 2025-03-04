@@ -19,7 +19,6 @@ export default class Fetch {
       const requestOptions = {
         method, // HTTP-метод (GET, POST, PUT, DELETE и т. д.)
         headers: {
-          "Content-Type": "application/json",
            Authorization: `Bearer ${token}` 
           }, // Добавляем заголовок Authorization с токеном
       };
@@ -38,7 +37,7 @@ export default class Fetch {
         requestOptions.body = JSON.stringify(options.bodyJson); // Преобразуем объект в JSON-строку
         requestOptions.headers["Content-Type"] = "application/json"; // Добавляем заголовок Content-Type
       }
-      
+
       // Логируем запрос перед отправкой
       console.log("Запрос:", {
         url: _URL + query,
