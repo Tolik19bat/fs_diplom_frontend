@@ -2,7 +2,7 @@
 import Fetch from "./Fetch.js";
 
 // Функция для создания и отправки пользовательского события 'updateHall' с дополнительными данными
-export function dispatchUpdateEvent(arg) {
+export async function dispatchUpdateEvent(arg) {
   // Создаём новое пользовательское событие с типом 'updateHall' и передаем аргумент как детализированные данные
   const event = new CustomEvent("updateHall", {
     detail: arg, // Внутреннее свойство 'detail' содержит переданные данные

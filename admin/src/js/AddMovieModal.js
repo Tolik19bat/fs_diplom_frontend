@@ -152,8 +152,26 @@ export default class AddMovieModal {
    */
   static async addMovie() {
     const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData
+    // Преобразуем FormData в объект для вывода в консоль
+    const requestBody = {};
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        // Если значение — файл, выводим его метаданные
+        requestBody[key] = {
+          name: value.name, // Имя файла
+          size: value.size, // Размер файла
+          type: value.type, // MIME-тип файла
+        };
+      } else {
+        // Если значение — не файл, добавляем как есть
+        requestBody[key] = value;
+      }
+    }
+  
+    // Выводим объект в консоль в формате JSON
+    console.log("Тело запроса для Postman:", JSON.stringify(requestBody, null, 2));
     await Fetch.send("POST", "movie", { formData });
-
+    
     // const token = localStorage.getItem("token"); // Получаем токен из localStorage
     // try {
     // const formData = new FormData(AddMovieModal.formEl); // Создаем объект FormData

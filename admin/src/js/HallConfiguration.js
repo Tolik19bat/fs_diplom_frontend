@@ -56,8 +56,10 @@ export default class HallConfiguration {
     if (!activeHall) {
       return;
     }
+    console.log("Active Hall:", activeHall); // Логируем весь объект activeHall
+    // console.log("Active Hall ID:", activeHall.id); // Логируем только Id
     // Установка активного зала и отображение его конфигурации
-    this.activeHallId = activeHall.Id;
+    this.activeHallId = activeHall.id;
     this.getChairs().then(() => {
       this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
       this.renderHall(this.chairs);
@@ -206,7 +208,8 @@ export default class HallConfiguration {
    * @returns {*}
    */
   async createChairs(chairs, hallId) {
-    return await Fetch.send("PUT", `chair/${hallId}`, { bodyJson: { chairs } });
+    return await Fetch.send("PUT", `chair/${hallId}`, { bodyJson: {
+       chairs } });
     // Отправляем HTTP-запрос методом PUT на эндпоинт "chair/{hallId}"
     // В теле запроса передаём объект JSON с ключом "chairs"
     // Используем return, чтобы вернуть результат выполнения Fetch.send()
@@ -214,7 +217,7 @@ export default class HallConfiguration {
     // Создание новых кресел через API
     // const token = localStorage.getItem("token");
     // try {
-    //   const jsonResponse = await fetch(`${_URL}chair/${hallId}`, {
+    //   this.const jsonResponse = await fetch(`${_URL}chair/${hallId}`, {
     //     method: "PUT",
     //     headers: {
     //       "Content-Type": "application/json",
@@ -303,9 +306,9 @@ export default class HallConfiguration {
     const chairs = [...chairElArray]
       .map((element) => {
         let type;
-        if (element.classList.contains(".conf-step__chair_vip")) {
+        if (element.classList.contains("conf-step__chair_vip")) {
           type = "2";
-        } else if (element.classList.contains(".conf-step__chair_standart")) {
+        } else if (element.classList.contains("conf-step__chair_standart")) {
           type = "1";
         } else {
           type = "0";
