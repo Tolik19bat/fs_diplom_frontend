@@ -11,6 +11,7 @@ export default class Seance {
       "CAFF85", "85FF89", "85FFD3", "85E2FF", "8599FF",
       "BA85FF", "FF85FB", "FF85B1", "FFA885", "FFEB85"
     ];
+    console.log({"Seance": this});
   }
 
   // Метод для создания DOM-элемента, отображающего сеанс
