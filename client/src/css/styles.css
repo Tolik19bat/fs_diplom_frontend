@@ -252,6 +252,7 @@ body {
   font-size: 1.4rem;
   background-color: #16A6AF;
   color: #FFFFFF;
+  cursor: pointer;
 }
 
 .buying {
@@ -496,7 +497,7 @@ body {
   display: block;
   margin: 3rem auto 0;
   width: 20rem;
-  height: 20rem;
+  /* height: 20rem; */
 }
 
 @media screen and (min-width: 479px) {

@@ -75,19 +75,26 @@ export default class Payment {
   // Метод сохранения информации о билете
   async saveTicketInformation(chairId) {
     console.log(chairId);
+    
+  // Преобразуем дату в формат YYYY-MM-DD
+  const date = new Date(this.paymentInfo.date);
+  const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+
+  // Формируем тело запроса
+  const requestBody = {
+    date: formattedDate, // Используем отформатированную дату
+    seance_id: this.paymentInfo.seance.id, // ID сеанса
+    chair_id: chairId, // ID кресла
+  };
+
+  // Выводим тело запроса в консоль
+  console.log("Тело запроса для создания билета:", JSON.stringify(requestBody, null, 2));
+
+
     try {
       // Отправляем POST-запрос для создания билета
       const response = await Fetch.send("POST", "ticket", {
-        bodyJson: {
-          // Преобразуем дату оплаты в строку в локальном формате (например, "27.02.2025")
-          date: new Date(this.paymentInfo.date).toLocaleDateString(),
-
-          // Передаем ID сеанса, на который покупается билет
-          seance_id: this.paymentInfo.seance.id,
-
-          // Передаем ID кресла, на которое оформляется билет
-          chair_id: chairId,
-        },
+        bodyJson: requestBody,
         cleanResponse: true, // Опция cleanResponse: true означает, что метод Fetch.send вернет "сырой" response,
         // а не автоматически обработанный JSON или текст
       });
