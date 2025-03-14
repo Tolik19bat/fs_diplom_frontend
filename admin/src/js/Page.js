@@ -20,8 +20,8 @@ export default class Page {
 
   // Метод для инициализации страницы
   async init() {
-    this.halls = await this.getHalls(); // Загружаем данные о залах
     this.initAccordeon(); // Инициализируем аккордеон
+    this.halls = await this.getHalls(); // Загружаем данные о залах
     this.hallManagement = new HallManagement(this.halls); // Создаем экземпляр для управления залами
     this.hallConfiguration = new HallConfiguration(this.halls); // Экземпляр для конфигурации залов
     this.priceConfiguration = new PriceConfiguration(this.halls); // Экземпляр для настройки цен
