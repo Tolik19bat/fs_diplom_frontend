@@ -22,6 +22,9 @@ export default class Page {
   async init() {
     try {
       this.halls = await this.getHalls();
+      if (!this.halls || !Array.isArray(this.halls)) {
+        throw new Error('Данные о залах не загружены или имеют неверный формат');
+      }
       this.initAccordeon();
       this.hallManagement = new HallManagement(this.halls);
       this.hallConfiguration = new HallConfiguration(this.halls);
