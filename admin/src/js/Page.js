@@ -20,13 +20,18 @@ export default class Page {
 
   // Метод для инициализации страницы
   async init() {
-    this.initAccordeon(); // Инициализируем аккордеон
-    this.halls = await this.getHalls(); // Загружаем данные о залах
-    this.hallManagement = new HallManagement(this.halls); // Создаем экземпляр для управления залами
-    this.hallConfiguration = new HallConfiguration(this.halls); // Экземпляр для конфигурации залов
-    this.priceConfiguration = new PriceConfiguration(this.halls); // Экземпляр для настройки цен
-    this.seanceGrid = new SeanceGrid(this.halls); // Экземпляр для сетки сеансов
-    this.openSales = new OpenSales(this.halls); // Экземпляр для управления продажами билетов
+    try {
+      this.halls = await this.getHalls();
+      this.initAccordeon();
+      this.hallManagement = new HallManagement(this.halls);
+      this.hallConfiguration = new HallConfiguration(this.halls);
+      this.priceConfiguration = new PriceConfiguration(this.halls);
+      this.seanceGrid = new SeanceGrid(this.halls);
+      this.openSales = new OpenSales(this.halls);
+    } catch (error) {
+      console.error('Ошибка при инициализации:', error);
+      // Дополнительная обработка ошибки, например, показ сообщения пользователю
+    }
   }
 
   initAccordeon() {
