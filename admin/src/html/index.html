@@ -56,9 +56,9 @@
         </ul>
         <p class="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в ряду:</p>
         <div class="conf-step__legend">
-          <label class="conf-step__label">Рядов, шт<input type="text" class="count-rows conf-step__input"></label>
+          <label class="conf-step__label">Рядов, шт<input type="text" class="count-rows conf-step__input" pattern="^[1-9][0-9]*$" required></label>
           <span class="multiplier">x</span>
-          <label class="conf-step__label">Мест, шт<input type="text" class="count-places conf-step__input"></label>
+          <label class="conf-step__label">Мест, шт<input type="text" class="count-places conf-step__input" pattern="^[1-9][0-9]*$" required></label>
         </div>
         <p class="conf-step__paragraph">Теперь вы можете указать типы кресел на схеме зала:</p>
         <div class="conf-step__legend">
@@ -100,12 +100,13 @@
           <p class="conf-step__paragraph">Установите цены для типов кресел:</p>
           <div class="conf-step__legend">
             <label class="conf-step__label">Цена, рублей<input type="text" class="ticket-price conf-step__input"
-                required></label>
+              pattern="^[1-9][0-9]*$" required></label>
             за <span class="conf-step__chair conf-step__chair_standart"></span> обычные кресла
           </div>
+
           <div class="conf-step__legend">
             <label class="conf-step__label">Цена, рублей<input type="text" class="vip-ticket-price conf-step__input"
-                required></label>
+              pattern="^[1-9][0-9]*$" required></label>
             за <span class="conf-step__chair conf-step__chair_vip"></span> VIP кресла
           </div>
           <fieldset class="conf-step__buttons text-center">
@@ -127,10 +128,8 @@
         </p>
         <div class="movies-container conf-step__movies">
         </div>
-
         <div class="conf-step__seances">
         </div>
-
       </div>
 
       <div class="modal-add-movie hidden">
@@ -138,8 +137,8 @@
           <button type="button" class="modal-add-movie__btn-close"></button>
           <label class="modal-add-movie__label" for="movie-title">Название фильма: </label>
           <input type="text" id="movie-title" name="title" class="modal-add-movie__input" required>
-          <label class="modal-add-movie__label" for="movie-duration">Длительность: </label>
-          <input type="text" id="movie-duration" name="duration" class="modal-add-movie__input" required>
+          <label class="modal-add-movie__label" for="movie-duration">Длительность (мин): </label>
+          <input type="text" id="movie-duration" name="duration" class="modal-add-movie__input" pattern="^[1-9][0-9]*$" required>
           <label class="modal-add-movie__label" for="movie-country">Страна: </label>
           <input type="text" id="movie-country" name="country" class="modal-add-movie__input" required>
           <label class="modal-add-movie__label" for="movie-description">Краткое описание: </label>
@@ -150,11 +149,12 @@
           <input type="date" id="movie-end_date" name="end_date" class="modal-add-movie__input" required>
           <label for="file-input" class="modal-add-file-input__label">Выберите файл:</label>
           <input type="file" id="file-input" name="file" multiple class="modal-add-movie__input_file">
+          
           <fieldset class="conf-step__buttons text-center">
             <button type="button"
               class="conf-step__button conf-step__button-accent modal-add-movie__btn-add-img">Добавить
               постер</button>
-            <button type="submit"
+            <button type="button"
               class="conf-step__button conf-step__button-accent modal-add-movie__btn-submit">Сохранить</button>
           </fieldset>
         </form>
