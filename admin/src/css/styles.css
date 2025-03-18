@@ -234,7 +234,8 @@ select {
 }
 
 .conf-step__list li::before {
-  content: '–';
+  content: '';
+  /* border: 1px solid black; */
   position: absolute;
   left: -14px;
 }
@@ -314,6 +315,7 @@ select {
 
 .conf-step__button-trash {
   position: relative;
+  left: 7px;
   width: 20px;
   height: 20px;
   vertical-align: text-top;
