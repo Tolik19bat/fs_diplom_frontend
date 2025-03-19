@@ -47,7 +47,7 @@ export default class HallManagement {
 
   // Обработчик обновления зала
   updateHandler(e) {
-    this.hall = e.detail.data; // Сохраняем данные о зале
+    this.halls = e.detail.data; // Сохраняем данные о зале
     this.renderHalls(); // Отображаем залы
   }
 
