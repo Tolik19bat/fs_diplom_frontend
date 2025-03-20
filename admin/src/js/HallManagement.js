@@ -68,7 +68,7 @@ export default class HallManagement {
 
   // Обработчик кнопки удаления зала
   btnRemoveHandle(hall) {
-    console.log("btnRemoveHandle");
+    // console.log("btnRemoveHandle");
     this.removeHall(hall).then(() => getHalls()); // Удаляем зал и обновляем список
   }
 
