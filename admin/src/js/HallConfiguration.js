@@ -1,50 +1,56 @@
-// import { _URL } from "./app.js";
-import Fetch from "./Fetch.js";
-import HallList from "./HallList.js";
-import HallSize from "./HallSize.js";
+// Импорт зависимостей
+import Fetch from "./Fetch.js"; // Модуль для работы с HTTP-запросами
+import HallList from "./HallList.js"; // Модуль для работы со списком залов
+import HallSize from "./HallSize.js"; // Модуль для работы с размерами зала
 
-// Определение класса для конфигурации зала
+// Класс для управления конфигурацией зала
 export default class HallConfiguration {
   constructor(halls = []) {
-    // Инициализация свойств
-    this.halls = halls; // Мфссив залов
-    this.activeHallId = null; // Идентификатор активного зала
-    this.selectedElement = null; // Выбранный элемент
+    // Инициализация свойств класса
+    this.halls = halls; // Массив залов
+    this.activeHallId = null; // ID активного зала
+    this.selectedElement = null; // Выбранный элемент (кресло)
     this.chairs = []; // Массив кресел в текущем зале
     this.chairsCopy = []; // Копия массива кресел для отмены изменений
     this.init(); // Вызов метода инициализации
-    console.log({"HallConfiguration": this});
+    console.log({ HallConfiguration: this }); // Логирование объекта для отладки
   }
 
+  // Метод инициализации
   init() {
-    // Связывание элементов DOM и инициализация подмодулей
-    this.bindToDom();
+    this.bindToDom(); // Привязка элементов DOM
     this.hallList = new HallList(this.hallsListEl, this.halls); // Инициализация списка залов
-    this.hallList.handlerUpdate = this.renderConfigurationOptions.bind(this); // Привязка обработчика для обновления
-    this.hallList.init();
-    this.hallSize = new HallSize(); // Инициализация объекта размера зала
-    this.hallSize.handlerChangeSize = this.changeSize.bind(this); // Обработчик изменения размера
+    this.hallList.handlerUpdate = this.renderConfigurationOptions.bind(this); // Привязка обработчика обновления
+    this.hallList.init(); // Инициализация списка залов
+    this.hallSize = new HallSize(); // Инициализация объекта для управления размерами зала
+    this.hallSize.handlerChangeSize = this.changeSize.bind(this); // Привязка обработчика изменения размера
   }
 
+  // Метод для привязки элементов DOM
   bindToDom() {
-    // Поиск элементов DOM для работы с конфигурацией зала
+    // Поиск контейнера для конфигурации зала
     this.containerEl = document.querySelector(".hall-configuration");
+    // Поиск списка залов внутри контейнера
     this.hallsListEl = this.containerEl.querySelector(
       ".hall-configuration-halls-list"
     );
+    // Поиск элемента для отображения зала
     this.hallEl = this.containerEl.querySelector(".conf-step__hall-wrapper");
+    // Поиск модального окна для выбора типа кресла
     this.modalEl = this.containerEl.querySelector(".modal-chair-type");
 
-    // Связывание методов с текущим контекстом
+    // Привязка обработчика клика по модальному окну
     this.onClickModal = this.onClickModal.bind(this);
     this.modalEl.addEventListener("click", this.onClickModal);
 
+    // Поиск кнопки "Отмена" и привязка обработчика
     this.btnCancelEl = this.containerEl.querySelector(
       ".hall-configuration-btn-cancel"
     );
     this.onClickBtnCancel = this.onClickBtnCancel.bind(this);
     this.btnCancelEl.addEventListener("click", this.onClickBtnCancel);
 
+    // Поиск кнопки "Сохранить" и привязка обработчика
     this.btnSaveEl = this.containerEl.querySelector(
       ".hall-configuration-btn-save"
     );
@@ -52,228 +58,149 @@ export default class HallConfiguration {
     this.btnSaveEl.addEventListener("click", this.onClickBtnSave);
   }
 
+  // Метод для отображения конфигурации активного зала
   async renderConfigurationOptions(activeHall) {
-    if (!activeHall) {
-      return;
-    }
-    console.log("Active Hall:", activeHall); // Логируем весь объект activeHall
-    // console.log("Active Hall ID:", activeHall.id); // Логируем только Id
-    // Установка активного зала и отображение его конфигурации
+    if (!activeHall) return; // Если активный зал не передан, выходим
+    // console.log("Active Hall:", activeHall); // Логируем активный зал
+
+    // Устанавливаем ID активного зала и загружаем кресла
     this.activeHallId = activeHall.id;
-    this.getChairs().then(() => {
+    await this.getChairs().then(() => {
+      // Отображаем размеры зала и кресла
       this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
       this.renderHall(this.chairs);
     });
   }
 
+  // Метод для изменения размеров зала
   changeSize(arg) {
-    // Изменение размеров зала с сохранением предыдущей конфигурации
+    // Сохраняем копию кресел, если она еще не создана
     if (this.chairsCopy.length === 0) {
       this.chairs.forEach((element) => {
         this.chairsCopy.push({ ...element });
       });
     }
+
+    // Создаем новый массив кресел с новыми размерами
     const chairs = [];
     for (let i = 1; i <= arg.rows; i += 1) {
       for (let j = 1; j <= arg.places; j += 1) {
         chairs.push({
           row: i,
           place: j,
-          type: "1",
+          type: "1", // Тип кресла по умолчанию
         });
       }
     }
 
+    // Отображаем зал с новыми креслами
     this.renderHall(chairs);
   }
 
+  // Метод для отображения модального окна
   showModal() {
-    // Показать модальное окно выбора типа кресла
-    this.modalEl.classList.remove("hidden");
+    this.modalEl.classList.remove("hidden"); // Убираем класс "hidden" для показа модального окна
   }
 
+  // Метод для скрытия модального окна
   hideModal() {
-    // Скрыть модальное окно
-    this.modalEl.classList.add("hidden");
+    this.modalEl.classList.add("hidden"); // Добавляем класс "hidden" для скрытия модального окна
   }
 
+  // Обработчик клика по модальному окну
   onClickModal(e) {
-    // Обработчик клика по модальному окну
-    e.preventDefault();
+    e.preventDefault(); // Предотвращаем стандартное поведение
     if (!e.target.classList.contains("conf-step__chair")) {
-      this.hideModal();
+      this.hideModal(); // Если клик не по креслу, скрываем модальное окно
       return;
     }
 
-    // Сначала очищаем все классы, оставляя только "conf-step__chair"
-    this.selectedElement.className = "conf-step__chair";
-
-    // Затем добавляем классы из e.target, кроме "conf-step__chair"
+    // Обновляем классы выбранного элемента
+    this.selectedElement.className = "conf-step__chair"; // Очищаем классы, оставляя только базовый
     [...e.target.classList].forEach((currentClass) => {
       if (currentClass !== "conf-step__chair") {
-        this.selectedElement.classList.add(currentClass);
+        this.selectedElement.classList.add(currentClass); // Добавляем классы из выбранного кресла
       }
     });
-    // // Обновление классов для выбора типа кресла
-    // [...this.selectedElement.classList].forEach((currentClass) => {
-    //     if (currentClass != "conf-step__chair") {
-    //         this.selectedElement.classList.remove(currentClass);
-    //     }
-    // });
 
-    // [...e.target.classList].forEach((currentClass) => {
-    //     if (currentClass != "conf-step__chair") {
-    //         this.selectedElement.classList.add(currentClass);
-    //     }
-    // });
-
-    this.hideModal();
+    this.hideModal(); // Скрываем модальное окно
   }
 
+  // Обработчик кнопки "Отмена"
   onClickBtnCancel() {
-    // Обработчик для кнопки отмены
     if (this.chairsCopy.length > 0) {
+      // Восстанавливаем кресла из копии
       this.selectedPlace = null;
       this.chairs = [];
       this.chairsCopy.forEach((element) => {
         this.chairs.push({ ...element });
       });
-      this.chairsCopy = [];
-      this.hallSize.renderHallSize(this.getSizeHall(this.chairs));
-
-      this.renderHall(this.chairs);
+      this.chairsCopy = []; // Очищаем копию
+      this.hallSize.renderHallSize(this.getSizeHall(this.chairs)); // Обновляем размеры зала
+      this.renderHall(this.chairs); // Отображаем зал
     }
   }
 
+  // Обработчик кнопки "Сохранить"
   async onClickBtnSave() {
-    // Обработчик для кнопки сохранения
-    if (this.chairsCopy.length == 0) {
-      return;
-    }
+    if (this.chairsCopy.length === 0) return; // Если изменений нет, выходим
 
+    // Получаем текущую конфигурацию кресел
     const chairs = this.getChairsFormHall();
     if (chairs.length === 0) {
-      this.onClickBtnCancel();
+      this.onClickBtnCancel(); // Если кресел нет, отменяем изменения
       return;
     }
-    this.chairsCopy = [];
+    this.chairsCopy = []; // Очищаем копию
 
+    // Обновляем или создаем кресла в зависимости от наличия ID
     if (chairs.every((chair) => chair.id)) {
-      await this.updateChairs(chairs);
+      await this.updateChairs(chairs); // Обновляем существующие кресла
     } else {
-      const sevedChairs = await this.createChairs(chairs, this.activeHallId);
-      this.renderHall(sevedChairs);
+      const savedChairs = await this.createChairs(chairs, this.activeHallId); // Создаем новые кресла
+      this.renderHall(savedChairs); // Отображаем зал с новыми креслами
     }
-    await this.getChairs();
+    await this.getChairs(); // Обновляем список кресел
   }
 
-  /**
-   * Функция для обновления кресел по их id
-   * применяется, когда размеры зала не менялась,
-   * а поменялись типы кресел
-   *
-   * @async
-   * @param {*} chairs
-   * @returns {*}
-   */
+  // Метод для обновления кресел
   async updateChairs(chairs) {
-    await Fetch.send("PUT", "chair", { bodyJson: { chairs } });
-    // Отправляем HTTP-запрос методом PUT на эндпоинт "chair"
-    // В теле запроса передаём объект JSON с ключом "chairs"
-
-    // Асинхронное обновление кресел через API
-    // const token = localStorage.getItem("token");
-    // try {
-    //   await fetch(`${_URL}chair`, {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //     body: JSON.stringify({ chairs }),
-    //   });
-    // } catch (error) {
-    //   console.log("Error updating chairs:", error);
-    // }
+    await Fetch.send("PUT", "chair", { bodyJson: { chairs } }); // Отправляем запрос на обновление кресел
   }
 
-  /**
-   * Функция для создания новых кресел,
-   * в случааи изменения размеров зала,
-   * креслам присваиваится новые id
-   *
-   * @async
-   * @param {*} chairs
-   * @param {*} hallId
-   * @returns {*}
-   */
+  // Метод для создания новых кресел
   async createChairs(chairs, hallId) {
-    return await Fetch.send("PUT", `chair/${hallId}`, { bodyJson: {
-       chairs } });
-    // Отправляем HTTP-запрос методом PUT на эндпоинт "chair/{hallId}"
-    // В теле запроса передаём объект JSON с ключом "chairs"
-    // Используем return, чтобы вернуть результат выполнения Fetch.send()
-
-    // Создание новых кресел через API
-    // const token = localStorage.getItem("token");
-    // try {
-    //   this.const jsonResponse = await fetch(`${_URL}chair/${hallId}`, {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //     body: JSON.stringify({ chairs }),
-    //   });
-    //   return await jsonResponse.json();
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    return await Fetch.send("PUT", `chair/${hallId}`, { bodyJson: { chairs } }); // Отправляем запрос на создание кресел
   }
 
+  // Метод для получения кресел из зала
   async getChairs() {
-    this.chairs = await Fetch.send("GET", `hall/${this.activeHallId}/chairs`);
-    // Отправляем HTTP-запрос методом GET на эндпоинт "hall/{activeHallId}/chairs"
-    // Ожидаем ответ от сервера и присваиваем его в this.chairs
-
-    // Получение списка кресел через API
-    // const token = localStorage.getItem("token");
-    // try {
-    //   const jsonResponse = await fetch(
-    //     `${_URL}hall/${this.activeHallId}/chairs`,
-    //     {
-    //       method: "GET",
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   );
-    //   if (!jsonResponse.ok) {
-    //     const errorMessage = await jsonResponse.text();
-    //     throw new Error(`Failed to fetch chairs: ${errorMessage}`);
-    //   }
-    //   this.chairs = await jsonResponse.json();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    this.chairs = await Fetch.send("GET", `hall/${this.activeHallId}/chairs`); // Получаем кресла для активного зала
   }
 
+  // Метод для отображения зала с креслами
   renderHall(chairs) {
-    // Рендеринг зала с указанными креслами
-    this.hallEl.innerHTML = "";
-    const { rows: rowsCount, places: chairsInRow } = this.getSizeHall(chairs);
+    this.hallEl.innerHTML = ""; // Очищаем контейнер зала
+    const { rows: rowsCount, places: chairsInRow } = this.getSizeHall(chairs); // Получаем размеры зала
+
+    // Создаем ряды и кресла
     for (let i = 1; i <= rowsCount; i += 1) {
       const rowEl = document.createElement("div");
       rowEl.classList.add("conf-step__row");
       rowEl.dataset.row = i;
+
       for (let j = 1; j <= chairsInRow; j += 1) {
         const chairEl = document.createElement("span");
         chairEl.classList.add("conf-step__chair");
         chairEl.dataset.place = j;
+
+        // Находим кресло в массиве
         const chair = chairs.find((el) => +el.row === i && +el.place === j);
         if (chair.id) {
-          chairEl.dataset.chairId = chair.id;
+          chairEl.dataset.chairId = chair.id; // Устанавливаем ID кресла
         }
+
+        // Устанавливаем тип кресла
         if (+chair.type === 2) {
           chairEl.classList.add("conf-step__chair_vip");
         } else if (+chair.type === 1) {
@@ -281,31 +208,37 @@ export default class HallConfiguration {
         } else {
           chairEl.classList.add("conf-step__chair_disabled");
         }
+
+        // Добавляем обработчик клика по креслу
         chairEl.addEventListener("click", this.onClickChair.bind(this));
-        rowEl.appendChild(chairEl);
+        rowEl.appendChild(chairEl); // Добавляем кресло в ряд
       }
-      this.hallEl.appendChild(rowEl);
+      this.hallEl.appendChild(rowEl); // Добавляем ряд в зал
     }
   }
 
+  // Обработчик клика по креслу
   onClickChair(e) {
-    // Обработчик клика по креслу
-    e.preventDefault();
-    this.selectedElement = e.currentTarget;
+    e.preventDefault(); // Предотвращаем стандартное поведение
+    this.selectedElement = e.currentTarget; // Сохраняем выбранное кресло
+
+    // Сохраняем копию кресел, если она еще не создана
     if (this.chairsCopy.length === 0) {
       this.chairs.forEach((element) => {
         this.chairsCopy.push({ ...element });
       });
     }
-    this.showModal();
+
+    this.showModal(); // Показываем модальное окно
   }
 
+  // Метод для получения конфигурации кресел из зала
   getChairsFormHall() {
-    // Получение конфигурации кресел из зала
-    const chairElArray = this.hallEl.querySelectorAll(".conf-step__chair");
+    const chairElArray = this.hallEl.querySelectorAll(".conf-step__chair"); // Получаем все кресла
     const chairs = [...chairElArray]
       .map((element) => {
         let type;
+        // Определяем тип кресла
         if (element.classList.contains("conf-step__chair_vip")) {
           type = "2";
         } else if (element.classList.contains("conf-step__chair_standart")) {
@@ -313,12 +246,16 @@ export default class HallConfiguration {
         } else {
           type = "0";
         }
+
+        // Если у кресла есть ID, возвращаем его
         if (element.dataset.chairId) {
           return {
             id: +element.dataset.chairId,
             type,
           };
         }
+
+        // Иначе возвращаем ряд и место
         const row = element.parentNode.dataset.row;
         const place = element.dataset.place;
         return {
@@ -327,15 +264,15 @@ export default class HallConfiguration {
           type,
         };
       })
-      .sort((a, b) => a.id < b.id);
+      .sort((a, b) => a.id < b.id); // Сортируем кресла по ID
     return chairs;
   }
 
+  // Метод для получения размеров зала
   getSizeHall(chairs) {
-    // Определение размеров зала
     return {
-      rows: Math.max(...chairs.map((chair) => chair.row)),
-      places: Math.max(...chairs.map((chair) => chair.place)),
+      rows: Math.max(...chairs.map((chair) => chair.row)), // Максимальное количество рядов
+      places: Math.max(...chairs.map((chair) => chair.place)), // Максимальное количество кресел в ряду
     };
   }
 }
