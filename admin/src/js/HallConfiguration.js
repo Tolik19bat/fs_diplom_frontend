@@ -13,7 +13,7 @@ export default class HallConfiguration {
     this.chairs = []; // Массив кресел в текущем зале
     this.chairsCopy = []; // Копия массива кресел для отмены изменений
     this.init(); // Вызов метода инициализации
-    console.log({ HallConfiguration: this }); // Логирование объекта для отладки
+    // console.log({ HallConfiguration: this }); // Логирование объекта для отладки
   }
 
   // Метод инициализации

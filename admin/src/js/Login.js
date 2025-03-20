@@ -66,16 +66,16 @@ export default class Login {
         },
       }
     );
-    console.log(jsonResponse);
+    // console.log(jsonResponse);
     if (jsonResponse.ok) {
       // Проверяем, успешно ли выполнен запрос (статус ответа 200-299)
       const response = await jsonResponse.json(); // Асинхронно парсим JSON-ответ от сервера и сохраняем в переменную `response`
       this.putTokenIntoLocalStorage(response.token); // Вызываем метод, который сохраняет полученный токен в локальное хранилище
       window.location.href = _URL_ADMIN_INDEX; // Перенаправляем пользователя на страницу администратора
-      console.log(response);
+      // console.log(response);
     } else {
       console.log("error"); // Логируем ошибку сети
-        alert("Ooops! Данные не оределены."); // Выводим сообщение о сетевой ошибке
+        alert("Ooops! Данные не сходятся."); // Выводим сообщение о сетевой ошибке
     }
     // try {
     //   // Отправляем запрос на сервер для авторизации

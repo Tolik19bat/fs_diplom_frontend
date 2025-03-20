@@ -169,7 +169,7 @@ export default class AddMovieModal {
     }
   
     // Выводим объект в консоль в формате JSON
-    console.log("Тело запроса для Postman:", JSON.stringify(requestBody, null, 2));
+    // console.log("Тело запроса для Postman:", JSON.stringify(requestBody, null, 2));
     await Fetch.send("POST", "movie", { formData });
     
     // const token = localStorage.getItem("token"); // Получаем токен из localStorage

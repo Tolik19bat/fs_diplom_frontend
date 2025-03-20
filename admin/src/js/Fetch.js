@@ -39,17 +39,17 @@ export default class Fetch {
       }
 
       // Логируем запрос перед отправкой
-      console.log("Запрос admin:", {
-        url: _URL + query,
-        method: requestOptions.method,
-        headers: requestOptions.headers,
-        body: requestOptions.body ? requestOptions.body : "нет тела запроса",
-      });
+      // console.log("Запрос admin:", {
+      //   url: _URL + query,
+      //   method: requestOptions.method,
+      //   headers: requestOptions.headers,
+      //   body: requestOptions.body ? requestOptions.body : "нет тела запроса",
+      // });
 
       // Выполняем запрос к серверу
       const response = await fetch(_URL + query, requestOptions);
       
-      console.log("Ответ:", response);
+      // console.log("Ответ:", response);
 
       // Если нужен "сырой" ответ, просто возвращаем объект Response
       if (options?.cleanResponse) {
@@ -69,7 +69,6 @@ export default class Fetch {
         response.headers.get("content-type").includes("text/plain")
       ) {
         Loader.stopLoader();
-        console.log("");
         return await response.text();
       }
 
