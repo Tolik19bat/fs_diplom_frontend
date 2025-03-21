@@ -57,8 +57,8 @@ export default class Payment {
 
   // Обработчик нажатия на кнопку подтверждения
   async onClickAcceptinButtonEl() {
-    console.log("onClickAcceptinButtonEl");
-    console.log(this.paymentInfo.chairs);
+    // console.log("onClickAcceptinButtonEl");
+    // console.log(this.paymentInfo.chairs);
     // Перебираем все выбранные места и сохраняем информацию о каждом
     this.paymentInfo.chairs.forEach((chair, idx) => {
       this.saveTicketInformation(chair.id).then(() => {
@@ -74,7 +74,7 @@ export default class Payment {
 
   // Метод сохранения информации о билете
   async saveTicketInformation(chairId) {
-    console.log(chairId);
+    // console.log(chairId);
     
   // Преобразуем дату в формат YYYY-MM-DD
   const date = new Date(this.paymentInfo.date);
@@ -88,7 +88,7 @@ export default class Payment {
   };
 
   // Выводим тело запроса в консоль
-  console.log("Тело запроса для создания билета:", JSON.stringify(requestBody, null, 2));
+  // console.log("Тело запроса для создания билета:", JSON.stringify(requestBody, null, 2));
 
 
     try {
