@@ -25,17 +25,17 @@ export default class Fetch {
       }
 
       // Логируем запрос перед отправкой
-      console.log("Запрос client:", {
-        url: _URL + query,
-        method: requestOptions.method,
-        headers: requestOptions.headers,
-        body: requestOptions.body ? requestOptions.body : "нет тела запроса",
-      });
+      // console.log("Запрос client:", {
+      //   url: _URL + query,
+      //   method: requestOptions.method,
+      //   headers: requestOptions.headers,
+      //   body: requestOptions.body ? requestOptions.body : "нет тела запроса",
+      // });
       
       // Выполняем HTTP-запрос с указанным URL и опциями
       const response = await fetch(_URL + query, requestOptions);
 
-      console.log("Отклик client", response);
+      // console.log("Отклик client", response);
 
       // Если указано cleanResponse, возвращаем "сырой" Response-объект без обработки
       if (options?.cleanResponse) {

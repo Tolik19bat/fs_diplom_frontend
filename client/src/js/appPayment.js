@@ -3,4 +3,6 @@ import Loader from "./Loader.js";
 
 Loader.init();
 const payment = new Payment();
-console.log(payment);
+if (payment) {
+  console.log();
+}

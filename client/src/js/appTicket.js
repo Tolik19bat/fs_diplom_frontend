@@ -3,4 +3,6 @@ import Loader from "./Loader.js";
 
 Loader.init();
 const ticket = new Ticket();
-console.log(ticket);
+if (ticket) {
+  console.log();
+}

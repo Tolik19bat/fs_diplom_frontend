@@ -44,7 +44,7 @@ export default class Ticket {
     this.ticketHallEl.textContent = this.paymentInfo.hallName;
     this.ticketStartEl.textContent = this.paymentInfo.seance.start;
     this.ticketInfoQrEl.src = qrCodeUrl; // Устанавливаем QR-код
-    console.log("QR-код URL:", qrCodeUrl); // Логируем URL QR-кода
+    // console.log("QR-код URL:", qrCodeUrl); // Логируем URL QR-кода
   }
 
   // Получение данных о платеже из sessionStorage
@@ -66,9 +66,9 @@ export default class Ticket {
         ticketStart: this.paymentInfo.seance.start, // Время начала сеанса
       },
     });
-    console.log("Ответ от сервера (QR-код):", response); // Логируем ответ  // Очищаем URL: удаляем лишние слэши и неправильные символы
+    // console.log("Ответ от сервера (QR-код):", response); // Логируем ответ  // Очищаем URL: удаляем лишние слэши и неправильные символы
     const cleanedUrl = response.replace(/\/+/g, '/').replace(/V/g, '/').replace(/"/g, '');
-    console.log("Очищенный URL QR-кода:", cleanedUrl); // Логируем очищенный URL
+    // console.log("Очищенный URL QR-кода:", cleanedUrl); // Логируем очищенный URL
   
     return cleanedUrl; // Возвращаем очищенный URL
 
