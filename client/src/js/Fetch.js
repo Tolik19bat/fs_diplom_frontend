@@ -23,28 +23,19 @@ export default class Fetch {
         requestOptions.body = JSON.stringify(options.bodyJson);
         requestOptions.headers["Content-Type"] = "application/json";
       }
-      // Логируем запрос перед отправкой
-      console.log(
-        "Запрос client:",
-        JSON.stringify(
-          {
-            url: _URL + query,
-            method: requestOptions.method,
-            headers: requestOptions.headers,
-            body: requestOptions.body
-              ? requestOptions.body
-              : "нет тела запроса",
-          },
-          null,
-          2
-        )
-      );
 
+      // Логируем запрос перед отправкой
+      console.log("Запрос client:", {
+        url: _URL + query,
+        method: requestOptions.method,
+        headers: requestOptions.headers,
+        body: requestOptions.body ? requestOptions.body : "нет тела запроса",
+      });
+      
       // Выполняем HTTP-запрос с указанным URL и опциями
       const response = await fetch(_URL + query, requestOptions);
 
-      const data = await response.json();
-      console.log('Ответ от сервера:', data);
+      console.log("Отклик client", response);
 
       // Если указано cleanResponse, возвращаем "сырой" Response-объект без обработки
       if (options?.cleanResponse) {
@@ -64,8 +55,10 @@ export default class Fetch {
         return await response.text();
       }
 
-      // Останавливаем лоадер в случае, если предыдущие проверки не сработали
-      Loader.stopLoader();
+    // Если заголовок content-type отсутствует или не распознан, возвращаем текст
+    const data = await response.text();
+    Loader.stopLoader();
+    return data;
     } catch (error) {
       // Обрабатываем возможные ошибки при выполнении запроса
       console.error(error); // Выводим ошибку в консоль
