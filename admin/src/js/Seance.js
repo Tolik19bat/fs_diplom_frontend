@@ -16,43 +16,41 @@ export default class Seance {
 
   // Метод для создания DOM-элемента, отображающего сеанс
   getSeancesElement() {
-    // Создаем основной контейнер для сеанса
     const seancesMovieEl = document.createElement("div");
-    seancesMovieEl.classList.add("conf-step__seances-movie"); // Добавляем класс для стилей
-
-    // Привязываем обработчик клика на текущий контекст
+    seancesMovieEl.classList.add("conf-step__seances-movie");
+  
     this.onClickSeance = this.onClickSeance.bind(this);
-    seancesMovieEl.addEventListener("click", this.onClickSeance); // Добавляем слушатель события
-
-    // Создаем элемент с названием фильма
+    seancesMovieEl.addEventListener("click", this.onClickSeance);
+  
     const seancesMovieTitleEl = document.createElement("p");
-    seancesMovieTitleEl.classList.add("conf-step__seances-movie-title"); // Класс для стилей
-
-    // Ищем название фильма по его идентификатору
-    const title = this.movies.find((movie) => movie.id === this.seance.movie_id).title;
-    seancesMovieTitleEl.textContent = title; // Устанавливаем название фильма
-
-    // Создаем элемент для отображения времени начала сеанса
+    seancesMovieTitleEl.classList.add("conf-step__seances-movie-title");
+  
+    // Проверяем, что фильм существует
+    const movie = this.movies.find((movie) => movie.id === this.seance.movie_id);
+    if (!movie) {
+      console.error("Фильм не найден:", this.seance.movie_id);
+      return seancesMovieEl; // Возвращаем пустой элемент, если фильм не найден
+    }
+  
+    seancesMovieTitleEl.textContent = movie.title;
+  
     const seancesMovieStartEl = document.createElement("p");
-    seancesMovieStartEl.classList.add("conf-step__seances-movie-start"); // Класс для стилей
-    seancesMovieStartEl.textContent = this.seance.start; // Устанавливаем время начала
-
-    // Добавляем элементы названия и времени в контейнер сеанса
+    seancesMovieStartEl.classList.add("conf-step__seances-movie-start");
+    seancesMovieStartEl.textContent = this.seance.start;
+  
     seancesMovieEl.appendChild(seancesMovieTitleEl);
     seancesMovieEl.appendChild(seancesMovieStartEl);
-
-    // Определяем индекс фильма для выбора цвета и ширины элемента
+  
     const idx = this.movies.findIndex((movie) => movie.id === this.seance.movie_id);
-    seancesMovieEl.style.backgroundColor = `#${this.colors[idx]}`; // Устанавливаем цвет фона
-    seancesMovieEl.style.width = `${this.movies[idx].duration * 0.5}px`; // Устанавливаем ширину пропорционально длительности фильма
-
-    // Рассчитываем позицию элемента на временной шкале
+    seancesMovieEl.style.backgroundColor = `#${this.colors[idx]}`;
+    seancesMovieEl.style.width = `${this.movies[idx].duration * 0.5}px`;
+  
     const colonIdx = this.seance.start.indexOf(":");
     const startMinutes = parseInt(this.seance.start.slice(0, colonIdx)) * 60 +
                          parseInt(this.seance.start.slice(colonIdx + 1));
-    seancesMovieEl.style.left = `${startMinutes * 0.5}px`; // Устанавливаем отступ слева
-
-    return seancesMovieEl; // Возвращаем созданный элемент
+    seancesMovieEl.style.left = `${startMinutes * 0.5}px`;
+  
+    return seancesMovieEl;
   }
 
   // Обработчик клика по сеансу — вызывает модальное окно
