@@ -220,17 +220,57 @@ export default class HallConfiguration {
   // Обработчик клика по креслу
   onClickChair(e) {
     e.preventDefault(); // Предотвращаем стандартное поведение
-    this.selectedElement = e.currentTarget; // Сохраняем выбранное кресло
 
-    // Сохраняем копию кресел, если она еще не создана
-    if (this.chairsCopy.length === 0) {
-      this.chairs.forEach((element) => {
-        this.chairsCopy.push({ ...element });
-      });
+    const chairEl = e.currentTarget; // Получаем элемент кресла
+    let newType = "1"; // По умолчанию делаем кресло стандартным
+
+    // Определяем новый тип кресла
+    if (chairEl.classList.contains("conf-step__chair_standart")) {
+      chairEl.classList.remove("conf-step__chair_standart");
+      chairEl.classList.add("conf-step__chair_vip");
+      newType = "2"; // VIP кресло
+    } else if (chairEl.classList.contains("conf-step__chair_vip")) {
+      chairEl.classList.remove("conf-step__chair_vip");
+      chairEl.classList.add("conf-step__chair_disabled");
+      newType = "0"; // Заблокированное кресло
+    } else {
+      chairEl.classList.remove("conf-step__chair_disabled");
+      chairEl.classList.add("conf-step__chair_standart");
+      newType = "1"; // Стандартное кресло
     }
 
-    this.showModal(); // Показываем модальное окно
+    // Обновляем данные в массиве this.chairs
+    const row = +chairEl.parentElement.dataset.row; // Получаем номер ряда
+    const place = +chairEl.dataset.place; // Получаем номер места
+
+    const chair = this.chairs.find(
+      (ch) => ch.row === row && ch.place === place
+    );
+    if (chair) {
+      chair.type = newType; // Обновляем тип кресла в данных
+    }
+      // Сохраняем копию кресел, если она еще не создана
+      if (this.chairsCopy.length === 0) {
+        this.chairs.forEach((element) => {
+          this.chairsCopy.push({ ...element });
+        });
+      }
   }
+
+  // Обработчик клика по креслу
+  // onClickChair(e) {
+  //   e.preventDefault(); // Предотвращаем стандартное поведение
+  //   this.selectedElement = e.currentTarget; // Сохраняем выбранное кресло
+
+  //   // Сохраняем копию кресел, если она еще не создана
+  //   if (this.chairsCopy.length === 0) {
+  //     this.chairs.forEach((element) => {
+  //       this.chairsCopy.push({ ...element });
+  //     });
+  //   }
+
+  //   this.showModal(); // Показываем модальное окно
+  // }
 
   // Метод для получения конфигурации кресел из зала
   getChairsFormHall() {
