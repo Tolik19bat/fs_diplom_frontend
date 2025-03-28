@@ -3,6 +3,6 @@ import Loader from "./Loader.js";
 
 Loader.init();
 const payment = new Payment();
-if (payment) {
-  console.log();
+if (!payment) {
+  console.log("Класс Payment не загружен");
 }

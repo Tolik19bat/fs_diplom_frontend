@@ -3,4 +3,6 @@ import Loader from "/admin/src/js/Loader.js";
 
 Loader.init();
 const signUp = new SignUp();
-console.log(signUp);
+if (!signUp) {
+  console.log("Класс SignUp не загружен");
+}

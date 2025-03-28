@@ -3,4 +3,6 @@ import Loader from "/admin/src/js/Loader.js";
 
 Loader.init();
 const login = new Login();
-console.log(login);
+if (!login) {
+    console.log("Класс Login не загружен");
+}

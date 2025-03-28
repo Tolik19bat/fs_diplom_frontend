@@ -3,6 +3,6 @@ import Loader from "./Loader.js";
 
 Loader.init();
 const ticket = new Ticket();
-if (ticket) {
-  console.log();
+if (!ticket) {
+  console.log("Класс Ticket не загружен");
 }
