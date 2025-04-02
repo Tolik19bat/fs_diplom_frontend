@@ -2,7 +2,7 @@
 import AddMovieModal from "./AddMovieModal.js";
 import PosterList from "./PosterList.js";
 import PosterModal from "./PosterModal.js";
-import SeancesList from "./SeanceList.js";
+import SeancesList from "./SeancesList.js";
 import SeanceModal from "./SeanceModal.js";
 import Fetch from "./Fetch.js";
 
