@@ -113,7 +113,17 @@ export default class AddMovieModal {
   static onSubmitForm(e) {
     e.preventDefault(); // Предотвращаем стандартное поведение формы (чтобы страница не перезагружалась)
 
-    // Проверяем, является ли введенное значение числом и больше ли оно нуля
+    // Получаем введённые даты и преобразуем их в объекты Date
+    const startDate = new Date(AddMovieModal.startDateInputEl.value);
+    const endDate = new Date(AddMovieModal.endDateInputEl.value);
+
+    // Проверяем, что дата окончания не раньше даты начала
+    if (endDate < startDate) {
+        alert("Ошибка: Дата последнего показа не может быть раньше даты старта!");
+        return; // Прерываем выполнение функции
+    }
+
+    // Проверяем, является ли продолжительность фильма введенное значение числом и больше ли оно нуля
     if (
       !isFinite(+AddMovieModal.durationInputEl.value) || // Проверяем, является ли числом
       +AddMovieModal.durationInputEl.value <= 0 // Проверяем, больше ли нуля
