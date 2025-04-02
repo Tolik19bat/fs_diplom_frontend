@@ -46,6 +46,11 @@ export default class Seance {
     seancesMovieEl.style.backgroundColor = `#${this.colors[idx]}`; // Устанавливаем цвет фона
     seancesMovieEl.style.width = `${this.movies[idx].duration * 0.5}px`; // Устанавливаем ширину пропорционально длительности фильма
 
+    if (idx === -1) {
+      console.error("Фильм не найден для сеанса:", this.seance);
+      return null;
+    }
+
     // Рассчитываем позицию элемента на временной шкале
     const colonIdx = this.seance.start.indexOf(":");
     const startMinutes = parseInt(this.seance.start.slice(0, colonIdx)) * 60 +
