@@ -17,6 +17,10 @@ export default class SeanceModal {
   // Связывает элементы DOM с классом и добавляет обработчики событий
   static bindToDom() {
     SeanceModal.containerEl = document.querySelector(".modal-seance"); // Находим контейнер модального окна
+    if (!SeanceModal.containerEl) {
+      console.error("Не найден контейнер модального окна .modal-seance");
+      return;
+    }
     SeanceModal.btnCloseEl = SeanceModal.containerEl.querySelector(
       ".modal-seance__btn-close"
     ); // Кнопка закрытия
