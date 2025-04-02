@@ -1,69 +1,76 @@
-// Импортируем зависимости для управления разными частями приложения
-// import { _URL } from "./app.js";
-import Fetch from "./Fetch.js";
-//import accordeon from "./accordeon.js"; // Модуль для аккордеона
+// Импортируем модули для управления различными частями приложения
+import Fetch from "./Fetch.js"; // Модуль для выполнения HTTP-запросов
 import HallManagement from "./HallManagement.js"; // Управление залами
-import HallConfiguration from "./HallConfiguration.js"; // Конфигурация залов
+import HallConfiguration from "./HallConfiguration.js"; // Настройка залов
 import PriceConfiguration from "./PriceConfiguration.js"; // Конфигурация цен
-import SeanceGrid from "./SeanceGrid.js"; // Сетка сеансов
-import OpenSales from "./OpenSales.js"; // Управление продажами
+import SeanceGrid from "./SeanceGrid.js"; // Управление сеансами
+import OpenSales from "./OpenSales.js"; // Открытие продаж
 
-// Класс для управления всей страницей
+// Определяем класс Page, который управляет всей страницей
 export default class Page {
-  // Конструктор принимает элемент-контейнер для привязки страницы
+  /**
+   * Конструктор класса Page
+   * @param {HTMLElement} container - DOM-элемент, в котором будет инициализирована страница
+   */
   constructor(container) {
-    this.containerEl = container; // Сохраняем контейнер для дальнейшего использования
-    this.halls = []; // Инициализируем массив залов
-    // Логирование созданного объекта
-    // console.log("Создан новый объект Page:", this);
+    this.containerEl = container; // Сохраняем контейнер в свойство объекта
+    this.halls = []; // Инициализируем пустой массив для хранения залов
   }
 
-  // Метод для инициализации страницы
+  /**
+   * Асинхронный метод инициализации страницы
+   * Загружает данные о залах и инициализирует все модули
+   */
   async init() {
     try {
+      // Загружаем данные о залах с сервера
       this.halls = await this.getHalls();
+
+      // Проверяем, что данные загружены корректно
       if (!this.halls || !Array.isArray(this.halls)) {
-        throw new Error('Данные о залах не загружены или имеют неверный формат');
+        throw new Error("Данные о залах не загружены или имеют неверный формат");
       }
+
+      // Инициализируем аккордеон
       this.initAccordeon();
+
+      // Создаем экземпляры классов для управления различными модулями
       this.hallManagement = new HallManagement(this.halls);
       this.hallConfiguration = new HallConfiguration(this.halls);
       this.priceConfiguration = new PriceConfiguration(this.halls);
       this.seanceGrid = new SeanceGrid(this.halls);
       this.openSales = new OpenSales(this.halls);
     } catch (error) {
-      console.error('Ошибка при инициализации:', error);
-      // Дополнительная обработка ошибки, например, показ сообщения пользователю
+      // Логируем ошибку в консоль
+      console.error("Ошибка при инициализации:", error);
+      // Можно добавить обработку ошибки, например, показ уведомления пользователю
     }
   }
 
+  /**
+   * Метод для инициализации аккордеона
+   * Добавляет обработчики событий на заголовки разделов
+   */
   initAccordeon() {
-    const headers = Array.from(
-      this.containerEl.querySelectorAll(".conf-step__header")
-    );
+    // Получаем список заголовков аккордеона
+    const headers = Array.from(this.containerEl.querySelectorAll(".conf-step__header"));
+
+    // Добавляем обработчик клика для каждого заголовка
     headers.forEach((header) =>
       header.addEventListener("click", () => {
+        // Переключаем классы, чтобы скрыть или показать содержимое секции
         header.classList.toggle("conf-step__header_closed");
         header.classList.toggle("conf-step__header_opened");
       })
     );
   }
-  // Асинхронный метод для загрузки залов с сервера
+
+  /**
+   * Асинхронный метод для получения списка залов с сервера
+   * @returns {Promise<Array>} - Возвращает массив объектов с данными о залах
+   */
   async getHalls() {
-    return await Fetch.send("GET", "hall"); // Отправляем асинхронный GET-запрос на сервер для получения списка залов
-
-    // try {
-    //   // Отправляем GET-запрос к API для получения списка залов
-    //   const jsonResponse = await fetch(`${_URL}hall`, {
-    //     method: "GET", // Метод запроса
-    //     headers: { Authorization: `Bearer ${token}` }, // Передаём токен авторизации в заголовках
-    //   });
-
-    //   // Преобразуем ответ в JSON и возвращаем результат
-    //   return await jsonResponse.json();
-    // } catch (error) {
-    //   // Если произошла ошибка во время запроса, выводим её в консоль
-    //   console.error("Ошибка при загрузке залов:", error);
-    // }
+    // Отправляем GET-запрос на сервер для получения списка залов
+    return await Fetch.send("GET", "hall");
   }
 }
