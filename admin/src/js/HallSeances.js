@@ -23,6 +23,7 @@ export default class HallSeances {
   // Асинхронный метод для получения списка сеансов из API
   async getSeances() {
     this.seances = await Fetch.send("GET", `hall/${this.hall.id}/seances`);
+    return this.seances;
     // Отправляем асинхронный GET-запрос на сервер для получения списка сеансов (сеансы – это расписание показов в зале)
     // Используем метод `send` из объекта `Fetch`, передавая в него:
     // - метод запроса "GET"
