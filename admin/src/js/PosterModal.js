@@ -112,7 +112,7 @@ export default class PosterModal {
   static showModal(movie) {
     PosterModal.movie = movie; // Сохраняем информацию о фильме
     PosterModal.renderMovieInformation(movie); // Отображаем информацию о фильме
-    PosterModal.rendertHalls().then(() => {
+    PosterModal.renderHalls().then(() => {
       PosterModal.renderSeanceTime(movie); // Отображаем доступное время сеансов
       PosterModal.containerEl.classList.remove("hidden"); // Показываем модальное окно
     });
@@ -172,7 +172,7 @@ export default class PosterModal {
   }
 
   // Метод для рендеринга залов
-  static async rendertHalls() {
+  static async renderHalls() {
     PosterModal.hallSelectEl.innerHTML = ""; // Очищаем список залов
     await PosterModal.getHalls().then((res) => {
       res.forEach((hall) => {
