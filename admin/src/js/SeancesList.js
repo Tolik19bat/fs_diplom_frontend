@@ -1,5 +1,6 @@
 // Импортируем класс HallSeances, который отвечает за управление сеансами в зале
 import HallSeances from "./HallSeances.js";
+import Fetch from "./Fetch.js";
 
 // Экспортируемый класс для управления списком сеансов
 export default class SeancesList {
@@ -93,7 +94,8 @@ export default class SeancesList {
   /**
    * Метод обновления списка сеансов (пересоздаёт объекты и перерисовывает их)
    */
-  updateHallsSeances() {
+  async updateHallsSeances() {
+    this.movies = await Fetch.send("GET", "movie");
     this.getHallsSeances(this.halls); // Обновляем объекты HallSeances
     this.renderHallsSeances(); // Перерисовываем сеансы в интерфейсе
   }
