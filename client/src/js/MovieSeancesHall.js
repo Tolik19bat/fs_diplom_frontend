@@ -64,6 +64,31 @@ export default class MovieSeancesHall {
   onClickMovieSeansesTime(e) {
     e.preventDefault(); // Предотвращаем переход по ссылке
 
+    const clickedTime = e.currentTarget.textContent.trim(); // Получаем время сеанса ("HH:MM")
+  
+    // Получаем текущее время
+    const now = new Date();
+    const currentHours = now.getHours().toString().padStart(2, "0");
+    const currentMinutes = now.getMinutes().toString().padStart(2, "0");
+    const currentTime = `${currentHours}:${currentMinutes}`;
+  
+    console.log(`Время сеанса: ${clickedTime}, Текущее время: ${currentTime}`);
+  
+    // Преобразуем время в минуты для корректного сравнения
+    const [clickedHours, clickedMinutes] = clickedTime.split(":").map(Number);
+    const [currentHoursNum, currentMinutesNum] = currentTime.split(":").map(Number);
+  
+    const clickedTotalMinutes = clickedHours * 60 + clickedMinutes;
+    const currentTotalMinutes = currentHoursNum * 60 + currentMinutesNum;
+  
+    console.log(`Сеанс (минуты): ${clickedTotalMinutes}, Сейчас (минуты): ${currentTotalMinutes}`);
+  
+    // Сравниваем время в минутах
+    if (clickedTotalMinutes < currentTotalMinutes) {
+      alert("Сеанс уже прошёл");
+      return;
+    }
+
     // Создаем и диспатчим кастомное событие для перехода к экрану зала
     const event = new CustomEvent("goToHallHtml", {
       detail: {
