@@ -84,8 +84,8 @@ export default class MovieSeancesHall {
     console.log(`Сеанс (минуты): ${clickedTotalMinutes}, Сейчас (минуты): ${currentTotalMinutes}`);
   
     // Сравниваем время в минутах
-    if (clickedTotalMinutes < currentTotalMinutes) {
-      alert("Сеанс уже прошёл");
+    if (clickedTotalMinutes <= currentTotalMinutes) {
+      alert("На это время билет уже нельзя купить");
       return;
     }
 
