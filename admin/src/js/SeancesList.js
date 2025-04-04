@@ -13,6 +13,13 @@ export default class SeancesList {
     this.halls = halls; // Сохраняем список залов
     this.hallsSeances = []; // Создаём пустой массив для объектов HallSeances
     this.init(); // Инициализируем класс
+    
+    if (!Array.isArray(movies)) {
+      throw new Error("Параметр movies должен быть массивом");
+    }
+    if (!Array.isArray(halls)) {
+      throw new Error("Параметр halls должен быть массивом");
+    }
   }
 
   /**
@@ -31,6 +38,15 @@ export default class SeancesList {
   bindToDom() {
     // Получаем основной контейнер страницы
     this.mainEl = document.querySelector(".main");
+    if (!this.mainEl) {
+      throw new Error("Элемент .main не найден в DOM");
+    }
+
+    // Получаем контейнер, в который будут добавляться сеансы
+    this.containerEl = document.querySelector(".conf-step__seances");
+    if (!this.containerEl) {
+      throw new Error("Элемент .conf-step__seances не найден в DOM");
+    }
 
     // Привязываем обработчик события "updateHall" к текущему контексту
     this.hallUpdateHandler = this.hallUpdateHandler.bind(this);
@@ -39,9 +55,6 @@ export default class SeancesList {
     // Привязываем обработчик события "updateHallsSeances" к текущему контексту
     this.updateHallsSeances = this.updateHallsSeances.bind(this);
     this.mainEl.addEventListener("updateHallsSeances", this.updateHallsSeances); // Слушаем обновление сеансов
-
-    // Получаем контейнер, в который будут добавляться сеансы
-    this.containerEl = document.querySelector(".conf-step__seances");
   }
 
   /**
