@@ -85,6 +85,8 @@ export default class Calendar {
     const nextDaysEl = document.createElement("a");
     nextDaysEl.classList.add("page-nav__day", "page-nav__day_next");
     nextDaysEl.setAttribute("href", "#");
+    // Добавляем атрибут доступности aria-label
+    nextDaysEl.setAttribute("aria-label", "Следующий день");
     nextDaysEl.addEventListener(
       "click",
       this.onClickNextDays.bind(this, firstDayNextGroup)
