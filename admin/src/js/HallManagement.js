@@ -60,6 +60,7 @@ export default class HallManagement {
       hallEl.textContent = `${hall.name}`; // Устанавливаем название зала
       const btnRemoveEl = document.createElement("button"); // Кнопка удаления
       btnRemoveEl.classList.add("conf-step__button", "conf-step__button-trash"); // Добавляем классы для стиля
+      btnRemoveEl.setAttribute("aria-label", "Удалить"); // Добавляем атрибут aria-label для доступности
       btnRemoveEl.addEventListener("click", () => this.btnRemoveHandle(hall)); // Обработчик удаления зала
       hallEl.appendChild(btnRemoveEl); // Добавляем кнопку в элемент
       this.hallListEl.appendChild(hallEl); // Добавляем элемент в список
