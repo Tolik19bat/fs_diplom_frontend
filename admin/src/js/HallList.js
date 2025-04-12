@@ -74,7 +74,7 @@ export default class HallList {
     // Итерация по списку залов
     this.halls.forEach((hall) => {
       const element = document.createElement("li"); // создаем элемент списка
-      element.innerHTML = `<input type="radio" class="conf-step__radio" name=${name} value=${hall.name}>  
+      element.innerHTML = `<input type="radio" class="conf-step__radio" name=${name} value=${hall.name} aria-label="Зал ${hall.name}">  
                 <span class="conf-step__selector">${hall.name}</span>`; // добавляем радио-кнопку и название зала
       element.addEventListener("change", () => this.onChangeHallList(hall)); // добавляем обработчик изменений
       if (hall.id === this.activeHallId) {

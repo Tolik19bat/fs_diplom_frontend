@@ -8,18 +8,17 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
-html {
-  line-height: 1.15;
-  /* 1 */
-  /* Для старых версий Internet Explorer */
--ms-text-size-adjust: 100%;
 
-/* Для Safari, Firefox Android и iOS */
--webkit-text-size-adjust: 100%;
+@supports (-webkit-text-size-adjust: 100%) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+}
 
-/* Для современных браузеров (Chrome 54+, Edge 79+, Opera 41+) */
-text-size-adjust: 100%;
-  /* 2 */
+@supports (-ms-text-size-adjust: 100%) {
+  html {
+    -ms-text-size-adjust: 100%;
+  }
 }
 
 /* Sections
