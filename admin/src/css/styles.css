@@ -51,11 +51,10 @@
 
 @keyframes slideFromTop {
   0% {
-    top: -50vh;
+    transform: translateY(-50vh); /* вместо top: -50vh */
   }
-
   100% {
-    top: 100px;
+    transform: translateY(100px); /* вместо top: 100px */
   }
 }
 
