@@ -19,7 +19,7 @@ export default class SeanceGrid {
     this.bindToDom(); // Связываем DOM-элементы с методами
     // Получаем список фильмов и инициализируем модальные окна и списки
     this.getMovies().then((movies) => {
-      console.log("Полученные фильмы:", JSON.stringify(movies, null, 2)); // Выводим JSON с отступами
+      // console.log("Полученные фильмы:", JSON.stringify(movies, null, 2)); // Выводим JSON с отступами
       AddMovieModal.init(); // Инициализация окна добавления фильма
       this.posterList = new PosterList(movies); // Создаем список постеров фильмов
       PosterModal.init(); // Инициализация модального окна постера
