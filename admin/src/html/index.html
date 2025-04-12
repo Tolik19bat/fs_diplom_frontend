@@ -53,9 +53,9 @@
         </ul>
         <p class="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в ряду:</p>
         <div class="conf-step__legend">
-          <label class="conf-step__label">Рядов, шт<input type="text" class="count-rows conf-step__input" pattern="^[1-9][0-9]*$" required></label>
+          <label class="conf-step__label" for="count-rows">Рядов, шт<input type="text" id="count-rows" name="count-rows" class="count-rows conf-step__input" pattern="^[1-9][0-9]*$" required></label>
           <span class="multiplier">x</span>
-          <label class="conf-step__label">Мест, шт<input type="text" class="count-places conf-step__input" pattern="^[1-9][0-9]*$" required></label>
+          <label class="conf-step__label" for="count-places">Мест, шт<input type="text" id="count-places" name="count-places" class="count-places conf-step__input" pattern="^[1-9][0-9]*$" required></label>
         </div>
         <p class="conf-step__paragraph">Теперь вы можете указать типы кресел на схеме зала:</p>
         <div class="conf-step__legend">
@@ -96,13 +96,14 @@
         <form class="price-configuration-form">
           <p class="conf-step__paragraph">Установите цены для типов кресел:</p>
           <div class="conf-step__legend">
-            <label class="conf-step__label">Цена, рублей<input type="text" class="ticket-price conf-step__input"
+            <label class="conf-step__label" for="price-standard">Цена, рублей<input type="text" id="price-standard" name="price_standard" class="ticket-price conf-step__input"
               pattern="^[1-9][0-9]*$" required></label>
             за <span class="conf-step__chair conf-step__chair_standart"></span> обычные кресла
           </div>
 
           <div class="conf-step__legend">
-            <label class="conf-step__label">Цена, рублей<input type="text" class="vip-ticket-price conf-step__input"
+            <label class="conf-step__label" for="price-vip">Цена, рублей<input type="text"
+              id="price-vip" name="price-vip" class="vip-ticket-price conf-step__input"
               pattern="^[1-9][0-9]*$" required></label>
             за <span class="conf-step__chair conf-step__chair_vip"></span> VIP кресла
           </div>
@@ -137,9 +138,9 @@
           <label class="modal-add-movie__label" for="movie-duration">Длительность (мин): </label>
           <input type="text" id="movie-duration" name="duration" class="modal-add-movie__input" pattern="^[1-9][0-9]*$" required>
           <label class="modal-add-movie__label" for="movie-country">Страна: </label>
-          <input type="text" id="movie-country" name="country" class="modal-add-movie__input" required>
+          <input type="text" id="movie-country" name="country" class="modal-add-movie__input" required  autocomplete="country">
           <label class="modal-add-movie__label" for="movie-description">Краткое описание: </label>
-          <textarea id="movie-description" name="description" class="modal-add-movie__input" required></textarea>
+          <textarea id="movie-description" name="description" class="modal-add-movie__input" required autocomplete="off"></textarea>
           <label class="modal-add-movie__label" for="movie-start_date">Дата старта показа: </label>
           <input type="date" id="movie-start_date" name="start_date" class="modal-add-movie__input" required>
           <label class="modal-add-movie__label" for="movie-end_date">Дата последнего показа: </label>
