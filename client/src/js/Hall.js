@@ -56,12 +56,51 @@ export default class Hall {
       this.onClickAcceptinBtn.bind(this)
     );
   }
-
   getDataFromSessionStorage() {
-    // Извлекаем дату и ID сеанса из sessionStorage
-    this.date = sessionStorage.getItem("date");
+    // Получаем строку даты из sessionStorage
+    const rawDate = sessionStorage.getItem("date");
+    this.date = rawDate;
+  
+    // Преобразуем строку в объект Date
+    const selectedDateObj = new Date(rawDate);
+  
+    // Форматируем выбранную дату в YYYY-MM-DD
+    const selectedDate = selectedDateObj.toISOString().split("T")[0];
+  
+    const clickedTime = sessionStorage.getItem("startTime");
+  
+    // Получаем текущую дату и время
+    const now = new Date();
+    const todayDate = now.toISOString().split("T")[0]; // формат YYYY-MM-DD
+  
+    // Преобразуем текущее время в строку HH:MM
+    const currentHours = now.getHours().toString().padStart(2, "0");
+    const currentMinutes = now.getMinutes().toString().padStart(2, "0");
+    const currentTime = `${currentHours}:${currentMinutes}`;
+  
+    // Преобразуем время в минуты
+    const [clickedHours, clickedMinutes] = clickedTime.split(":").map(Number);
+    const [currentHoursNum, currentMinutesNum] = currentTime.split(":").map(Number);
+    const clickedTotalMinutes = clickedHours * 60 + clickedMinutes;
+    const currentTotalMinutes = currentHoursNum * 60 + currentMinutesNum;
+  
+    // ✅ Сравнение даты и времени
+    if (selectedDate === todayDate) {
+      if (clickedTotalMinutes <= currentTotalMinutes) {
+        alert(`На это время ${clickedTime} сегодня билет уже нельзя купить. Выберите другое время`);
+        window.history.back();
+        return;
+      }
+    }
+  
+    console.log("Выбранное время сеанса:", clickedTime);
+    console.log("Выбранная дата (оригинал):", rawDate);
+    console.log("Выбранная дата (нормализованная):", selectedDate);
+    console.log("Сегодняшняя дата:", todayDate);
+  
     return sessionStorage.getItem("seanceId");
   }
+  
 
   async getBuyingInfo(seanceId) {
     const response = await Fetch.send("GET", `seance/${seanceId}`); // Отправляем асинхронный GET-запрос для получения информации о конкретном сеансе по его ID
@@ -112,7 +151,7 @@ export default class Hall {
   async onClickAcceptinBtn(e) {
     e.preventDefault(); // Предотвращаем стандартное действие кнопки
     if (this.selectedChairsId.length === 0) {
-      console.warn("Не выбрано кресел.");
+      alert("Нет выбраных кресел.");
       return;
     }
     await this.getSelectedChairs(); // Получаем информацию о выбранных креслах
