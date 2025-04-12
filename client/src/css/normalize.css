@@ -7,10 +7,15 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
- html {
+html {
   line-height: 1.15;
-  text-size-adjust: 100%;         /* стандартное свойство */
-  /* -webkit-text-size-adjust: 100%; старый префикс (можно оставить для очень старых Safari) */
+  /* стандартное свойство */
+  -webkit-text-size-adjust: 100%;
+  /* для Safari, Chrome, iOS */
+  -ms-text-size-adjust: 100%;
+  /* для Internet Explorer (если вдруг) */
+  text-size-adjust: 100%;
+  /* для совместимости, хотя Firefox это игнорирует */
 }
 
 /* Sections
@@ -199,13 +204,14 @@ select {
 /**
  * Correct the inability to style clickable types in iOS and Safari.
  */
- button,
- [type="button"],
- [type="reset"],
- [type="submit"] {
-   appearance: button;          /* стандартное свойство */
-   /* -webkit-appearance: button;  /*префикс для старых WebKit */
- }
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  appearance: button;
+  /* стандартное свойство */
+  /* -webkit-appearance: button;  /*префикс для старых WebKit */
+}
 
 /**
  * Remove the inner border and padding in Firefox.
