@@ -100,8 +100,8 @@ export default class Payment {
       });
       if (!response.ok) {
         
-      alert("Это кресло уже занято. Выбери другое");
-        throw new Error(response.status);
+      alert("Это кресло уже занято. Выберите другое");
+        // throw new Error(response.status);
       }
     } catch (error) {
       this.error = error;
