@@ -99,6 +99,8 @@ export default class Payment {
         // а не автоматически обработанный JSON или текст
       });
       if (!response.ok) {
+        
+      alert("Это кресло уже занято. Выбери другое");
         throw new Error(response.status);
       }
     } catch (error) {
