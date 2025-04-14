@@ -93,10 +93,10 @@ export default class Hall {
       }
     }
   
-    console.log("Выбранное время сеанса:", clickedTime);
-    console.log("Выбранная дата (оригинал):", rawDate);
-    console.log("Выбранная дата (нормализованная):", selectedDate);
-    console.log("Сегодняшняя дата:", todayDate);
+    // console.log("Выбранное время сеанса:", clickedTime);
+    // console.log("Выбранная дата (оригинал):", rawDate);
+    // console.log("Выбранная дата (нормализованная):", selectedDate);
+    // console.log("Сегодняшняя дата:", todayDate);
   
     return sessionStorage.getItem("seanceId");
   }
@@ -148,6 +148,7 @@ export default class Hall {
     this.priceStandartEl.textContent = `${this.hall.ticket_price} ₽`;
   }
 
+  // кнопка забронировать билет
   async onClickAcceptinBtn(e) {
     e.preventDefault(); // Предотвращаем стандартное действие кнопки
     if (this.selectedChairsId.length === 0) {
