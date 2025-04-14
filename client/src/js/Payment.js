@@ -75,21 +75,22 @@ export default class Payment {
   // Метод сохранения информации о билете
   async saveTicketInformation(chairId) {
     // console.log(chairId);
-    
-  // Преобразуем дату в формат YYYY-MM-DD
-  const date = new Date(this.paymentInfo.date);
-  const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
-  // Формируем тело запроса
-  const requestBody = {
-    date: formattedDate, // Используем отформатированную дату
-    seance_id: this.paymentInfo.seance.id, // ID сеанса
-    chair_id: chairId, // ID кресла
-  };
+    // Преобразуем дату в формат YYYY-MM-DD
+    const date = new Date(this.paymentInfo.date);
+    const formattedDate = `${date.getFullYear()}-${String(
+      date.getMonth() + 1
+    ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-  // Выводим тело запроса в консоль
-  // console.log("Тело запроса для создания билета:", JSON.stringify(requestBody, null, 2));
+    // Формируем тело запроса
+    const requestBody = {
+      date: formattedDate, // Используем отформатированную дату
+      seance_id: this.paymentInfo.seance.id, // ID сеанса
+      chair_id: chairId, // ID кресла
+    };
 
+    // Выводим тело запроса в консоль
+    // console.log("Тело запроса для создания билета:", JSON.stringify(requestBody, null, 2));
 
     try {
       // Отправляем POST-запрос для создания билета
@@ -99,8 +100,9 @@ export default class Payment {
         // а не автоматически обработанный JSON или текст
       });
       if (!response.ok) {
-        
-      alert("Это кресло уже занято. Выберите другое");
+        alert("Это кресло уже занято. Выберите другое");
+        // Нажатие кнопки "Назад" в браузере
+        window.history.back();
         // throw new Error(response.status);
       }
     } catch (error) {
