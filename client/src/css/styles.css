@@ -190,6 +190,17 @@ body {
   display: inline;
 }
 
+.no-movies-message {
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 500px;
+}
+
 .movie {
   position: relative;
   padding: 1.5rem;
