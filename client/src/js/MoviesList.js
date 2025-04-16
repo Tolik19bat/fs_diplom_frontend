@@ -44,6 +44,11 @@ export default class MoviesList {
   async getMovies(date) {
     const formateDate = date.toISOString().slice(0, 10); // Преобразуем дату в строку формата "YYYY-MM-DD"
     this.movies = await Fetch.send("GET", `movie/date/${formateDate}`); // Отправляем GET-запрос для получения списка фильмов на указанную дату
+  
+    console.log("Ответ сервера (getMovies):", this.movies); // Отладочный вывод
+    
+    // Принудительно приводим к массиву, если ответ невалидный
+    this.movies = Array.isArray(this.movies) ? this.movies : [];
 
     // try {
     //   const formateDate = date.toISOString().slice(0, 10); // Форматируем дату в строку
@@ -73,11 +78,28 @@ export default class MoviesList {
   // Метод для рендеринга списка фильмов
   renderList() {
     this.containerEl.innerHTML = ""; // Очищаем контейнер
+
+    // Проверяем, что movies — массив (корректная проверка)
+    if (!Array.isArray(this.movies)) {
+      console.error("Ошибка: this.movies не является массивом", this.movies);
+      this.containerEl.innerHTML = `<div class="error">Ошибка загрузки данных (неверный формат)</div>`;
+      return;
+    }
+
+    // Если фильмов нет
+    if (this.movies.length === 0) {
+      const message = document.createElement("div");
+      message.textContent = "На выбранную дату нет доступных фильмов.";
+      message.classList.add("no-movies-message");
+      this.containerEl.appendChild(message);
+      return;
+    }
+
+    // Рендерим фильмы
     this.movies.forEach((item) => {
-      const movie = new Movie(item, this.halls); // Создаем объект фильма
+      const movie = new Movie(item, this.halls);
       movie.getMovieEl().then((element) => {
-        // Получаем элемент фильма
-        this.containerEl.appendChild(element); // Добавляем элемент в контейнер
+        this.containerEl.appendChild(element);
       });
     });
   }
