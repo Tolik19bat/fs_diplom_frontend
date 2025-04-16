@@ -100,10 +100,10 @@ export default class Payment {
         // а не автоматически обработанный JSON или текст
       });
       if (!response.ok) {
-        alert("Это кресло уже занято. Выберите другое");
+        // alert("Это кресло уже занято. Выберите другое");
         // Нажатие кнопки "Назад" в браузере
-        window.history.back();
-        // throw new Error(response.status);
+        // window.history.back();
+        throw new Error(response.status);
       }
     } catch (error) {
       this.error = error;
