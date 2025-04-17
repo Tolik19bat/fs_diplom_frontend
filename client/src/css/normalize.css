@@ -7,15 +7,16 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
-html {
-  line-height: 1.15;
-  /* стандартное свойство */
-  -webkit-text-size-adjust: 100%;
-  /* для Safari, Chrome, iOS */
-  -ms-text-size-adjust: 100%;
-  /* для Internet Explorer (если вдруг) */
-  text-size-adjust: 100%;
-  /* для совместимости, хотя Firefox это игнорирует */
+@supports (-webkit-text-size-adjust: 100%) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+@supports (-ms-text-size-adjust: 100%) {
+  html {
+    -ms-text-size-adjust: 100%;
+  }
 }
 
 /* Sections
