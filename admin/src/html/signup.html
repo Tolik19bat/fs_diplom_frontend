@@ -26,12 +26,13 @@
         <form class="login__form" method="POST" accept-charset="utf-8">
           <label class="login__label" for="email">
             E-mail
-            <input class="login__input login__input_email" type="email" placeholder="example@domain.xyz" name="email"
+            <input class="login__input login__input_email" id="email" name="email" autocomplete="off" type="email" placeholder="example@domain.xyz" name="email"
               required>
           </label>
-          <label class="login__label" for="pwd">
+          <label class="login__label" for="password">
             Пароль
-            <input class="login__input login__input_password" type="password" placeholder="password" name="password" required>
+            <input class="login__input login__input_password" id="password" autocomplete="off" type="password" placeholder="password" name="password"
+              required>
           </label>
           <div class="text-center">
             <input value="Зарегестрироваться" type="submit" class="login__button">
