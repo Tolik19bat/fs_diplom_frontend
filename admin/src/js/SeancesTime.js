@@ -1,130 +1,104 @@
-// import { _URL } from "./app.js";
+// Импортируем модуль Fetch для выполнения HTTP-запросов
 import Fetch from "./Fetch.js";
 
+// Экспортируем класс SeancesTime как модуль по умолчанию
 export default class SeancesTime {
+  // Конструктор принимает ID зала и объект фильма
   constructor(hallId, movie) {
-    this.hallId = hallId; // ID зала.
-    this.movieId = movie.id; // ID фильма.
-    this.movieDuration = +movie.duration; // Продолжительность фильма (преобразуем в число).
-    this.seances = []; // Массив сеансов.
-    this.availableTime = []; // Массив доступного времени.
-    this.init(); // Инициализация доступного времени.
+    this.hallId = hallId; // Сохраняем ID зала
+    this.movieId = movie.id; // Сохраняем ID фильма
+    this.movieDuration = +movie.duration; // Преобразуем длительность фильма в число и сохраняем
+    this.seances = []; // Инициализируем массив для хранения уже существующих сеансов
+    this.availableTime = []; // Инициализируем массив для хранения доступного времени
+    this.init(); // Вызываем метод инициализации доступного времени
   }
 
-  // Метод для инициализации доступного времени.
+  // Метод инициализирует массив доступного времени
   init() {
-    this.availableTime = SeancesTime.initSampleAvailableTime(); // Заполняем массив времени стандартными интервалами.
+    this.availableTime = SeancesTime.initSampleAvailableTime(); // Получаем стандартные интервалы времени и сохраняем
   }
 
-  // Метод для получения доступного времени.
+  // Метод возвращает доступное время и его строковое представление
   async getAvailableTime() {
-    await this.getSeances().then(() => {
-      // Сначала получаем все сеансы.
-      this.calculateAvailableTime(); // Затем вычисляем доступное время.
-    });
+    await this.getSeances(); // Получаем все существующие сеансы из API
+    this.calculateAvailableTime(); // Рассчитываем доступное время, исключая занятое
     return {
-      availableTime: this.availableTime, // Возвращаем доступное время.
-      strings: this.getAvailableTimeStrings(), // И строки для отображения.
+      availableTime: this.availableTime, // Возвращаем доступные интервалы в виде массива
+      strings: this.getAvailableTimeStrings(), // Также возвращаем строки для отображения
     };
   }
 
-  // Статический метод для инициализации массива доступного времени.
+  // Статический метод создаёт шаблон доступного времени: каждый час содержит минуты с шагом 10
   static initSampleAvailableTime() {
-    const time = [];
-    for (let i = 0; i < 24; i += 1) {
-      // Цикл по часам от 0 до 23.
-      const minutes = [];
-      for (let j = 0; j < 60; j += 10) {
-        // Интервалы времени каждые 10 минут.
+    const time = []; // Массив для хранения всех часов и минут
+    for (let i = 0; i < 24; i += 1) { // Проходим по каждому часу от 0 до 23
+      const minutes = []; // Массив минут в текущем часе
+      for (let j = 0; j < 60; j += 10) { // Добавляем минуты с шагом 10
         minutes.push(j);
       }
-      time.push(minutes); // Добавляем массив минут для каждого часа.
+      time.push(minutes); // Добавляем массив минут к текущему часу
     }
-    return time;
+    return time; // Возвращаем полный массив
   }
 
-  // Асинхронный метод для получения всех сеансов зала.
+  // Метод получает список всех сеансов указанного зала
   async getSeances() {
-    this.seances = await Fetch.send("GET", `hall/${this.hallId}/seances`); // Отправляем асинхронный GET-запрос на сервер для получения списка сеансов в указанном зале
-    // `this.hallId` содержит идентификатор зала, для которого запрашиваются сеансы
-
-    // const token = localStorage.getItem("token"); // Получаем токен для авторизации.
-    // try {
-    //   const jsonResponse = await fetch(`${_URL}hall/${this.hallId}/seances`, {
-    //     method: "GET",
-    //     headers: { Authorization: `Bearer ${token}` }, // Заголовок с токеном.
-    //   });
-    //   const response = await jsonResponse.json(); // Парсим JSON-ответ.
-    //   this.seances = response; // Сохраняем полученные сеансы.
-    // } catch (error) {
-    //   console.error(error); // Обработка ошибок.
-    // }
+    this.seances = await Fetch.send("GET", `hall/${this.hallId}/seances`);
+    // Выполняем GET-запрос к API, чтобы получить список сеансов
   }
 
-  // Метод для вычисления доступного времени с учетом занятых сеансов.
+  // Метод исключает занятые интервалы из массива доступного времени
   calculateAvailableTime() {
-    const timeBoundaries = this.getTimeBoundaries(); // Получаем границы времени занятых сеансов.
+    const timeBoundaries = this.getTimeBoundaries(); // Получаем границы времени каждого сеанса
+
+    // Проходим по каждому часу и минуте
     this.availableTime.forEach((hour, idxHour) => {
       hour.forEach((minutes, idxMinutes) => {
-        timeBoundaries.forEach((timeBoundarie) => {
-          // Проверяем и удаляем время, занятое сеансами.
-          if (
-            idxHour >= timeBoundarie.startingHour &&
-            idxHour <= timeBoundarie.endingHour
-          ) {
-            if (
-              idxHour === timeBoundarie.startingHour &&
-              idxHour != timeBoundarie.endingHour
-            ) {
-              if (minutes >= timeBoundarie.startingMinutes) {
-                delete hour[idxMinutes];
+        // Проверяем каждое занятие
+        timeBoundaries.forEach((tb) => {
+          // Условие: если текущий час попадает в диапазон занятого времени
+          if (idxHour >= tb.startingHour && idxHour <= tb.endingHour) {
+            // Начало диапазона
+            if (idxHour === tb.startingHour && idxHour !== tb.endingHour) {
+              if (minutes >= tb.startingMinutes) {
+                delete hour[idxMinutes]; // Удаляем время начала
               }
             }
-            if (
-              idxHour > timeBoundarie.startingHour &&
-              idxHour < timeBoundarie.endingHour
-            ) {
+            // Полностью внутри диапазона
+            if (idxHour > tb.startingHour && idxHour < tb.endingHour) {
               delete hour[idxMinutes];
             }
-            if (
-              idxHour != timeBoundarie.startingHour &&
-              idxHour === timeBoundarie.endingHour
-            ) {
-              if (minutes <= timeBoundarie.endingMinutes) {
+            // Конец диапазона
+            if (idxHour !== tb.startingHour && idxHour === tb.endingHour) {
+              if (minutes <= tb.endingMinutes) {
                 delete hour[idxMinutes];
               }
             }
-            if (
-              idxHour === timeBoundarie.startingHour &&
-              idxHour === timeBoundarie.endingHour
-            ) {
-              if (
-                minutes >= timeBoundarie.startingMinutes &&
-                minutes <= timeBoundarie.endingMinutes
-              ) {
+            // Диапазон начинается и заканчивается в одном часу
+            if (idxHour === tb.startingHour && idxHour === tb.endingHour) {
+              if (minutes >= tb.startingMinutes && minutes <= tb.endingMinutes) {
                 delete hour[idxMinutes];
               }
             }
           }
-          // Обрабатываем случай, когда время сеанса переходит через полночь.
-          if (timeBoundarie.startingHour > timeBoundarie.endingHour) {
-            if (idxHour >= timeBoundarie.startingHour && idxHour <= 23) {
-              if (idxHour === timeBoundarie.startingHour) {
-                if (minutes >= timeBoundarie.startingMinutes) {
-                  delete hour[idxMinutes];
-                }
+
+          // Отдельная обработка для сеансов, которые проходят через полночь
+          if (tb.startingHour > tb.endingHour) {
+            // До полуночи
+            if (idxHour >= tb.startingHour && idxHour <= 23) {
+              if (idxHour === tb.startingHour && minutes >= tb.startingMinutes) {
+                delete hour[idxMinutes];
               }
-              if (idxHour > timeBoundarie.startingHour) {
+              if (idxHour > tb.startingHour) {
                 delete hour[idxMinutes];
               }
             }
-            if (idxHour >= 0 && idxHour <= timeBoundarie.endingHour) {
-              if (idxHour === timeBoundarie.endingHour) {
-                if (minutes <= timeBoundarie.endingMinutes) {
-                  delete hour[idxMinutes];
-                }
+            // После полуночи
+            if (idxHour >= 0 && idxHour <= tb.endingHour) {
+              if (idxHour === tb.endingHour && minutes <= tb.endingMinutes) {
+                delete hour[idxMinutes];
               }
-              if (idxHour < timeBoundarie.endingHour) {
+              if (idxHour < tb.endingHour) {
                 delete hour[idxMinutes];
               }
             }
@@ -133,45 +107,50 @@ export default class SeancesTime {
       });
     });
 
-    // Учитываем длительность фильма при вычислении доступного времени.
+    // Удаляем интервалы, которые не вмещают длительность фильма (с конца массива)
     let counter = 0;
     let isStart = false;
     for (let i = this.availableTime.length - 1; i >= 0; i -= 1) {
       for (let j = this.availableTime[i].length - 1; j >= 0; j -= 1) {
-        if (this.availableTime[i][j] || this.availableTime[i][j] === 0) {
+        const current = this.availableTime[i][j];
+        if (current || current === 0) {
           if (isStart === true) {
             if (counter < this.movieDuration) {
               delete this.availableTime[i][j];
             }
-            counter += 10;
+            counter += 10; // Увеличиваем счётчик времени
           }
         } else {
-          counter = 0;
-          isStart = true;
+          counter = 0; // Сброс счётчика
+          isStart = true; // Начинаем новый блок
         }
       }
     }
   }
 
-  // Метод для получения временных границ для каждого сеанса.
+  // Метод возвращает границы начала и конца для каждого сеанса
   getTimeBoundaries() {
     const timeBoundaries = [];
-    const hoursDuration = Math.trunc(this.movieDuration / 60); // Часы длительности фильма.
-    const minutesDuration = this.movieDuration % 60; // Минуты длительности фильма.
+    const hoursDuration = Math.trunc(this.movieDuration / 60); // Целые часы
+    const minutesDuration = this.movieDuration % 60; // Оставшиеся минуты
+
     this.seances.forEach((seance) => {
-      const colonIdx = seance.start.indexOf(":"); // Ищем двоеточие в строке времени.
-      const startingHour = +seance.start.slice(0, colonIdx); // Часы начала сеанса.
-      const startingMinutes = +seance.start.slice(colonIdx + 1); // Минуты начала.
-      let correction = 0;
+      const colonIdx = seance.start.indexOf(":"); // Индекс двоеточия в строке времени
+      const startingHour = +seance.start.slice(0, colonIdx); // Получаем часы начала
+      const startingMinutes = +seance.start.slice(colonIdx + 1); // Получаем минуты начала
+
+      let correction = 0; // Перенос на следующий час, если минут > 60
       let endingMinutes = startingMinutes + minutesDuration;
       if (endingMinutes >= 60) {
         endingMinutes -= 60;
         correction = 1;
       }
+
       let endingHour = startingHour + hoursDuration + correction;
       if (endingHour >= 24) {
-        endingHour -= 24;
+        endingHour -= 24; // Обработка перехода через полночь
       }
+
       timeBoundaries.push({
         startingHour,
         startingMinutes,
@@ -179,33 +158,40 @@ export default class SeancesTime {
         endingMinutes,
       });
     });
+
     return timeBoundaries;
   }
 
-  // Метод для преобразования доступного времени в строки для отображения.
+  // Метод формирует человекочитаемые строки из доступного времени
   getAvailableTimeStrings() {
-    let startValue;
-    let endValue;
-    let isStart = false;
+    let startValue; // Время начала интервала
+    let endValue;   // Время окончания интервала
+    let isStart = false; // Флаг начала блока
     const availableTime = [];
+
+    // Проход по массиву доступного времени
     for (let i = 0; i < this.availableTime.length; i += 1) {
       for (let j = 0; j < this.availableTime[i].length; j += 1) {
-        if (this.availableTime[i][j] || this.availableTime[i][j] === 0) {
-          if (this.availableTime[i][j] === 0) {
-            this.availableTime[i][j] = "00";
-          }
+        const current = this.availableTime[i][j];
+
+        if (current || current === 0) {
+          // Обработка 0, чтобы избежать пропуска
+          if (current === 0) this.availableTime[i][j] = "00";
+
+          // Начало нового интервала
           if (!isStart) {
             isStart = true;
-            startValue =
-              i < 10
-                ? `0${i}:${this.availableTime[i][j]}`
-                : `${i}:${this.availableTime[i][j]}`;
-          }
-          endValue =
-            i < 10
+            startValue = i < 10
               ? `0${i}:${this.availableTime[i][j]}`
               : `${i}:${this.availableTime[i][j]}`;
+          }
+
+          // Обновление времени окончания
+          endValue = i < 10
+            ? `0${i}:${this.availableTime[i][j]}`
+            : `${i}:${this.availableTime[i][j]}`;
         } else {
+          // Если интервал закончился — сохраняем его
           if (isStart) {
             availableTime.push(`с ${startValue} по ${endValue}`);
           }
@@ -213,9 +199,12 @@ export default class SeancesTime {
         }
       }
     }
+
+    // Если последний интервал не завершился — добавляем его
     if (isStart) {
       availableTime.push(`с ${startValue} по ${endValue}`);
     }
-    return availableTime;
+
+    return availableTime; // Возвращаем список строк с интервалами
   }
 }
