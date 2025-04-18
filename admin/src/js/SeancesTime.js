@@ -8,6 +8,7 @@ export default class SeancesTime {
     this.hallId = hallId; // Сохраняем ID зала
     this.movieId = movie.id; // Сохраняем ID фильма
     this.movieDuration = +movie.duration; // Преобразуем длительность фильма в число и сохраняем
+    this.movieCache = [];
     this.seances = []; // Инициализируем массив для хранения уже существующих сеансов
     this.availableTime = []; // Инициализируем массив для хранения доступного времени
     this.init(); // Вызываем метод инициализации доступного времени
@@ -48,11 +49,19 @@ export default class SeancesTime {
     this.seances = await Fetch.send("GET", `hall/${this.hallId}/seances`);
     // Выполняем GET-запрос к API, чтобы получить список сеансов
     // Дозапрашиваем длительности для каждого фильма
-    for (const seance of this.seances) {
-      const movie = await Fetch.send("GET", `movie/${seance.movie_id}`);
-      seance.duration = movie.duration;
-      console.log(seance.duration);
+  for (const seance of this.seances) {
+    if (!this.movieCache[seance.movie_id]) {
+      this.movieCache[seance.movie_id] = await Fetch.send("GET", `movie/${seance.movie_id}`);
+      // console.log(this.movieCache);
     }
+    seance.duration = this.movieCache[seance.movie_id].duration;
+  }
+    // for (const seance of this.seances) {
+
+    //   const movie = await Fetch.send("GET", `movie/${seance.movie_id}`);
+    //   seance.duration = movie.duration;
+    //   console.log(seance.duration);
+    // }
   }
 
   // Метод исключает занятые интервалы из массива доступного времени
