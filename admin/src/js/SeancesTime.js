@@ -31,9 +31,11 @@ export default class SeancesTime {
   // Статический метод создаёт шаблон доступного времени: каждый час содержит минуты с шагом 10
   static initSampleAvailableTime() {
     const time = []; // Массив для хранения всех часов и минут
-    for (let i = 0; i < 24; i += 1) { // Проходим по каждому часу от 0 до 23
+    for (let i = 0; i < 24; i += 1) {
+      // Проходим по каждому часу от 0 до 23
       const minutes = []; // Массив минут в текущем часе
-      for (let j = 0; j < 60; j += 10) { // Добавляем минуты с шагом 10
+      for (let j = 0; j < 60; j += 10) {
+        // Добавляем минуты с шагом 10
         minutes.push(j);
       }
       time.push(minutes); // Добавляем массив минут к текущему часу
@@ -45,6 +47,12 @@ export default class SeancesTime {
   async getSeances() {
     this.seances = await Fetch.send("GET", `hall/${this.hallId}/seances`);
     // Выполняем GET-запрос к API, чтобы получить список сеансов
+    // Дозапрашиваем длительности для каждого фильма
+    for (const seance of this.seances) {
+      const movie = await Fetch.send("GET", `movie/${seance.movie_id}`);
+      seance.duration = movie.duration;
+      console.log(seance.duration);
+    }
   }
 
   // Метод исключает занятые интервалы из массива доступного времени
@@ -76,7 +84,10 @@ export default class SeancesTime {
             }
             // Диапазон начинается и заканчивается в одном часу
             if (idxHour === tb.startingHour && idxHour === tb.endingHour) {
-              if (minutes >= tb.startingMinutes && minutes <= tb.endingMinutes) {
+              if (
+                minutes >= tb.startingMinutes &&
+                minutes <= tb.endingMinutes
+              ) {
                 delete hour[idxMinutes];
               }
             }
@@ -86,7 +97,10 @@ export default class SeancesTime {
           if (tb.startingHour > tb.endingHour) {
             // До полуночи
             if (idxHour >= tb.startingHour && idxHour <= 23) {
-              if (idxHour === tb.startingHour && minutes >= tb.startingMinutes) {
+              if (
+                idxHour === tb.startingHour &&
+                minutes >= tb.startingMinutes
+              ) {
                 delete hour[idxMinutes];
               }
               if (idxHour > tb.startingHour) {
@@ -131,26 +145,28 @@ export default class SeancesTime {
   // Метод возвращает границы начала и конца для каждого сеанса
   getTimeBoundaries() {
     const timeBoundaries = [];
-    const hoursDuration = Math.trunc(this.movieDuration / 60); // Целые часы
-    const minutesDuration = this.movieDuration % 60; // Оставшиеся минуты
-
+    
     this.seances.forEach((seance) => {
-      const colonIdx = seance.start.indexOf(":"); // Индекс двоеточия в строке времени
-      const startingHour = +seance.start.slice(0, colonIdx); // Получаем часы начала
-      const startingMinutes = +seance.start.slice(colonIdx + 1); // Получаем минуты начала
-
-      let correction = 0; // Перенос на следующий час, если минут > 60
+      const colonIdx = seance.start.indexOf(":");
+      const startingHour = +seance.start.slice(0, colonIdx);
+      const startingMinutes = +seance.start.slice(colonIdx + 1);
+      
+      // Используем длительность из сеанса, а не текущего фильма!
+      const hoursDuration = Math.trunc(seance.duration / 60);
+      const minutesDuration = seance.duration % 60;
+  
+      let correction = 0;
       let endingMinutes = startingMinutes + minutesDuration;
       if (endingMinutes >= 60) {
         endingMinutes -= 60;
         correction = 1;
       }
-
+  
       let endingHour = startingHour + hoursDuration + correction;
       if (endingHour >= 24) {
-        endingHour -= 24; // Обработка перехода через полночь
+        endingHour -= 24;
       }
-
+  
       timeBoundaries.push({
         startingHour,
         startingMinutes,
@@ -158,14 +174,15 @@ export default class SeancesTime {
         endingMinutes,
       });
     });
-
+    
+    console.log("Corrected time boundaries:", timeBoundaries);
     return timeBoundaries;
   }
 
   // Метод формирует человекочитаемые строки из доступного времени
   getAvailableTimeStrings() {
     let startValue; // Время начала интервала
-    let endValue;   // Время окончания интервала
+    let endValue; // Время окончания интервала
     let isStart = false; // Флаг начала блока
     const availableTime = [];
 
@@ -181,15 +198,17 @@ export default class SeancesTime {
           // Начало нового интервала
           if (!isStart) {
             isStart = true;
-            startValue = i < 10
-              ? `0${i}:${this.availableTime[i][j]}`
-              : `${i}:${this.availableTime[i][j]}`;
+            startValue =
+              i < 10
+                ? `0${i}:${this.availableTime[i][j]}`
+                : `${i}:${this.availableTime[i][j]}`;
           }
 
           // Обновление времени окончания
-          endValue = i < 10
-            ? `0${i}:${this.availableTime[i][j]}`
-            : `${i}:${this.availableTime[i][j]}`;
+          endValue =
+            i < 10
+              ? `0${i}:${this.availableTime[i][j]}`
+              : `${i}:${this.availableTime[i][j]}`;
         } else {
           // Если интервал закончился — сохраняем его
           if (isStart) {
