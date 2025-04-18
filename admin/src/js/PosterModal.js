@@ -261,13 +261,57 @@ export default class PosterModal {
   }
 
   // Обработчик клика для добавления сеанса
-  static onClickBtnAddSeance(e) {
+  static async onClickBtnAddSeance(e) {
     e.preventDefault();
+    
+    // 1. Сначала проверяем доступное время
+    const hallId = PosterModal.hallSelectEl.value;
+    const seancesTime = new SeancesTime(hallId, PosterModal.movie);
+    const availableTime = await seancesTime.getAvailableTime();
+    
+    // 2. Получаем выбранное время
+    const selectedTime = {
+      hour: PosterModal.hoursSelectEl.value,
+      minute: PosterModal.minutesSelectEl.value
+    };
+    
+    // 3. Проверяем, доступно ли выбранное время
+    const isTimeAvailable = PosterModal.checkTimeAvailability(
+      availableTime.availableTime, 
+      selectedTime
+    );
+    
+    if (!isTimeAvailable) {
+      alert('Выбранное время уже занято или недоступно!');
+      return;
+    }
+    
+    // 4. Если время доступно - добавляем сеанс
     PosterModal.addSeance().then(() => {
       PosterModal.hideModal(); // Скрываем модальное окно
       PosterModal.updateHallsSeances(); // Обновляем сеансы залов
     });
+    // await PosterModal.addSeance();
+    // PosterModal.hideModal();
+    // PosterModal.updateHallsSeances();
   }
+  
+  // Новый метод для проверки доступности времени
+  static checkTimeAvailability(availableTime, selectedTime) {
+    const hour = parseInt(selectedTime.hour, 10);
+    const minute = parseInt(selectedTime.minute, 10);
+    
+    // Проверяем, есть ли выбранная минута в массиве доступных минут для данного часа
+    return availableTime[hour]?.includes(minute) || false;
+  }
+
+  // static onClickBtnAddSeance(e) {
+  //   e.preventDefault();
+  //   PosterModal.addSeance().then(() => {
+  //     PosterModal.hideModal(); // Скрываем модальное окно
+  //     PosterModal.updateHallsSeances(); // Обновляем сеансы залов
+  //   });
+  // }
 
   // Метод для добавления сеанса
   static async addSeance() {
