@@ -826,6 +826,8 @@ select {
 
 .conf-step__button:disabled {
   background-color: #888888;
+  pointer-events: none; /* Отключает hover и клики */
+   opacity: 0.3; /*Делает кнопку полупрозрачной */
 }
 
 textarea.conf-step__input {
