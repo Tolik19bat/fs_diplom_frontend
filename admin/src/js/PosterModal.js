@@ -238,14 +238,51 @@ export default class PosterModal {
 
   // Метод для установки минут
   static setMinutesOptions(minutes) {
-    PosterModal.minutesSelectEl.innerHTML = ""; // Очищаем выпадающий список минут
+    // console.log("осталось минут:",minutes);
+    
+    // Получаем кнопку добавления сеанса
+    const addButton = PosterModal.btnAddSeanceEl;
+    
+    if (minutes === undefined) {
+      // Отключаем кнопку, если minutes === undefined
+      addButton.disabled = true;
+      
+      // Можно добавить подсказку (title) или стили
+      addButton.title = "Нет доступного времени для выбранного часа";
+      addButton.classList.add("disabled-button"); // (опционально) стиль для неактивной кнопки
+      
+      // Очищаем список минут (если нужно)
+      PosterModal.minutesSelectEl.innerHTML = "";
+      return;
+    }
+    
+    // Если minutes доступны - активируем кнопку
+    addButton.disabled = false;
+    addButton.title = "";
+    addButton.classList.remove("disabled-button");
+    
+    // Очищаем и заполняем список минут
+    PosterModal.minutesSelectEl.innerHTML = "";
     minutes.forEach((min) => {
       const minutesOptionEl = document.createElement("option");
-      minutesOptionEl.value = min; // Устанавливаем значение минуты
-      minutesOptionEl.textContent = min; // Устанавливаем текст
-      PosterModal.minutesSelectEl.appendChild(minutesOptionEl); // Добавляем минуты в список
+      minutesOptionEl.value = min;
+      minutesOptionEl.textContent = min;
+      PosterModal.minutesSelectEl.appendChild(minutesOptionEl);
     });
   }
+  // static setMinutesOptions(minutes) {
+  //   console.log(minutes);
+  //   if(minutes === undefined) {
+  //     return
+  //   }
+  //   PosterModal.minutesSelectEl.innerHTML = ""; // Очищаем выпадающий список минут
+  //   minutes.forEach((min) => {
+  //     const minutesOptionEl = document.createElement("option");
+  //     minutesOptionEl.value = min; // Устанавливаем значение минуты
+  //     minutesOptionEl.textContent = min; // Устанавливаем текст
+  //     PosterModal.minutesSelectEl.appendChild(minutesOptionEl); // Добавляем минуты в список
+  //   });
+  // }
 
   // Обработчик изменения часа
   static onChangeHour(e) {
@@ -260,41 +297,112 @@ export default class PosterModal {
     PosterModal.renderSeanceTime(PosterModal.movie); // Обновляем время сеансов при смене зала
   }
 
-  // Обработчик клика для добавления сеанса
   static async onClickBtnAddSeance(e) {
     e.preventDefault();
     
-    // 1. Сначала проверяем доступное время
-    const hallId = PosterModal.hallSelectEl.value;
-    const seancesTime = new SeancesTime(hallId, PosterModal.movie);
-    const availableTime = await seancesTime.getAvailableTime();
-    
-    // 2. Получаем выбранное время
-    const selectedTime = {
-      hour: PosterModal.hoursSelectEl.value,
-      minute: PosterModal.minutesSelectEl.value
-    };
-    
-    // 3. Проверяем, доступно ли выбранное время
-    const isTimeAvailable = PosterModal.checkTimeAvailability(
-      availableTime.availableTime, 
-      selectedTime
-    );
-    
-    if (!isTimeAvailable) {
-      alert('Выбранное время уже занято или недоступно!');
-      return;
+    // 1. Получаем текущие сеансы из базы данных
+    try {
+      const hallId = PosterModal.hallSelectEl.value;
+      const movieId = PosterModal.movie.id;
+      const selectedTime = `${PosterModal.hoursSelectEl.value}:${PosterModal.minutesSelectEl.value}`;
+      
+      // 2. Проверяем доступность времени
+      const isAvailable = await PosterModal.checkTimeAvailability(hallId, movieId, selectedTime);
+      console.log(isAvailable);
+      // if (!isAvailable) {
+      //   alert('Выбранное время уже занято или недоступно!');
+      //   return;
+      // }
+      
+      // 3. Если время доступно - добавляем сеанс
+      await PosterModal.addSeance();
+      
+      // 4. Обновляем данные
+      await PosterModal.renderSeanceTime(PosterModal.movie);
+      PosterModal.updateHallsSeances();
+      PosterModal.hideModal();
+      
+    } catch (error) {
+      console.error('Ошибка при добавлении сеанса:', error);
+      alert('В этом зале нет доступного времени для этого сеанса');
     }
-    
-    // 4. Если время доступно - добавляем сеанс
-    PosterModal.addSeance().then(() => {
-      PosterModal.hideModal(); // Скрываем модальное окно
-      PosterModal.updateHallsSeances(); // Обновляем сеансы залов
-    });
-    // await PosterModal.addSeance();
-    // PosterModal.hideModal();
-    // PosterModal.updateHallsSeances();
   }
+  
+  // Новый метод для проверки доступности времени
+  // static async checkTimeAvailability(hallId, movieId, selectedTime) {
+  //   try {
+  //     // Получаем все сеансы для данного зала и фильма
+  //     const seances = await Fetch.send("GET", `seance/hall/${hallId}/movie/${movieId}`);
+      
+  //     // Проверяем, не пересекается ли выбранное время с существующими сеансами
+  //     const movieDuration = PosterModal.movie.duration; // предполагаем, что это строка вида "1:30"
+  //     const [hours, minutes] = movieDuration.split(':').map(Number);
+  //     const durationInMinutes = hours * 60 + minutes;
+      
+  //     const selectedTimeInMinutes = this.convertTimeToMinutes(selectedTime);
+      
+  //     for (const seance of seances) {
+  //       const seanceStart = this.convertTimeToMinutes(seance.start);
+  //       const seanceEnd = seanceStart + durationInMinutes;
+        
+  //       if (selectedTimeInMinutes >= seanceStart && selectedTimeInMinutes < seanceEnd) {
+  //         return false; // время занято
+  //       }
+        
+  //       const selectedEnd = selectedTimeInMinutes + durationInMinutes;
+  //       if (selectedEnd > seanceStart && selectedEnd <= seanceEnd) {
+  //         return false; // время занято
+  //       }
+  //     }
+      
+  //     return true; // время доступно
+      
+  //   } catch (error) {
+  //     console.error('Ошибка при проверке доступности времени:', error);
+  //     return false;
+  //   }
+  // }
+  
+  // Вспомогательная функция для преобразования времени в минуты
+   convertTimeToMinutes(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+  // Обработчик клика для добавления сеанса
+  // static async onClickBtnAddSeance(e) {
+  //   e.preventDefault();
+    
+  //   // 1. Сначала проверяем доступное время
+  //   const hallId = PosterModal.hallSelectEl.value;
+  //   const seancesTime = new SeancesTime(hallId, PosterModal.movie);
+  //   const availableTime = await seancesTime.getAvailableTime();
+    
+  //   // 2. Получаем выбранное время
+  //   const selectedTime = {
+  //     hour: PosterModal.hoursSelectEl.value,
+  //     minute: PosterModal.minutesSelectEl.value
+  //   };
+    
+  //   // 3. Проверяем, доступно ли выбранное время
+  //   const isTimeAvailable = PosterModal.checkTimeAvailability(
+  //     availableTime.availableTime, 
+  //     selectedTime
+  //   );
+    
+  //   if (!isTimeAvailable) {
+  //     alert('Выбранное время уже занято или недоступно!');
+  //     return;
+  //   }
+    
+  //   // 4. Если время доступно - добавляем сеанс
+  //   PosterModal.addSeance().then(() => {
+  //     PosterModal.hideModal(); // Скрываем модальное окно
+  //     PosterModal.updateHallsSeances(); // Обновляем сеансы залов
+  //   });
+  //   // await PosterModal.addSeance();
+  //   // PosterModal.hideModal();
+  //   // PosterModal.updateHallsSeances();
+  // }
   
   // Новый метод для проверки доступности времени
   static checkTimeAvailability(availableTime, selectedTime) {
@@ -324,6 +432,14 @@ export default class PosterModal {
         start: `${PosterModal.hoursSelectEl.value}:${PosterModal.minutesSelectEl.value}`, // Формируем строку времени начала сеанса из выбранных часов и минут
       },
     });
+    // Проверяем статус ответа
+    if (!response.ok) {
+      // const errorData = await response.json().catch(() => ({}));
+      // throw new Error(`HTTP error! status: ${response.status}`, {
+      //   cause: errorData
+      // });
+      return
+    }
     return response.id; // Возвращаем ID созданного сеанса, полученный в ответе от сервера
 
     // const token = localStorage.getItem("token");
