@@ -17,7 +17,7 @@ export default class SeancesTime {
   // Метод инициализирует массив доступного времени
   init() {
     this.availableTime = SeancesTime.initSampleAvailableTime(); // Получаем стандартные интервалы времени и сохраняем
-    console.log(this.availableTime);
+    // console.log(this.availableTime);
   }
 
   // Метод возвращает доступное время и его строковое представление
@@ -56,7 +56,7 @@ export default class SeancesTime {
       // console.log(this.movieCache);
     }
     seance.duration = this.movieCache[seance.movie_id].duration;
-    console.log("Длительность ",seance.duration);
+    // console.log("Длительность ",seance.duration);
   }
     // for (const seance of this.seances) {
 
@@ -186,7 +186,7 @@ export default class SeancesTime {
       });
     });
     
-    console.log("Corrected time boundaries:", timeBoundaries);
+    // console.log("Corrected time boundaries:", timeBoundaries);
     return timeBoundaries;
   }
 
