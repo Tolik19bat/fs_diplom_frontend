@@ -67,104 +67,106 @@ export default class SeancesTime {
   }
 
   // Метод исключает занятые интервалы из массива доступного времени
-  calculateAvailableTime() {
-    const timeBoundaries = this.getTimeBoundaries(); // Получаем границы времени каждого сеанса
-
-    // Проходим по каждому часу и минуте
-    this.availableTime.forEach((hour, idxHour) => {
-      hour.forEach((minutes, idxMinutes) => {
-        // Проверяем каждое занятие
-        timeBoundaries.forEach((tb) => {
-          // Условие: если текущий час попадает в диапазон занятого времени
-          if (idxHour >= tb.startingHour && idxHour <= tb.endingHour) {
-            // Начало диапазона
-            if (idxHour === tb.startingHour && idxHour !== tb.endingHour) {
-              if (minutes >= tb.startingMinutes) {
-                delete hour[idxMinutes]; // Удаляем время начала
-              }
-            }
-            // Полностью внутри диапазона
-            if (idxHour > tb.startingHour && idxHour < tb.endingHour) {
-              delete hour[idxMinutes];
-            }
-            // Конец диапазона
-            if (idxHour !== tb.startingHour && idxHour === tb.endingHour) {
-              if (minutes <= tb.endingMinutes) {
-                delete hour[idxMinutes];
-              }
-            }
-            // Диапазон начинается и заканчивается в одном часу
-            if (idxHour === tb.startingHour && idxHour === tb.endingHour) {
-              if (
-                minutes >= tb.startingMinutes &&
-                minutes <= tb.endingMinutes
-              ) {
-                delete hour[idxMinutes];
-              }
-            }
-          }
-
-          // Отдельная обработка для сеансов, которые проходят через полночь
-          if (tb.startingHour > tb.endingHour) {
-            // До полуночи
-            if (idxHour >= tb.startingHour && idxHour <= 23) {
-              if (
-                idxHour === tb.startingHour &&
-                minutes >= tb.startingMinutes
-              ) {
-                delete hour[idxMinutes];
-              }
-              if (idxHour > tb.startingHour) {
-                delete hour[idxMinutes];
-              }
-            }
-            // После полуночи
-            if (idxHour >= 0 && idxHour <= tb.endingHour) {
-              if (idxHour === tb.endingHour && minutes <= tb.endingMinutes) {
-                delete hour[idxMinutes];
-              }
-              if (idxHour < tb.endingHour) {
-                delete hour[idxMinutes];
-              }
-            }
-          }
-        });
-      });
-    });
-
-    // Удаляем интервалы, которые не вмещают длительность фильма (с конца массива)
-    let counter = 0;
-    let isStart = false;
-    for (let i = this.availableTime.length - 1; i >= 0; i -= 1) {
-      for (let j = this.availableTime[i].length - 1; j >= 0; j -= 1) {
-        const current = this.availableTime[i][j];
-        if (current || current === 0) {
-          if (isStart === true) {
-            if (counter < this.movieDuration) {
-              delete this.availableTime[i][j];
-            }
-            counter += 10; // Увеличиваем счётчик времени
-          }
-        } else {
-          counter = 0; // Сброс счётчика
-          isStart = true; // Начинаем новый блок
-        }
-      }
-    }
-  }
+ calculateAvailableTime() {
+     const timeBoundaries = this.getTimeBoundaries();
+     this.availableTime.forEach((hour, idxHour) => {
+       hour.forEach((minutes, idxMinutes) => {
+         timeBoundaries.forEach((timeBoundarie) => {
+           if (
+             idxHour >= timeBoundarie.startingHour &&
+             idxHour <= timeBoundarie.endingHour
+           ) {
+             if (
+               idxHour === timeBoundarie.startingHour &&
+               idxHour != timeBoundarie.endingHour
+             ) {
+               if (minutes >= timeBoundarie.startingMinutes) {
+                 delete hour[idxMinutes];
+               }
+             }
+             if (
+               idxHour > timeBoundarie.startingHour &&
+               idxHour < timeBoundarie.endingHour
+             ) {
+               delete hour[idxMinutes];
+             }
+             if (
+               idxHour != timeBoundarie.startingHour &&
+               idxHour === timeBoundarie.endingHour
+             ) {
+               if (minutes <= timeBoundarie.endingMinutes) {
+                 delete hour[idxMinutes];
+               }
+             }
+             if (
+               idxHour === timeBoundarie.startingHour &&
+               idxHour === timeBoundarie.endingHour
+             ) {
+               if (
+                 minutes >= timeBoundarie.startingMinutes &&
+                 minutes <= timeBoundarie.endingMinutes
+               ) {
+                 delete hour[idxMinutes];
+               }
+             }
+           }
+           if (timeBoundarie.startingHour > timeBoundarie.endingHour) {
+             if (idxHour >= timeBoundarie.startingHour && idxHour <= 23) {
+               if (idxHour === timeBoundarie.startingHour) {
+                 if (minutes >= timeBoundarie.startingMinutes) {
+                   delete hour[idxMinutes];
+                 }
+               }
+               if (idxHour > timeBoundarie.startingHour) {
+                 delete hour[idxMinutes];
+               }
+             }
+             if (idxHour >= 0 && idxHour <= timeBoundarie.endingHour) {
+               if (idxHour === timeBoundarie.endingHour) {
+                 if (minutes <= timeBoundarie.endingMinutes) {
+                   delete hour[idxMinutes];
+                 }
+               }
+               if (idxHour < timeBoundarie.endingHour) {
+                 delete hour[idxMinutes];
+               }
+             }
+           }
+         });
+       });
+     });
+     // с учетом длины фильма
+     let counter = 0;
+     let isStart = false;
+     for (let i = this.availableTime.length - 1; i >= 0; i -= 1) {
+       for (let j = this.availableTime[i].length - 1; j >= 0; j -= 1) {
+         if (this.availableTime[i][j] || this.availableTime[i][j] === 0) {
+           if (isStart === true) {
+             if (counter < this.movieDuration) {
+               delete this.availableTime[i][j]
+             }
+             counter += 10;
+           }
+         } else {
+           counter = 0;
+           isStart = true;
+         }
+       }
+     }
+   }
 
   // Метод возвращает границы начала и конца для каждого сеанса
   getTimeBoundaries() {
     const timeBoundaries = [];
+    // Используем длительность из сеанса, а не текущего фильма!
+    const hoursDuration = Math.trunc(this.movieDuration / 60);
+    const minutesDuration = this.movieDuration % 60;
     
     this.seances.forEach((seance) => {
       const colonIdx = seance.start.indexOf(":");
       const startingHour = +seance.start.slice(0, colonIdx);
       const startingMinutes = +seance.start.slice(colonIdx + 1);
       
-      // Используем длительность из сеанса, а не текущего фильма!
-      const hoursDuration = Math.trunc(seance.duration / 60);
-      const minutesDuration = seance.duration % 60;
   
       let correction = 0;
       let endingMinutes = startingMinutes + minutesDuration;
@@ -184,6 +186,7 @@ export default class SeancesTime {
         endingHour,
         endingMinutes,
       });
+      console.log(seance.duration);
     });
     
     // console.log("Corrected time boundaries:", timeBoundaries);
