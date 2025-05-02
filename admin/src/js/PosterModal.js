@@ -302,13 +302,13 @@ export default class PosterModal {
     
     // 1. Получаем текущие сеансы из базы данных
     try {
-      const hallId = PosterModal.hallSelectEl.value;
-      const movieId = PosterModal.movie.id;
-      const selectedTime = `${PosterModal.hoursSelectEl.value}:${PosterModal.minutesSelectEl.value}`;
+      // const hallId = PosterModal.hallSelectEl.value;
+      // const movieId = PosterModal.movie.id;
+      // const selectedTime = `${PosterModal.hoursSelectEl.value}:${PosterModal.minutesSelectEl.value}`;
       
       // 2. Проверяем доступность времени
-      const isAvailable = await PosterModal.checkTimeAvailability(hallId, movieId, selectedTime);
-      console.log(isAvailable);
+      // const isAvailable = await PosterModal.checkTimeAvailability(hallId, movieId, selectedTime);
+      // console.log(isAvailable);
       // if (!isAvailable) {
       //   alert('Выбранное время уже занято или недоступно!');
       //   return;
@@ -404,7 +404,7 @@ export default class PosterModal {
   //   // PosterModal.updateHallsSeances();
   // }
   
-  // Новый метод для проверки доступности времени
+  //  метод для проверки доступности времени
   static checkTimeAvailability(availableTime, selectedTime) {
     const hour = parseInt(selectedTime.hour, 10);
     const minute = parseInt(selectedTime.minute, 10);
