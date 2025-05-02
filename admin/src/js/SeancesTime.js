@@ -75,7 +75,6 @@ export default class SeancesTime {
     this.availableTime.forEach((hour, idxHour) => {
       hour.forEach((minutes, idxMinutes) => {
         timeBoundaries.forEach((timeBoundarie) => {
-          console.log(hour);
           if (
             idxHour >= timeBoundarie.startingHour &&
             idxHour <= timeBoundarie.endingHour
