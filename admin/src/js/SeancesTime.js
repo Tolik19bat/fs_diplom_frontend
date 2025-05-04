@@ -161,34 +161,34 @@ export default class SeancesTime {
   // Метод возвращает границы начала и конца для каждого сеанса
   getTimeBoundaries() {
     const timeBoundaries = [];
-    // Используем длительность из сеанса, а не текущего фильма!
-    const hoursDuration = Math.trunc(this.movieDuration / 60);
-    const minutesDuration = this.movieDuration % 60;
 
     this.seances.forEach((seance) => {
-      const colonIdx = seance.start.indexOf(":");
-      const startingHour = +seance.start.slice(0, colonIdx);
-      const startingMinutes = +seance.start.slice(colonIdx + 1);
+      // Разделяем строку времени начала на часы и минуты
+      const [startHour, startMinute] = seance.start.split(":").map(Number);
 
-      let correction = 0;
-      let endingMinutes = startingMinutes + minutesDuration;
-      if (endingMinutes >= 60) {
-        endingMinutes -= 60;
-        correction = 1;
-      }
+      // Создаём объект Date для времени начала
+      const startDate = new Date();
+      startDate.setHours(startHour, startMinute, 0, 0); // Устанавливаем часы и минуты, обнуляем секунды и миллисекунды
 
-      let endingHour = startingHour + hoursDuration + correction;
-      if (endingHour >= 24) {
-        endingHour -= 24;
-      }
+      // Создаём объект Date для времени окончания, добавляя длительность сеанса в минутах
+      const endDate = new Date(startDate.getTime() + seance.duration * 60000);
 
+      // Извлекаем часы и минуты начала и окончания
+      const startingHour = startDate.getHours();
+      const startingMinutes = startDate.getMinutes();
+      const endingHour = endDate.getHours();
+      const endingMinutes = endDate.getMinutes();
+
+      // Добавляем информацию о границах времени в массив
       timeBoundaries.push({
         startingHour,
         startingMinutes,
         endingHour,
         endingMinutes,
       });
-      console.log(seance.duration);
+
+      // Для отладки: выводим длительность сеанса
+      console.log(`Длительность сеанса: ${seance.duration} минут`);
     });
 
     return timeBoundaries;
