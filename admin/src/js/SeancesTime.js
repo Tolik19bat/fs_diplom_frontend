@@ -188,7 +188,7 @@ export default class SeancesTime {
       });
 
       // Для отладки: выводим длительность сеанса
-      console.log(`Длительность сеанса: ${seance.duration} минут`);
+      // console.log(`Длительность сеанса: ${seance.duration} минут`);
     });
 
     return timeBoundaries;
